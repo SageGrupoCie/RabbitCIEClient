@@ -439,6 +439,76 @@ namespace RabbitCIEClient
             string ventaparentId = jsonControl(jsonfil, "datos", 3, "venta", "parentId");
             string ventaparentCode = jsonControl(jsonfil, "datos", 3, "venta", "parentCode");
             //fin venta
+            //cuentaCliente
+            string cuentaClicodigoBanco = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "codigoBanco");
+            string cuentaCliiban = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "iban");
+            string cuentaCliswiftCode = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "swiftCode");
+            string cuentaClinombre = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "nombre");
+            string cuentaCliactiva = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "activa");
+            string cuentaClicuentaContable = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "cuentaContable");
+            string cuClibancGennombre = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "nombre");
+            string cuClibancGenprefijoIban = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "prefijoIban");
+            string cuClibancGencodigoSwift = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "codigoSwift");
+            string cuClibancGencif = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "cif");
+            string cuClibancGenid = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "id");
+            string cuClibancGenempresaId = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "empresaId");
+            string cuClibancGenparentId = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "parentId");
+            string cuClibancGenparentCode = jsonControl(jsonfil, "datos", 4, "cuentaCliente", "bancoGenericoDto", "parentCode");
+            string cuentaCliid = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "id");
+            string cuentaCliempresaId = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "empresaId");
+            string cuentaCliparentId = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "parentId");
+            string cuentaCliparentCode = jsonControl(jsonfil, "datos", 3, "cuentaCliente", "parentCode");
+            //fin cuentaCliente
+            //cliente
+            string clientecodigo = jsonControl(jsonfil, "datos", 3, "cliente", "codigo");
+            string clienteemailFacturacion = jsonControl(jsonfil, "datos", 3, "cliente", "emailFacturacion");
+            string clientecodigoTerminoPago = jsonControl(jsonfil, "datos", 3, "cliente", "codigoTerminoPago");
+            string clientecodigoFormaPago = jsonControl(jsonfil, "datos", 3, "cliente", "codigoFormaPago");
+            string clientediasPago = jsonControl(jsonfil, "datos", 3, "cliente", "diasPago");
+            string clientediasEmisionRecibo = jsonControl(jsonfil, "datos", 3, "cliente", "diasEmisionRecibo");
+            string clieCuentacodigoBanco = "";
+            string clieCuentaiban = (string) = "";
+            string clieCuentaswiftCode = "";
+            string clieCuentanombre = "";
+            string clieCuentaactiva = "";
+            string clieCuentacuentaContable = "";
+            string bancGenDtonombre = "";
+            string bancGenDtoprefijoIban = "";
+            string bancGenDtocodigoSwift = "";
+            string bancGenDtocif = "";
+            string bancGenDtoid = "";
+            string bancGenDtoempresaId = "";
+            string bancGenDtoparentId = "";
+            string bancGenDtoparentCode = "";
+            string clieCuentaid = "";
+            string clieCuentaempresaId = "";
+            string clieCuentaparentId = "";
+            string clieCuentaparentCode = "";
+            if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
+            {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
+                //cuentas
+                clieCuentacodigoBanco = (string)jsonfil["datos"]["cliente"]["cuentas"].First["codigoBanco"];
+                clieCuentaiban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["iban"];
+                clieCuentaswiftCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["swiftCode"];
+                clieCuentanombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["nombre"];
+                clieCuentaactiva = (string)jsonfil["datos"]["cliente"]["cuentas"].First["activa"];
+                clieCuentacuentaContable = (string)jsonfil["datos"]["cliente"]["cuentas"].First["cuentaContable"];
+                bancGenDtonombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["nombre"];
+                bancGenDtoprefijoIban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"];
+                bancGenDtocodigoSwift = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"];
+                bancGenDtocif = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["cif"];
+                bancGenDtoid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["id"];
+                bancGenDtoempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["empresaId"];
+                bancGenDtoparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentId"];
+                bancGenDtoparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentCode"];
+                clieCuentaid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["id"];
+                clieCuentaempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["empresaId"];
+                clieCuentaparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentId"];
+                clieCuentaparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"];
+                //fin cuentas
+            }
+
+            //fin cliente
 
 
             return "OK#";
