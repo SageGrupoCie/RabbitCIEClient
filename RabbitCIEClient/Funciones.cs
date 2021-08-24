@@ -425,6 +425,18 @@ namespace RabbitCIEClient
             string contratoparentId = jsonControl(jsonfil, "datos", 3, "contrato", "parentId");
             string contratoparentCode = jsonControl(jsonfil, "datos", 3, "contrato", "parentCode");
             //fin contrato
+            //venta
+            string ventanumeroVenta = jsonControl(jsonfil, "datos", 3, "venta", "numeroVenta");
+            string ventafechaVenta = jsonControl(jsonfil, "datos", 3, "venta", "fechaVenta");
+            string ventadelegacion = jsonControl(jsonfil, "datos", 3, "venta", "delegacion");
+            string ventafechaInicioPeriodoFacturacion = jsonControl(jsonfil, "datos", 3, "venta", "fechaInicioPeriodoFacturacion");
+            string ventafechaFinPeriodoFacturacion = jsonControl(jsonfil, "datos", 3, "venta", "fechaFinPeriodoFacturacion");
+            string ventanumeroDePedido = jsonControl(jsonfil, "datos", 3, "venta", "numeroDePedido");
+            string ventaid = jsonControl(jsonfil, "datos", 3, "venta", "id");
+            string ventaempresaId = jsonControl(jsonfil, "datos", 3, "venta", "empresaId");
+            string ventaparentId = jsonControl(jsonfil, "datos", 3, "venta", "parentId");
+            string ventaparentCode = jsonControl(jsonfil, "datos", 3, "venta", "parentCode");
+            //fin venta
 
 
             return "OK#";
