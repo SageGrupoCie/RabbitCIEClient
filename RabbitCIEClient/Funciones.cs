@@ -277,11 +277,31 @@ namespace RabbitCIEClient
             string idiomaNombre = jsonControl(jsonfil, "datos", 3, "idioma", "nombre");
             string idiomaCodigo = jsonControl(jsonfil, "datos", 3, "idioma", "codigo");
             //fin idioma
-
+            //personaContacto
+            string persContactonombre = jsonControl(jsonfil, "datos", 3, "personaContacto", "nombre");
+            string persContactomovil = jsonControl(jsonfil, "datos", 3, "personaContacto", "movil");
+            string persContactofax = jsonControl(jsonfil, "datos", 3, "personaContacto", "fax");
+            string persContactotelefono = jsonControl(jsonfil, "datos", 3, "personaContacto", "telefono");
+            string persContactoemail = jsonControl(jsonfil, "datos", 3, "personaContacto", "email");
+            string persContactocargo = jsonControl(jsonfil, "datos", 3, "personaContacto", "cargo");
+            string persContactoesLaPrincipal = jsonControl(jsonfil, "datos", 3, "personaContacto", "esLaPrincipal");
+            string persContactodireccion = jsonControl(jsonfil, "datos", 3, "personaContacto", "direccion");
+            string persContactocodigoPostal = jsonControl(jsonfil, "datos", 3, "personaContacto", "codigoPostal");
+            string persContactolocalidad = jsonControl(jsonfil, "datos", 3, "personaContacto", "localidad");
+            string persContactonumeroFax = jsonControl(jsonfil, "datos", 3, "personaContacto", "numeroFax");
+            string persContactoProvincID = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia","id");
+            string persContactoProvincnombre = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "nombre");
+            string persContactoProvinccodigo = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "codigo");
+            string persContactoProvincpaisID = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "paisId");
+            string persContactoID = jsonControl(jsonfil, "datos", 3, "personaContacto", "id");
+            string persContactoempresaID = jsonControl(jsonfil, "datos", 3, "personaContacto", "empresaId");
+            string persContactoparentID = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentId");
+            string persContactoparentCod = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentCode");
+            //fin personaContacto
             return "";
         }
 
-        private static string jsonControl(JObject jsonfil, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "")
+        private static string jsonControl(JObject jsonfil, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "", string codClave4 = "")
         {
             string resultado = "";
             try
