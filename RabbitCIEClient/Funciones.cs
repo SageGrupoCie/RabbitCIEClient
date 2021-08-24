@@ -127,7 +127,7 @@ namespace RabbitCIEClient
                 string nombreFile = Path.GetFileName(nombreFilePath);
                 string readText = File.ReadAllText(nombreFilePath);
                 JObject jsonfil = JObject.Parse(readText);
-                string tipo = (string)jsonfil["claseEntidadIgeo"];
+                string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
                 string resulprocesa = "#";
                 int empresaSAGE = Int32.Parse(Funciones.obtenerValoresIni("EMPRESA_SAGE"));
                 if (tipo != null)
@@ -171,99 +171,140 @@ namespace RabbitCIEClient
         private static string procesaCLIENTE(string comando, JObject jsonfil, int empSAGE)
         {
             // Obtenemos claves primarias para tabla de SAGE
-            string codCliente = (string)jsonfil["datos"]["codigo"];
+            string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
             // FIN CLAVES PRIVAMRIAS
             if (codCliente == null) { return "ERROR#Faltan datos de clave primaria"; }
 
-            string emailFacturacion = (string)jsonfil["datos"]["emailFacturacion"];
-            string codigoTerminoPago = (string)jsonfil["datos"]["codigoTerminoPago"];
-            string codigoFormaPago = (string)jsonfil["datos"]["codigoFormaPago"];
-            string diasPago = (string)jsonfil["datos"]["diasPago"];
-            string diasEmisionRecibo = (string)jsonfil["datos"]["diasEmisionRecibo"];
-            string cuentas = (string)jsonfil["datos"]["cuentas"];
-            string fechaAlta = (string)jsonfil["datos"]["fechaAlta"];
-            string tipoCliente = (string)jsonfil["datos"]["tipoCliente"];
-            string nombre = (string)jsonfil["datos"]["nombre"];
-            string apellidos = (string)jsonfil["datos"]["apellidos"];
-            string observaciones = (string)jsonfil["datos"]["observaciones"];
-            string fechaAltaPotencial = (string)jsonfil["datos"]["fechaAltaPotencial"];
-            string numeroDeCliente = (string)jsonfil["datos"]["numeroDeCliente"];
-            string codigoSecundario = (string)jsonfil["datos"]["codigoSecundario"];
-            string comoNosHaConocido = (string)jsonfil["datos"]["comoNosHaConocido"];
-            string detallesComoNosHaConocido = (string)jsonfil["datos"]["detallesComoNosHaConocido"];
-            string subCuenta = (string)jsonfil["datos"]["subCuenta"];
-            string url = (string)jsonfil["datos"]["url"];
-            string estado = (string)jsonfil["datos"]["estado"];
-            string motivoInactivo = (string)jsonfil["datos"]["motivoInactivo"];
-            string importadoDesde = (string)jsonfil["datos"]["importadoDesde"];
-            string nombreEnvio = (string)jsonfil["datos"]["nombreEnvio"];
-            string direccionEnvio = (string)jsonfil["datos"]["direccionEnvio"];
-            string distritoEnvio = (string)jsonfil["datos"]["distritoEnvio"];
-            string codigoPostalEnvio = (string)jsonfil["datos"]["codigoPostalEnvio"];
-            string localidadEnvio = (string)jsonfil["datos"]["localidadEnvio"];
-            string nombrePaisEnvio = (string)jsonfil["datos"]["nombrePaisEnvio"];
-            string telefonoEnvio = (string)jsonfil["datos"]["telefonoEnvio"];
-            string codigoProvinciaEnvio = (string)jsonfil["datos"]["codigoProvinciaEnvio"];
-            string nombreProvinciaEnvio = (string)jsonfil["datos"]["nombreProvinciaEnvio"];
-            string idProvinciaEnvio = (string)jsonfil["datos"]["idProvinciaEnvio"];
-            string atencionAEnvio = (string)jsonfil["datos"]["atencionAEnvio"];
-            string observacionesFacturacion = (string)jsonfil["datos"]["observacionesFacturacion"];
-            string datosImportacion = (string)jsonfil["datos"]["datosImportacion"];
-            string emailsDondeEnviarFacturas = (string)jsonfil["datos"]["emailsDondeEnviarFacturas"];
-            string riesgoEconomico = (string)jsonfil["datos"]["riesgoEconomico"];
-            string sepaFirmado = (string)jsonfil["datos"]["sepaFirmado"];
-            string coste = (string)jsonfil["datos"]["coste"];
-            string rentabilidad = (string)jsonfil["datos"]["rentabilidad"];
-            string beneficio = (string)jsonfil["datos"]["beneficio"];
-            string totalVentas = (string)jsonfil["datos"]["totalVentas"];
-            string formaCobro = (string)jsonfil["datos"]["formaCobro"];
-            string diasDePago = (string)jsonfil["datos"]["diasDePago"];
-            string diasDeFacturacion = (string)jsonfil["datos"]["diasDeFacturacion"];
-            string fechaPuntualFactura = (string)jsonfil["datos"]["fechaPuntualFactura"];
-            string fechaEmisionPuntual = (string)jsonfil["datos"]["fechaEmisionPuntual"];
-            string variasFechasFactura = (string)jsonfil["datos"]["variasFechasFactura"];
-            string nDiasEmisionRecibo1 = (string)jsonfil["datos"]["nDiasEmisionRecibo1"];
-            string nDiasEmisionRecibo2 = (string)jsonfil["datos"]["nDiasEmisionRecibo2"];
-            string nDiasEmisionRecibo3 = (string)jsonfil["datos"]["nDiasEmisionRecibo3"];
-            string nDiasEmisionRecibo4 = (string)jsonfil["datos"]["nDiasEmisionRecibo4"];
-            string nDiasEmisionRecibo5 = (string)jsonfil["datos"]["nDiasEmisionRecibo5"];
-            string nDiasEmisionRecibo6 = (string)jsonfil["datos"]["nDiasEmisionRecibo6"];
-            string nDiasEmisionRecibo7 = (string)jsonfil["datos"]["nDiasEmisionRecibo7"];
-            string nDiasEmisionRecibo8 = (string)jsonfil["datos"]["nDiasEmisionRecibo8"];
-            string nDiasEmisionRecibo9 = (string)jsonfil["datos"]["nDiasEmisionRecibo9"];
-            string nDiasEmisionRecibo10 = (string)jsonfil["datos"]["nDiasEmisionRecibo10"];
-            string nDiasEmisionRecibo11 = (string)jsonfil["datos"]["nDiasEmisionRecibo11"];
-            string nDiasEmisionRecibo12 = (string)jsonfil["datos"]["nDiasEmisionRecibo12"];
-            string permiteValidarCertificados = (string)jsonfil["datos"]["permiteValidarCertificados"];
-            string codigoComoProveedor = (string)jsonfil["datos"]["codigoComoProveedor"];
-            string contadorNumeroDeCliente = (string)jsonfil["datos"]["contadorNumeroDeCliente"];
-            string emailsDondeEnviarPresupuestos = (string)jsonfil["datos"]["emailsDondeEnviarPresupuestos"];
-            string formaFacturacion = (string)jsonfil["datos"]["formaFacturacion"];
-            string prorrateoFacturasFechasContrato = (string)jsonfil["datos"]["prorrateoFacturasFechasContrato"];
-            string generarFacturasAPlazoVencido = (string)jsonfil["datos"]["generarFacturasAPlazoVencido"];
-            string numeroFacturasAEmitir = (string)jsonfil["datos"]["numeroFacturasAEmitir"];
-            string requiereLlevarFacturasImpresos = (string)jsonfil["datos"]["requiereLlevarFacturasImpresos"];
-            string esIntracomunitario = (string)jsonfil["datos"]["esIntracomunitario"];
-            string zonaComercial = (string)jsonfil["datos"]["zonaComercial"];
-            string codigoZonaComercial = (string)jsonfil["datos"]["codigoZonaComercial"];
-            string fechaBaja = (string)jsonfil["datos"]["fechaBaja"];
-            string perdidoCompetidor = (string)jsonfil["datos"]["perdidoCompetidor"];
-            string tcNecesarios = (string)jsonfil["datos"]["tcNecesarios"];
-            string codigosClasificacion = (string)jsonfil["datos"]["codigosClasificacion"];
-            string nombresClasificacion = (string)jsonfil["datos"]["nombresClasificacion"];
-            string grupoContableClienteCodigo = (string)jsonfil["datos"]["grupoContableClienteCodigo"];
-            string grupoContableClienteCuentaContableCliente = (string)jsonfil["datos"]["grupoContableClienteCuentaContableCliente"];
-            string grupoContableNegocioCodigo = (string)jsonfil["datos"]["grupoContableNegocioCodigo"];
-            string grupoContableNegocioDescripcion = (string)jsonfil["datos"]["grupoContableNegocioDescripcion"];
-            string grupoRegistroIVACodigo = (string)jsonfil["datos"]["grupoRegistroIVACodigo"];
-            string grupoRegistroIVADescripcion = (string)jsonfil["datos"]["grupoRegistroIVADescripcion"];
-            string sectorCodigo = (string)jsonfil["datos"]["sectorCodigo"];
-            string sectorNombre = (string)jsonfil["datos"]["sectorNombre"];
-            string actividad = (string)jsonfil["datos"]["actividad"];
-            string codigoActividad = (string)jsonfil["datos"]["codigoActividad"];
-            string codigoDelegacion = (string)jsonfil["datos"]["codigoDelegacion"];
+
+
+            string emailFacturacion = jsonControl(jsonfil, "datos", 2, "emailFacturacion");
+            string codigoTerminoPago = jsonControl(jsonfil, "datos", 2, "codigoTerminoPago");
+            string codigoFormaPago = jsonControl(jsonfil, "datos", 2, "codigoFormaPago");
+            string diasPago = jsonControl(jsonfil, "datos", 2, "diasPago");
+            string diasEmisionRecibo = jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo");
+            string cuentas = jsonControl(jsonfil, "datos", 2, "cuentas");
+            string fechaAlta = jsonControl(jsonfil, "datos", 2, "fechaAlta");
+            string tipoCliente = jsonControl(jsonfil, "datos", 2, "tipoCliente");
+            string nombre = jsonControl(jsonfil, "datos", 2, "nombre");
+            string apellidos = jsonControl(jsonfil, "datos", 2, "apellidos");
+            string observaciones = jsonControl(jsonfil, "datos", 2, "observaciones");
+            string fechaAltaPotencial = jsonControl(jsonfil, "datos", 2, "fechaAltaPotencial");
+            string numeroDeCliente = jsonControl(jsonfil, "datos", 2, "numeroDeCliente");
+            string codigoSecundario = jsonControl(jsonfil, "datos", 2, "codigoSecundario");
+            string comoNosHaConocido = jsonControl(jsonfil, "datos", 2, "comoNosHaConocido");
+            string detallesComoNosHaConocido = jsonControl(jsonfil, "datos", 2, "detallesComoNosHaConocido");
+            string subCuenta = jsonControl(jsonfil, "datos", 2, "subCuenta");
+            string url = jsonControl(jsonfil, "datos", 2, "url");
+            string estado = jsonControl(jsonfil, "datos", 2, "estado");
+            string motivoInactivo = jsonControl(jsonfil, "datos", 2, "motivoInactivo");
+            string importadoDesde = jsonControl(jsonfil, "datos", 2, "importadoDesde");
+            string nombreEnvio = jsonControl(jsonfil, "datos", 2, "nombreEnvio");
+            string direccionEnvio = jsonControl(jsonfil, "datos", 2, "direccionEnvio");
+            string distritoEnvio = jsonControl(jsonfil, "datos", 2, "distritoEnvio");
+            string codigoPostalEnvio = jsonControl(jsonfil, "datos", 2, "codigoPostalEnvio");
+            string localidadEnvio = jsonControl(jsonfil, "datos", 2, "localidadEnvio");
+            string nombrePaisEnvio = jsonControl(jsonfil, "datos", 2, "nombrePaisEnvio");
+            string telefonoEnvio = jsonControl(jsonfil, "datos", 2, "telefonoEnvio");
+            string codigoProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "codigoProvinciaEnvio");
+            string nombreProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "nombreProvinciaEnvio");
+            string idProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "idProvinciaEnvio");
+            string atencionAEnvio = jsonControl(jsonfil, "datos", 2, "atencionAEnvio");
+            string observacionesFacturacion = jsonControl(jsonfil, "datos", 2, "observacionesFacturacion");
+            string datosImportacion = jsonControl(jsonfil, "datos", 2, "datosImportacion");
+            string emailsDondeEnviarFacturas = jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarFacturas");
+            string riesgoEconomico = jsonControl(jsonfil, "datos", 2, "riesgoEconomico");
+            string sepaFirmado = jsonControl(jsonfil, "datos", 2, "sepaFirmado");
+            string coste = jsonControl(jsonfil, "datos", 2, "coste");
+            string rentabilidad = jsonControl(jsonfil, "datos", 2, "rentabilidad");
+            string beneficio = jsonControl(jsonfil, "datos", 2, "beneficio");
+            string totalVentas = jsonControl(jsonfil, "datos", 2, "totalVentas");
+            string formaCobro = jsonControl(jsonfil, "datos", 2, "formaCobro");
+            string diasDePago = jsonControl(jsonfil, "datos", 2, "diasDePago");
+            string diasDeFacturacion = jsonControl(jsonfil, "datos", 2, "diasDeFacturacion");
+            string fechaPuntualFactura = jsonControl(jsonfil, "datos", 2, "fechaPuntualFactura");
+            string fechaEmisionPuntual = jsonControl(jsonfil, "datos", 2, "fechaEmisionPuntual");
+            string variasFechasFactura = jsonControl(jsonfil, "datos", 2, "variasFechasFactura");
+            string nDiasEmisionRecibo1 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo1");
+            string nDiasEmisionRecibo2 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo2");
+            string nDiasEmisionRecibo3 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo3");
+            string nDiasEmisionRecibo4 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo4");
+            string nDiasEmisionRecibo5 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo5");
+            string nDiasEmisionRecibo6 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo6");
+            string nDiasEmisionRecibo7 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo7");
+            string nDiasEmisionRecibo8 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo8");
+            string nDiasEmisionRecibo9 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo9");
+            string nDiasEmisionRecibo10 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo10");
+            string nDiasEmisionRecibo11 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo11");
+            string nDiasEmisionRecibo12 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo12");
+            string permiteValidarCertificados = jsonControl(jsonfil, "datos", 2, "permiteValidarCertificados");
+            string codigoComoProveedor = jsonControl(jsonfil, "datos", 2, "codigoComoProveedor");
+            string contadorNumeroDeCliente = jsonControl(jsonfil, "datos", 2, "contadorNumeroDeCliente");
+            string emailsDondeEnviarPresupuestos = jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarPresupuestos");
+            string formaFacturacion = jsonControl(jsonfil, "datos", 2, "formaFacturacion");
+            string prorrateoFacturasFechasContrato = jsonControl(jsonfil, "datos", 2, "prorrateoFacturasFechasContrato");
+            string generarFacturasAPlazoVencido = jsonControl(jsonfil, "datos", 2, "generarFacturasAPlazoVencido");
+            string numeroFacturasAEmitir = jsonControl(jsonfil, "datos", 2, "numeroFacturasAEmitir");
+            string requiereLlevarFacturasImpresos = jsonControl(jsonfil, "datos", 2, "requiereLlevarFacturasImpresos");
+            string esIntracomunitario = jsonControl(jsonfil, "datos", 2, "esIntracomunitario");
+            string zonaComercial = jsonControl(jsonfil, "datos", 2, "zonaComercial");
+            string codigoZonaComercial = jsonControl(jsonfil, "datos", 2, "codigoZonaComercial");
+            string fechaBaja = jsonControl(jsonfil, "datos", 2, "fechaBaja");
+            string perdidoCompetidor = jsonControl(jsonfil, "datos", 2, "perdidoCompetidor");
+            string tcNecesarios = jsonControl(jsonfil, "datos", 2, "tcNecesarios");
+            string codigosClasificacion = jsonControl(jsonfil, "datos", 2, "codigosClasificacion");
+            string nombresClasificacion = jsonControl(jsonfil, "datos", 2, "nombresClasificacion");
+            string grupoContableClienteCodigo = jsonControl(jsonfil, "datos", 2, "grupoContableClienteCodigo");
+            string grupoContableClienteCuentaContableCliente = jsonControl(jsonfil, "datos", 2, "grupoContableClienteCuentaContableCliente");
+            string grupoContableNegocioCodigo = jsonControl(jsonfil, "datos", 2, "grupoContableNegocioCodigo");
+            string grupoContableNegocioDescripcion = jsonControl(jsonfil, "datos", 2, "grupoContableNegocioDescripcion");
+            string grupoRegistroIVACodigo = jsonControl(jsonfil, "datos", 2, "grupoRegistroIVACodigo");
+            string grupoRegistroIVADescripcion = jsonControl(jsonfil, "datos", 2, "grupoRegistroIVADescripcion");
+            string sectorCodigo = jsonControl(jsonfil, "datos", 2, "sectorCodigo");
+            string sectorNombre = jsonControl(jsonfil, "datos", 2, "sectorNombre");
+            string actividad = jsonControl(jsonfil, "datos", 2, "actividad");
+            string codigoActividad = jsonControl(jsonfil, "datos", 2, "codigoActividad");
+            string codigoDelegacion = jsonControl(jsonfil, "datos", 2, "codigoDelegacion");
+            //gestionadoPor
+            string gesPorID = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "id");
+            string gesPorNombre = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "nombre");
+            string gesPorApellidos = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "apellidos");
+            string gesPorAlias = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "alias");
+            string gesPorCodIdent = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoIdentificacion");
+            string gesPorcodEmpleado = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoEmpleado");
+            string codigoGestionadoPor = jsonControl(jsonfil, "datos", 2, "codigoGestionadoPor");
+            //fin gestionadoPor
+            //idioma
+            string idiomaNombre = jsonControl(jsonfil, "datos", 3, "idioma", "nombre");
+            string idiomaCodigo = jsonControl(jsonfil, "datos", 3, "idioma", "codigo");
+            //fin idioma
 
             return "";
+        }
+
+        private static string jsonControl(JObject jsonfil, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "")
+        {
+            string resultado = "";
+            try
+            {
+                if (numClaves == 2)
+                {
+                    resultado = (string)jsonfil[codClave][codClave2];
+                }
+                else if (numClaves == 1)
+                {
+                    resultado = (string)jsonfil[codClave];
+                }
+                else
+                {
+                    resultado = "";
+                }
+            }
+            catch
+            {
+                resultado = "";
+            }
+            if (resultado == null) { resultado = ""; }
+            return resultado;
         }
 
         private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE)
