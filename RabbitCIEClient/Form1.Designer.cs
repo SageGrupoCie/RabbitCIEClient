@@ -31,6 +31,8 @@ namespace RabbitCIEClient
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
+            this.empSAGETB = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.colaTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,8 +52,7 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.empSAGETB = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.BD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.RutasTB.SuspendLayout();
@@ -69,6 +70,7 @@ namespace RabbitCIEClient
             // 
             // ParamTB
             // 
+            this.ParamTB.Controls.Add(this.BD);
             this.ParamTB.Controls.Add(this.empSAGETB);
             this.ParamTB.Controls.Add(this.label8);
             this.ParamTB.Controls.Add(this.colaTB);
@@ -93,6 +95,23 @@ namespace RabbitCIEClient
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
             // 
+            // empSAGETB
+            // 
+            this.empSAGETB.Location = new System.Drawing.Point(104, 192);
+            this.empSAGETB.Name = "empSAGETB";
+            this.empSAGETB.Size = new System.Drawing.Size(248, 23);
+            this.empSAGETB.TabIndex = 57;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label8.Location = new System.Drawing.Point(14, 195);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(84, 15);
+            this.label8.TabIndex = 56;
+            this.label8.Text = "Empresa SAGE";
+            // 
             // colaTB
             // 
             this.colaTB.Location = new System.Drawing.Point(87, 163);
@@ -113,7 +132,7 @@ namespace RabbitCIEClient
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(124, 230);
+            this.button3.Location = new System.Drawing.Point(143, 230);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 53;
@@ -257,22 +276,16 @@ namespace RabbitCIEClient
             this.textBox1.Size = new System.Drawing.Size(456, 23);
             this.textBox1.TabIndex = 44;
             // 
-            // empSAGETB
+            // BD
             // 
-            this.empSAGETB.Location = new System.Drawing.Point(104, 192);
-            this.empSAGETB.Name = "empSAGETB";
-            this.empSAGETB.Size = new System.Drawing.Size(248, 23);
-            this.empSAGETB.TabIndex = 57;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(14, 195);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 15);
-            this.label8.TabIndex = 56;
-            this.label8.Text = "Empresa SAGE";
+            this.BD.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.BD.Location = new System.Drawing.Point(44, 230);
+            this.BD.Name = "BD";
+            this.BD.Size = new System.Drawing.Size(70, 23);
+            this.BD.TabIndex = 58;
+            this.BD.Text = "BD";
+            this.BD.UseVisualStyleBackColor = true;
+            this.BD.Click += new System.EventHandler(this.button4_Click);
             // 
             // Principal
             // 
@@ -317,6 +330,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox empSAGETB;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button BD;
     }
 }
 
