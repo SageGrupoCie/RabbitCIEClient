@@ -122,9 +122,11 @@ namespace RabbitCIEClient
         public static void procesar_ficheros()
         {
             string folderPath = @"C:\COMPARTIDA";
-            foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "*.txt"))
+            foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "RabMQCIE_*.txt"))
             {   //recorremos todos los arhivos de la carpeta
                 string nombreFile = Path.GetFileName(nombreFilePath);
+                string[] arraOrden = nombreFile.Split('_');
+                int ordenFic = int.Parse(arraOrden[1].Substring(2, arraOrden[1].Length-2) + arraOrden[2].Substring(0,arraOrden[2].Length-4));
                 string readText = File.ReadAllText(nombreFilePath);
                 JObject jsonfil = JObject.Parse(readText);
                 string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
@@ -136,13 +138,13 @@ namespace RabbitCIEClient
                     switch (tipo)
                     {
                         case "SEDE":
-                            resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE);
+                            resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic);
                             break;
                         case "CLIENTE":
-                            resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE);
+                            resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
                             break;
                         case "FACTURA":
-                            resulprocesa = procesaFACTURA(comando, jsonfil, empresaSAGE);
+                            resulprocesa = procesaFACTURA(comando, jsonfil, empresaSAGE, ordenFic);
                             break;
                     }
 
@@ -163,12 +165,12 @@ namespace RabbitCIEClient
             }
         }
 
-        private static string procesaSEDE(string comando, JObject jsonfil, int empSAGE)
+        private static string procesaSEDE(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
             return "";
         }
 
-        private static string procesaCLIENTE(string comando, JObject jsonfil, int empSAGE)
+        private static string procesaCLIENTE(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
             // Obtenemos claves primarias para tabla de SAGE
             string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
@@ -357,7 +359,7 @@ namespace RabbitCIEClient
             return "OK#";
         }
 
-        private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE)
+        private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
             string cif = jsonControl(jsonfil, "datos", 2, "cif");
             string numeroFactura = jsonControl(jsonfil, "datos", 2, "numeroFactura");
