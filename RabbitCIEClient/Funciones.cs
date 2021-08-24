@@ -173,7 +173,7 @@ namespace RabbitCIEClient
             // Obtenemos claves primarias para tabla de SAGE
             string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
             // FIN CLAVES PRIVAMRIAS
-            if (codCliente == null) { return "ERROR#Faltan datos de clave primaria"; }
+            if (codCliente == "") { return "ERROR#Faltan datos de clave primaria"; }
 
 
 
@@ -298,7 +298,136 @@ namespace RabbitCIEClient
             string persContactoparentID = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentId");
             string persContactoparentCod = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentCode");
             //fin personaContacto
-            return "";
+            //datosFacturacion
+            string datFacturacnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "nombreFacturacion");
+            string datFacturaccodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoIdentificacion");
+            string datFacturacdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "direccion");
+            string datFacturaccodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoPostal");
+            string datFacturaclocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "localidad");
+            string datFacturacprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "provincia");
+            string datFacturaccodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoProvincia");
+            string datFacturacalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "alfa2codepais");
+            string datFacturacpais = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "pais");
+            string datFacturaccomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "comuna");
+            string datFacturacregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "regimenFiscal");
+            //fin datosFacturacion
+            //datosClienteFacturae
+            string facturae_activada = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_activada");
+            string facturae_canalEnvio = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio");
+            string facturae_customerId = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_customerId");
+            string facturae_dir3 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir3");
+            string facturae_dir31 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir31");
+            string facturae_dir32 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir32");
+            string facturae_dir33 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir33");
+            string facturae_dir34 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir34");
+            string facturae_direccionOficinaContable = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable");
+            string facturae_direccionOrganoGestor = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor");
+            string facturae_denominacionUnidadTramitadora = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora");
+            //fin datosClienteFacturae
+            string clienteEdi = jsonControl(jsonfil, "datos", 2, "clienteEdi");
+            string tipoEDI = jsonControl(jsonfil, "datos", 2, "tipoEDI");
+            string tipoPersonaReceptor = jsonControl(jsonfil, "datos", 2, "tipoPersonaReceptor");
+            string tipoResidencia = jsonControl(jsonfil, "datos", 2, "tipoResidencia");
+            string plataFormaEDI = jsonControl(jsonfil, "datos", 2, "plataFormaEDI");
+            string autoFactura = jsonControl(jsonfil, "datos", 2, "autoFactura");
+            string subTipoEDI = jsonControl(jsonfil, "datos", 2, "subTipoEDI");
+            string infoExtraEDI = jsonControl(jsonfil, "datos", 2, "infoExtraEDI");
+            string referenciaContratoReceptorEDI = jsonControl(jsonfil, "datos", 2, "referenciaContratoReceptorEDI");
+            string codigoPagador = jsonControl(jsonfil, "datos", 2, "codigoPagador");
+            string fechaBloqueo = jsonControl(jsonfil, "datos", 2, "fechaBloqueo");
+            string cuentaBancariaPreferida = jsonControl(jsonfil, "datos", 2, "cuentaBancariaPreferida");
+            string comuna = jsonControl(jsonfil, "datos", 2, "comuna");
+            string acteco = jsonControl(jsonfil, "datos", 2, "acteco");
+            string figuraJuridica = jsonControl(jsonfil, "datos", 2, "figuraJuridica");
+            string codigoFiguraJuridica = jsonControl(jsonfil, "datos", 2, "codigoFiguraJuridica");
+            string codigoIdentificativoDestinatarioFacturaE = jsonControl(jsonfil, "datos", 2, "codigoIdentificativoDestinatarioFacturaE");
+            string partidaIva = jsonControl(jsonfil, "datos", 2, "partidaIva");
+            string emailNotificacionesCertificadas = jsonControl(jsonfil, "datos", 2, "emailNotificacionesCertificadas");
+            //datosBaseDelegacion
+            string datBasDelgid = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "id");
+            string datBasDelgnombre = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "nombre");
+            string datBasDelgcodigo = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "codigo");
+            string datBasDelgcif = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "cif");
+            //fin datosBaseDelegacion
+            string id = jsonControl(jsonfil, "datos", 2, "id");
+            string empresaId = jsonControl(jsonfil, "datos", 2, "empresaId");
+            string parentId = jsonControl(jsonfil, "datos", 2, "parentId");
+            string parentCode = jsonControl(jsonfil, "datos", 2, "parentCode");
+
+            return "OK#";
+        }
+
+        private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE)
+        {
+            string cif = jsonControl(jsonfil, "datos", 2, "cif");
+            string numeroFactura = jsonControl(jsonfil, "datos", 2, "numeroFactura");
+            string numero = jsonControl(jsonfil, "datos", 2, "numero");
+            string fechaRegistro = jsonControl(jsonfil, "datos", 2, "fechaRegistro");
+            string fechaEmision = jsonControl(jsonfil, "datos", 2, "fechaEmision");
+            string fechaVencimiento = jsonControl(jsonfil, "datos", 2, "fechaVencimiento");
+            string facturaANombreDe = jsonControl(jsonfil, "datos", 2, "facturaANombreDe");
+            string facturaANumeroCliente = jsonControl(jsonfil, "datos", 2, "facturaANumeroCliente");
+            string importeSinImpuestos = jsonControl(jsonfil, "datos", 2, "importeSinImpuestos");
+            string importe = jsonControl(jsonfil, "datos", 2, "importe");
+            string formaCobro = jsonControl(jsonfil, "datos", 2, "formaCobro");
+            string metodoPago = jsonControl(jsonfil, "datos", 2, "metodoPago");
+            string numeroFacturaCorregida = jsonControl(jsonfil, "datos", 2, "numeroFacturaCorregida");
+            string nombreLineaNegocio = jsonControl(jsonfil, "datos", 2, "nombreLineaNegocio");
+            string codigoLineaNegocio = jsonControl(jsonfil, "datos", 2, "codigoLineaNegocio");
+            string cuota = jsonControl(jsonfil, "datos", 2, "cuota");
+            //datosFacturacionEmisor
+            string datFacEmisnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "nombreFacturacion");
+            string datFacEmiscodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoIdentificacion");
+            string datFacEmisdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "direccion");
+            string datFacEmiscodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoPostal");
+            string datFacEmislocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "localidad");
+            string datFacEmisprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "provincia");
+            string datFacEmiscodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoProvincia");
+            string datFacEmisalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "alfa2codepais");
+            string datFacEmispais = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "pais");
+            string datFacEmiscomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "comuna");
+            string datFacEmisregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "regimenFiscal");
+            //fin datosFacturacionEmisor
+            //datosFacturacionReceptor
+            string datFacRecepnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "nombreFacturacion");
+            string datFacRecepcodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoIdentificacion");
+            string datFacRecepdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "direccion");
+            string datFacRecepcodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoPostal");
+            string datFacReceplocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "localidad");
+            string datFacRecepprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "provincia");
+            string datFacRecepcodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoProvincia");
+            string datFacRecepalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "alfa2codepais");
+            string datFacReceppais = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "pais");
+            string datFacRecepcomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "comuna");
+            string datFacRecepregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "regimenFiscal");
+            //fin datosFacturacionReceptor
+            string comuna = jsonControl(jsonfil, "datos", 2, "comuna");
+            string acteco = jsonControl(jsonfil, "datos", 2, "acteco");
+            string simulaUnicaLineaFactura = jsonControl(jsonfil, "datos", 2, "simulaUnicaLineaFactura");
+            string descripcionLineaUnica = jsonControl(jsonfil, "datos", 2, "descripcionLineaUnica");
+            string tipoFactura = jsonControl(jsonfil, "datos", 2, "tipoFactura");
+            string folioUUID = jsonControl(jsonfil, "datos", 2, "folioUUID");
+            string datosPreSellado = jsonControl(jsonfil, "datos", 2, "datosPreSellado");
+            string datosPostSellado = jsonControl(jsonfil, "datos", 2, "datosPostSellado");
+            string datosSelladoOriginal = jsonControl(jsonfil, "datos", 2, "datosSelladoOriginal");
+            //contrato
+            string contratonumero = jsonControl(jsonfil, "datos", 3, "contrato", "numero");
+            string contratodelegacion = jsonControl(jsonfil, "datos", 3, "contrato", "delegacion");
+            string contratofechaInicioPeriodoFacturacion = jsonControl(jsonfil, "datos", 3, "contrato", "fechaInicioPeriodoFacturacion");
+            string contratofechaFinPeriodoFacturacion = jsonControl(jsonfil, "datos", 3, "contrato", "fechaFinPeriodoFacturacion");
+            string contratofechaInicio = jsonControl(jsonfil, "datos", 3, "contrato", "fechaInicio");
+            string contratofechaFin = jsonControl(jsonfil, "datos", 3, "contrato", "fechaFin");
+            string contratocodIdentificContratPublica = jsonControl(jsonfil, "datos", 3, "contrato", "codigoIdentificacionContratacionPublica");
+            string contratocodigoProyecto = jsonControl(jsonfil, "datos", 3, "contrato", "codigoProyecto");
+            string contratonumeroDePedido = jsonControl(jsonfil, "datos", 3, "contrato", "numeroDePedido");
+            string contratoid = jsonControl(jsonfil, "datos", 3, "contrato", "id");
+            string contratoempresaId = jsonControl(jsonfil, "datos", 3, "contrato", "empresaId");
+            string contratoparentId = jsonControl(jsonfil, "datos", 3, "contrato", "parentId");
+            string contratoparentCode = jsonControl(jsonfil, "datos", 3, "contrato", "parentCode");
+            //fin contrato
+
+
+            return "OK#";
         }
 
         private static string jsonControl(JObject jsonfil, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "", string codClave4 = "")
@@ -306,7 +435,15 @@ namespace RabbitCIEClient
             string resultado = "";
             try
             {
-                if (numClaves == 2)
+                if(numClaves == 4)
+                {
+                    resultado = (string)jsonfil[codClave][codClave2][codClave3][codClave4];
+                }
+                else if(numClaves == 3)
+                {
+                    resultado = (string)jsonfil[codClave][codClave2][codClave3];
+                }
+                else if (numClaves == 2)
                 {
                     resultado = (string)jsonfil[codClave][codClave2];
                 }
@@ -327,10 +464,7 @@ namespace RabbitCIEClient
             return resultado;
         }
 
-        private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE)
-        {
-            return "";
-        }
+        
 
     }
 }
