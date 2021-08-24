@@ -185,6 +185,47 @@ namespace RabbitCIEClient
             string diasPago = jsonControl(jsonfil, "datos", 2, "diasPago");
             string diasEmisionRecibo = jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo");
             string cuentas = jsonControl(jsonfil, "datos", 2, "cuentas");
+            string clieCuentacodigoBanco = "";
+            string clieCuentaiban = "";
+            string clieCuentaswiftCode = "";
+            string clieCuentanombre = "";
+            string clieCuentaactiva = "";
+            string clieCuentacuentaContable = "";
+            string bancGenDtonombre = "";
+            string bancGenDtoprefijoIban = "";
+            string bancGenDtocodigoSwift = "";
+            string bancGenDtocif = "";
+            string bancGenDtoid = "";
+            string bancGenDtoempresaId = "";
+            string bancGenDtoparentId = "";
+            string bancGenDtoparentCode = "";
+            string clieCuentaid = "";
+            string clieCuentaempresaId = "";
+            string clieCuentaparentId = "";
+            string clieCuentaparentCode = "";
+            if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
+            {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
+                //cuentas
+                clieCuentacodigoBanco = (string)jsonfil["datos"]["cliente"]["cuentas"].First["codigoBanco"];
+                clieCuentaiban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["iban"];
+                clieCuentaswiftCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["swiftCode"];
+                clieCuentanombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["nombre"];
+                clieCuentaactiva = (string)jsonfil["datos"]["cliente"]["cuentas"].First["activa"];
+                clieCuentacuentaContable = (string)jsonfil["datos"]["cliente"]["cuentas"].First["cuentaContable"];
+                bancGenDtonombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["nombre"];
+                bancGenDtoprefijoIban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"];
+                bancGenDtocodigoSwift = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"];
+                bancGenDtocif = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["cif"];
+                bancGenDtoid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["id"];
+                bancGenDtoempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["empresaId"];
+                bancGenDtoparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentId"];
+                bancGenDtoparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentCode"];
+                clieCuentaid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["id"];
+                clieCuentaempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["empresaId"];
+                clieCuentaparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentId"];
+                clieCuentaparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"];
+                //fin cuentas
+            }
             string fechaAlta = jsonControl(jsonfil, "datos", 2, "fechaAlta");
             string tipoCliente = jsonControl(jsonfil, "datos", 2, "tipoCliente");
             string nombre = jsonControl(jsonfil, "datos", 2, "nombre");
@@ -461,55 +502,45 @@ namespace RabbitCIEClient
             //fin cuentaCliente
             //cliente
             string clientecodigo = jsonControl(jsonfil, "datos", 3, "cliente", "codigo");
-            string clienteemailFacturacion = jsonControl(jsonfil, "datos", 3, "cliente", "emailFacturacion");
-            string clientecodigoTerminoPago = jsonControl(jsonfil, "datos", 3, "cliente", "codigoTerminoPago");
-            string clientecodigoFormaPago = jsonControl(jsonfil, "datos", 3, "cliente", "codigoFormaPago");
-            string clientediasPago = jsonControl(jsonfil, "datos", 3, "cliente", "diasPago");
-            string clientediasEmisionRecibo = jsonControl(jsonfil, "datos", 3, "cliente", "diasEmisionRecibo");
-            string clieCuentacodigoBanco = "";
-            string clieCuentaiban = (string) = "";
-            string clieCuentaswiftCode = "";
-            string clieCuentanombre = "";
-            string clieCuentaactiva = "";
-            string clieCuentacuentaContable = "";
-            string bancGenDtonombre = "";
-            string bancGenDtoprefijoIban = "";
-            string bancGenDtocodigoSwift = "";
-            string bancGenDtocif = "";
-            string bancGenDtoid = "";
-            string bancGenDtoempresaId = "";
-            string bancGenDtoparentId = "";
-            string bancGenDtoparentCode = "";
-            string clieCuentaid = "";
-            string clieCuentaempresaId = "";
-            string clieCuentaparentId = "";
-            string clieCuentaparentCode = "";
-            if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
-            {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
-                //cuentas
-                clieCuentacodigoBanco = (string)jsonfil["datos"]["cliente"]["cuentas"].First["codigoBanco"];
-                clieCuentaiban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["iban"];
-                clieCuentaswiftCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["swiftCode"];
-                clieCuentanombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["nombre"];
-                clieCuentaactiva = (string)jsonfil["datos"]["cliente"]["cuentas"].First["activa"];
-                clieCuentacuentaContable = (string)jsonfil["datos"]["cliente"]["cuentas"].First["cuentaContable"];
-                bancGenDtonombre = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["nombre"];
-                bancGenDtoprefijoIban = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"];
-                bancGenDtocodigoSwift = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"];
-                bancGenDtocif = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["cif"];
-                bancGenDtoid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["id"];
-                bancGenDtoempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["empresaId"];
-                bancGenDtoparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentId"];
-                bancGenDtoparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentCode"];
-                clieCuentaid = (string)jsonfil["datos"]["cliente"]["cuentas"].First["id"];
-                clieCuentaempresaId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["empresaId"];
-                clieCuentaparentId = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentId"];
-                clieCuentaparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"];
-                //fin cuentas
+            //fin cliente
+            //serieFacturacion
+            string serieFactid = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "id");
+            string serieFactempresaId = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "empresaId");
+            string serieFactcontador = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "contador");
+            string serieFactprefijo = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "prefijo");
+            string serieFactsufijo = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "sufijo");
+            string serieFactletra = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "letra");
+            string serieFactesParaRectificativas = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "esParaRectificativas");
+            string serieFactnombre = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "nombre");
+            string serieFactimpuestoConcretoForzado = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "impuestoConcretoForzado");
+            string serieFactesPrehistorica = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "esPrehistorica");
+            string serieFactesLaPrincipal = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "esLaPrincipal");
+            string serieFactserieFacturacionRectificativaId = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "serieFacturacionRectificativaId");
+            string serieFactreseteoAnual = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "reseteoAnual");
+            string serieFacttimbradoConIgeo = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "timbradoConIgeo");
+            string serieFacttipoFacturas = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "tipoFacturas");
+            string serieFactesParaFacturasCreditoAR = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "esParaFacturasCreditoAR");
+            string serieFactidentificadorEnSistemaTimbrado = jsonControl(jsonfil, "datos", 3, "serieFacturacion", "identificadorEnSistemaTimbrado");
+            string serieFactdatBasDelID = jsonControl(jsonfil, "datos", 4, "serieFacturacion", "datosBaseDelegacion", "id");
+            string serieFactdatBasDelnombre = jsonControl(jsonfil, "datos", 4, "serieFacturacion", "datosBaseDelegacion", "nombre");
+            string serieFactdatBasDelcodigo = jsonControl(jsonfil, "datos", 4, "serieFacturacion", "datosBaseDelegacion", "codigo");
+            string serieFactdatBasDelcif = jsonControl(jsonfil, "datos", 4, "serieFacturacion", "datosBaseDelegacion", "cif");
+            //fin serieFacturacion
+            //int contLineas = jsonfil["datos"]["lineas"].co;
+            //lineas
+
+            JArray items = (JArray)jsonfil["datos"]["lineas"];
+            int countLineas = items.Count;
+            int countLinAX = 0;
+            string[][] resulLin = new string[countLineas][27];
+            while(countLineas > countLinAX)
+            {
+                string numLin = (string)jsonfil["datos"]["lineas"][countLinAX]["numero"];
+                countLinAX += 1;
             }
 
-            //fin cliente
 
+            //fin lineas
 
             return "OK#";
         }
