@@ -31,8 +31,7 @@ namespace RabbitCIEClient
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
-            this.empSAGETB = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.BD = new System.Windows.Forms.Button();
             this.colaTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -51,17 +50,31 @@ namespace RabbitCIEClient
             this.button1 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.BDTB = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.empSAGETB = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.passBDTB = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.userBDTB = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.servidorTB = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.BD = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.RutasTB.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.ParamTB);
             this.tabControl1.Controls.Add(this.RutasTB);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -71,8 +84,6 @@ namespace RabbitCIEClient
             // ParamTB
             // 
             this.ParamTB.Controls.Add(this.BD);
-            this.ParamTB.Controls.Add(this.empSAGETB);
-            this.ParamTB.Controls.Add(this.label8);
             this.ParamTB.Controls.Add(this.colaTB);
             this.ParamTB.Controls.Add(this.label7);
             this.ParamTB.Controls.Add(this.button3);
@@ -95,22 +106,16 @@ namespace RabbitCIEClient
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
             // 
-            // empSAGETB
+            // BD
             // 
-            this.empSAGETB.Location = new System.Drawing.Point(104, 192);
-            this.empSAGETB.Name = "empSAGETB";
-            this.empSAGETB.Size = new System.Drawing.Size(248, 23);
-            this.empSAGETB.TabIndex = 57;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(14, 195);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 15);
-            this.label8.TabIndex = 56;
-            this.label8.Text = "Empresa SAGE";
+            this.BD.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.BD.Location = new System.Drawing.Point(44, 230);
+            this.BD.Name = "BD";
+            this.BD.Size = new System.Drawing.Size(70, 23);
+            this.BD.TabIndex = 58;
+            this.BD.Text = "BD";
+            this.BD.UseVisualStyleBackColor = true;
+            this.BD.Click += new System.EventHandler(this.button4_Click);
             // 
             // colaTB
             // 
@@ -257,6 +262,7 @@ namespace RabbitCIEClient
             this.button1.TabIndex = 46;
             this.button1.Text = "Guardar";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // label6
             // 
@@ -276,16 +282,133 @@ namespace RabbitCIEClient
             this.textBox1.Size = new System.Drawing.Size(456, 23);
             this.textBox1.TabIndex = 44;
             // 
-            // BD
+            // tabPage1
             // 
-            this.BD.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.BD.Location = new System.Drawing.Point(44, 230);
-            this.BD.Name = "BD";
-            this.BD.Size = new System.Drawing.Size(70, 23);
-            this.BD.TabIndex = 58;
-            this.BD.Text = "BD";
-            this.BD.UseVisualStyleBackColor = true;
-            this.BD.Click += new System.EventHandler(this.button4_Click);
+            this.tabPage1.Controls.Add(this.button5);
+            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(this.BDTB);
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Controls.Add(this.empSAGETB);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.passBDTB);
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.userBDTB);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.servidorTB);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(481, 291);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Parámetros";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(81, 163);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(133, 23);
+            this.button5.TabIndex = 63;
+            this.button5.Text = "Comprobar Conexión";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label12.Location = new System.Drawing.Point(8, 103);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(79, 15);
+            this.label12.TabIndex = 62;
+            this.label12.Text = "Base de datos";
+            // 
+            // BDTB
+            // 
+            this.BDTB.Location = new System.Drawing.Point(98, 100);
+            this.BDTB.Name = "BDTB";
+            this.BDTB.PasswordChar = '*';
+            this.BDTB.Size = new System.Drawing.Size(248, 23);
+            this.BDTB.TabIndex = 61;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(271, 163);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 60;
+            this.button4.Text = "Guardar";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
+            // empSAGETB
+            // 
+            this.empSAGETB.Location = new System.Drawing.Point(98, 129);
+            this.empSAGETB.Name = "empSAGETB";
+            this.empSAGETB.Size = new System.Drawing.Size(248, 23);
+            this.empSAGETB.TabIndex = 59;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label8.Location = new System.Drawing.Point(8, 132);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(84, 15);
+            this.label8.TabIndex = 58;
+            this.label8.Text = "Empresa SAGE";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label10.Location = new System.Drawing.Point(8, 74);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(66, 15);
+            this.label10.TabIndex = 53;
+            this.label10.Text = "Contraseña";
+            // 
+            // passBDTB
+            // 
+            this.passBDTB.Location = new System.Drawing.Point(81, 71);
+            this.passBDTB.Name = "passBDTB";
+            this.passBDTB.PasswordChar = '*';
+            this.passBDTB.Size = new System.Drawing.Size(265, 23);
+            this.passBDTB.TabIndex = 52;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label11.Location = new System.Drawing.Point(8, 45);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(47, 15);
+            this.label11.TabIndex = 51;
+            this.label11.Text = "Usuario";
+            // 
+            // userBDTB
+            // 
+            this.userBDTB.Location = new System.Drawing.Point(81, 42);
+            this.userBDTB.Name = "userBDTB";
+            this.userBDTB.Size = new System.Drawing.Size(265, 23);
+            this.userBDTB.TabIndex = 50;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label9.Location = new System.Drawing.Point(8, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(51, 15);
+            this.label9.TabIndex = 45;
+            this.label9.Text = "Servidor";
+            // 
+            // servidorTB
+            // 
+            this.servidorTB.Location = new System.Drawing.Point(81, 13);
+            this.servidorTB.Name = "servidorTB";
+            this.servidorTB.Size = new System.Drawing.Size(265, 23);
+            this.servidorTB.TabIndex = 44;
             // 
             // Principal
             // 
@@ -301,6 +424,8 @@ namespace RabbitCIEClient
             this.ParamTB.PerformLayout();
             this.RutasTB.ResumeLayout(false);
             this.RutasTB.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -328,9 +453,20 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox colaTB;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button BD;
+        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox empSAGETB;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button BD;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox passBDTB;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox userBDTB;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox servidorTB;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox BDTB;
     }
 }
 

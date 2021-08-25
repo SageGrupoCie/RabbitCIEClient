@@ -32,13 +32,19 @@ namespace RabbitCIEClient
 
         private void rellenaDatosIniForm()
         {
+            //Parámetros RabbitMQ
             HostTB.Text = Funciones.obtenerValoresIni("HOST");
             VirtualHostTB.Text = Funciones.obtenerValoresIni("VIRTUALHOST");
             PuertoTB.Text = Funciones.obtenerValoresIni("PUERTO");
             UserTB.Text = Funciones.obtenerValoresIni("USUARIO");
             PassTB.Text = Funciones.obtenerValoresIni("CONTRASENA");
             colaTB.Text = Funciones.obtenerValoresIni("COLA");
-            empSAGETB.Text = Funciones.obtenerValoresIni("EMPRESA_SAGE");
+            //Parámetros empresa
+            servidorTB.Text = Funciones.obtenerValoresIni("SERVIDOR","BD");
+            userBDTB.Text = Funciones.obtenerValoresIni("USUARIO", "BD");
+            passBDTB.Text = Funciones.obtenerValoresIni("PASSWORD", "BD");
+            empSAGETB.Text = Funciones.obtenerValoresIni("DATABASE", "BD");
+            empSAGETB.Text = Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD");
         }
 
 
@@ -115,6 +121,20 @@ namespace RabbitCIEClient
         private void button4_Click(object sender, EventArgs e)
         {
             BaseDatos.ConectarBD();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text, "BD");
+            Funciones.guardarValoresIni("EMPRESA_SAGE", userBDTB.Text, "BD");
+            Funciones.guardarValoresIni("EMPRESA_SAGE", passBDTB.Text, "BD");
+            Funciones.guardarValoresIni("EMPRESA_SAGE", BDTB.Text, "BD");
+            Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text,"BD");
         }
     }
 }

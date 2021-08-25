@@ -8,10 +8,23 @@ namespace RabbitCIEClient
 {
     class Funciones
     {
-        public static string obtenerValoresIni(string cadena)
-        {
+        public static string obtenerValoresIni(string cadena, string tipoIni = "")
+        {   // tipoIni puede ser "" o "BD", indicando respectivamente si el ini es el de parámetros de rabbit y contador, o es el de parámetros de la base de datos
             string linea;
-            string nombreFilePath = @"C:\COMPARTIDA\ConfigCIERabbit.ini";
+            string pathPrincipal = AppDomain.CurrentDomain.BaseDirectory;
+            if (tipoIni == "BD")
+            {
+                pathPrincipal += "ConfigCIERabbitDATABASE.ini";
+            }
+            else
+            {
+                pathPrincipal += "ConfigCIERabbit.ini";
+            }
+            if (!File.Exists(@pathPrincipal))
+            {
+                return "";
+            }
+                string nombreFilePath = @pathPrincipal;
             string resultado = "";
             try
             {
@@ -67,8 +80,8 @@ namespace RabbitCIEClient
             File.Delete(cadena);
         }
 
-        public static void guardarValoresIni(string cadena, string valor)
-        {
+        public static void guardarValoresIni(string cadena, string valor,string tipoIni = "")
+        {   // tipoIni puede ser "" o "BD", indicando respectivamente si el ini es el de parámetros de rabbit y contador, o es el de parámetros de la base de datos
             /*
             string nombreFilePath = @"C:\COMPARTIDA\ConfigCIERabbit.ini";
             TextWriter tw = new StreamWriter(nombreFilePath);
@@ -77,14 +90,25 @@ namespace RabbitCIEClient
             //tw.WriteLine(cadena + ":" + valor);
             tw.Close();
             */
-            if (cadena == "CONTADOR")
+            string pathPrincipal = AppDomain.CurrentDomain.BaseDirectory;
+            string pathAUX = "";
+            if (tipoIni == "BD")
             {
-                if (File.Exists(@"C:\COMPARTIDA\ConfigCIERabbit.ini"))
+                pathPrincipal += "ConfigCIERabbitDATABASE.ini";
+            }
+            else
+            {
+                pathPrincipal += "ConfigCIERabbit.ini";
+                pathAUX += "ConfigCIERabbitAUX.ini";
+            }
+            if (cadena == "CONTADOR" && tipoIni == "")
+            {
+                if (File.Exists(@pathPrincipal))
                 {
 
-                    using (StreamWriter fileWrite = new StreamWriter(@"C:\COMPARTIDA\ConfigCIERabbitAUX.ini"))
+                    using (StreamWriter fileWrite = new StreamWriter(@pathAUX))
                     {
-                        using (StreamReader fielRead = new StreamReader(@"C:\COMPARTIDA\ConfigCIERabbit.ini"))
+                        using (StreamReader fielRead = new StreamReader(pathPrincipal))
                         {
                             String line;
                             while ((line = fielRead.ReadLine()) != null)
@@ -102,18 +126,18 @@ namespace RabbitCIEClient
                         }
                     }
 
-                    File.Delete(@"C:\COMPARTIDA\ConfigCIERabbit.ini");
-                    File.Move(@"C:\COMPARTIDA\ConfigCIERabbitAUX.ini", @"C:\COMPARTIDA\ConfigCIERabbit.ini");
+                    File.Delete(@pathPrincipal);
+                    File.Move(@pathAUX, @pathPrincipal);
                 }
             }
-            else if (File.Exists(@"C:\COMPARTIDA\ConfigCIERabbit.ini"))
+            else if (File.Exists(@pathPrincipal))
             {
-                File.AppendAllText(@"C:\COMPARTIDA\ConfigCIERabbit.ini", "\r\n");
-                File.AppendAllText(@"C:\COMPARTIDA\ConfigCIERabbit.ini", cadena + ":" + valor);
+                File.AppendAllText(@pathPrincipal, "\r\n");
+                File.AppendAllText(@pathPrincipal, cadena + ":" + valor);
             }
             else
             {
-                File.AppendAllText(@"C:\COMPARTIDA\ConfigCIERabbit.ini", cadena + ":" + valor);
+                File.AppendAllText(@pathPrincipal, cadena + ":" + valor);
             }
 
         }
@@ -528,19 +552,167 @@ namespace RabbitCIEClient
             //fin serieFacturacion
             //int contLineas = jsonfil["datos"]["lineas"].co;
             //lineas
-
             JArray items = (JArray)jsonfil["datos"]["lineas"];
             int countLineas = items.Count;
             int countLinAX = 0;
-            string[][] resulLin = new string[countLineas][27];
             while(countLineas > countLinAX)
             {
+                string tipoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["tipo"];
                 string numLin = (string)jsonfil["datos"]["lineas"][countLinAX]["numero"];
+
+                string descripcionLin = (string)jsonfil["datos"]["lineas"][countLinAX]["descripcion"];
+                string dimension1mLin = (string)jsonfil["datos"]["lineas"][countLinAX]["dimension1"];
+                string dimension2Lin = (string)jsonfil["datos"]["lineas"][countLinAX]["dimension2"];
+                string cantidadLin = (string)jsonfil["datos"]["lineas"][countLinAX]["cantidad"];
+                string precioVentaLin = (string)jsonfil["datos"]["lineas"][countLinAX]["precioVenta"];
+                string precioUnitarioLin = (string)jsonfil["datos"]["lineas"][countLinAX]["precioUnitario"];
+                string importeSinIvaLin = (string)jsonfil["datos"]["lineas"][countLinAX]["importeSinIva"];
+                string importeLin = (string)jsonfil["datos"]["lineas"][countLinAX]["importe"];
+                string porcentajeImpuestoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["porcentajeImpuesto"];
+                string codigoLineaNegocioLin = (string)jsonfil["datos"]["lineas"][countLinAX]["codigoLineaNegocio"];
+                string codigoProductoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["codigoProducto"];
+                string tipoProductoServicioLin = (string)jsonfil["datos"]["lineas"][countLinAX]["tipoProductoServicio"];
+                string claveProductoServicioLin = (string)jsonfil["datos"]["lineas"][countLinAX]["claveProductoServicio"];
+                string subCuentaLin = (string)jsonfil["datos"]["lineas"][countLinAX]["subCuenta"];
+                string numeroPedidoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["numeroPedido"];
+                string unidadDeMedidaLin = (string)jsonfil["datos"]["lineas"][countLinAX]["unidadDeMedida"];
+                string descuentoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["descuento"];
+                string cuotaLin = (string)jsonfil["datos"]["lineas"][countLinAX]["cuota"];
+                string impuestoConcretoImpNombLin = (string)jsonfil["datos"]["lineas"][countLinAX]["impuestoConcreto"]["impuesto"]["nombre"];
+                string impuestoConcretoNombLin = (string)jsonfil["datos"]["lineas"][countLinAX]["impuestoConcreto"]["nombre"];
+                string impuestoConcretoValorLin = (string)jsonfil["datos"]["lineas"][countLinAX]["impuestoConcreto"]["valor"];
+                string esTangibleLin = (string)jsonfil["datos"]["lineas"][countLinAX]["esTangible"];
+                string importeBrutoLin = (string)jsonfil["datos"]["lineas"][countLinAX]["importeBruto"];
+                //string numLin = (string)jsonfil["datos"]["lineas"][countLinAX]["numero"];     //Retenciones ???
+                string codigoSedeLin = (string)jsonfil["datos"]["lineas"][countLinAX]["codigoSede"];
+                string nombreSedeLin = (string)jsonfil["datos"]["lineas"][countLinAX]["nombreSede"];
+                //Insertar línea en BD teniendo en cuenta las claves primarias de la cabecera
                 countLinAX += 1;
             }
-
-
             //fin lineas
+            //lineasImpuestos
+            items = (JArray)jsonfil["datos"]["lineasImpuestos"];
+            countLineas = items.Count;
+            countLinAX = 0;
+            while (countLineas > countLinAX)
+            {
+                string nombreImpuestoImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["nombreImpuesto"];
+                string porcentajeImpuestoImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["porcentajeImpuesto"];
+
+                string totalLineaImpuestoImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["totalLineaImpuesto"];
+                string cuotaImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["cuota"];
+                string baseImponibleImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["baseImponible"];
+                string facturaALaQuePerteneceImpLin = (string)jsonfil["datos"]["lineasImpuestos"][countLinAX]["facturaALaQuePertenece"];
+                //Insertar lineasImpuestos en BD teniendo en cuenta las claves primarias de la cabecera
+                countLinAX += 1;
+            }
+            //fin lineasImpuestos
+            //recibos
+            items = (JArray)jsonfil["datos"]["recibos"];
+            countLineas = items.Count;
+            countLinAX = 0;
+            while (countLineas > countLinAX)
+            {
+                string idRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["id"];
+                string numeroFacturaRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["numeroFactura"];
+                string cobradoRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["cobrado"];
+                string devueltoRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["devuelto"];
+                string metodoPagoRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["metodoPago"];
+                string fechaEmisionRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["fechaEmision"];
+                string fechaDevolucionRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["fechaDevolucion"];
+                string fechaVencimientoRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["fechaVencimiento"];
+                string importeRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["importe"];
+                string importeSinRetencionesRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["importeSinRetenciones"];
+                string notasRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["notas"];
+                string importeFacturaRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["importeFactura"];
+                string fechaPagoRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["fechaPago"];
+                string cuentaBancariaRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancaria"];
+                string codigoBancoRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["codigoBanco"];
+                string ibanRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["iban"];
+                string codigoSwiftRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["codigoSwift"];
+                string nombreRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["nombre"];
+                string activaRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["activa"];
+                string cuentacontableRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["cuentaContable"];
+
+                string nombreRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["nombre"];
+                string prefijoIbanRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["prefijoIban"];
+                string codigoSwiftRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["codigoSwift"];
+                string cifCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["cif"];
+                string idRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["id"];
+                string empresaIdRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["empresaId"];
+                string parentIdRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["parentId"];
+                string parentCodeRecibCClibGenDto = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["bancoGenericoDto"]["parentCode"];
+
+                string idRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["id"];
+                string empresaIdRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["empresaId"];
+                string parentIdRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["parentId"];
+                string parentCodeRecibCCli = (string)jsonfil["datos"]["recibos"][countLinAX]["cuentaBancariaCliente"]["parentCode"];
+
+                string subcuentaClienteRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["subcuentaCliente"];
+                string codigoClienteRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["codigoCliente"];
+                string nombreClienteRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["nombreCliente"];
+                string codigoDelegacionRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["codigoDelegacion"];
+                string numeroIdentificacionClienteRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["numeroIdentificacionCliente"];
+                string tipoTarjetaRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["tipoTarjeta"];
+                string formaCobroRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["id"];
+                string nDiasRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["nDias"];
+                string ordenRecib = (string)jsonfil["datos"]["recibos"][countLinAX]["orden"];
+                //Insertar recibos en BD teniendo en cuenta las claves primarias de la cabecera
+                countLinAX += 1;
+            }
+            //fin recibos
+            //datosBaseEmpresa
+            string iddatBasEmp = jsonControl(jsonfil, "datos", 3, "datosBaseEmpresa", "id");
+            string cifdatBasEmp = jsonControl(jsonfil, "datos", 3, "datosBaseEmpresa", "cif");
+            string nombredatBasEmp = jsonControl(jsonfil, "datos", 3, "datosBaseEmpresa", "nombre");
+            string dominiodatBasEmp = jsonControl(jsonfil, "datos", 3, "datosBaseEmpresa", "dominio");
+            //fin datosBaseEmpresa
+            string fechaInicioPeriodoFacturacion = jsonControl(jsonfil, "datos", 2, "fechaInicioPeriodoFacturacion");
+            string fechaFinPeriodoFacturacion = jsonControl(jsonfil, "datos", 2, "fechaFinPeriodoFacturacion");
+
+            string puntoDeVenta = jsonControl(jsonfil, "datos", 2, "puntoDeVenta");
+            string renovablePuntual = jsonControl(jsonfil, "datos", 2, "renovablePuntual");
+            string frecuenciaFacturacion = jsonControl(jsonfil, "datos", 2, "frecuenciaFacturacion");
+            string formaFacturacion = jsonControl(jsonfil, "datos", 2, "formaFacturacion");
+            string numeroOrdenesPrevistas = jsonControl(jsonfil, "datos", 2, "numeroOrdenesPrevistas");
+            string seLeAplicanRetenciones = jsonControl(jsonfil, "datos", 2, "seLeAplicanRetenciones");
+            string codigoMotivoAnulacion = jsonControl(jsonfil, "datos", 2, "codigoMotivoAnulacion");
+            string cbuArgentina = jsonControl(jsonfil, "datos", 2, "cbuArgentina");
+            string referenciaTransferencia = jsonControl(jsonfil, "datos", 2, "referenciaTransferencia");
+            string identificadorEnSistemaTimbrado = jsonControl(jsonfil, "datos", 2, "identificadorEnSistemaTimbrado");
+            string hashSaft = jsonControl(jsonfil, "datos", 2, "hashSaft");
+            string permalink = jsonControl(jsonfil, "datos", 2, "permalink");
+            string codigoDivisa = jsonControl(jsonfil, "datos", 2, "codigoDivisa");
+            string pieFactura = jsonControl(jsonfil, "datos", 2, "pieFactura");
+            string numeroDePedido = jsonControl(jsonfil, "datos", 2, "numeroDePedido");
+            string configuracionTimbradoPorFicheroGenericoDto = jsonControl(jsonfil, "datos", 2, "configuracionTimbradoPorFicheroGenericoDto");
+            string configuracionTimbradoPorTokenGenericoDto = jsonControl(jsonfil, "datos", 2, "configuracionTimbradoPorTokenGenericoDto");
+            string idDatBadDel = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion","id");
+            string nombreDatBadDel = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "nombre");
+            string codigoDatBadDel = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "codigo");
+            string cifDatBadDel = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "cif");
+
+            string numeroPedido = jsonControl(jsonfil, "datos", 2, "numeroPedido");
+            string nDiasEmisionRecibo1 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo1");
+            string nDiasEmisionRecibo2 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo2");
+            string nDiasEmisionRecibo3 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo3");
+            string nDiasEmisionRecibo4 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo4");
+            string nDiasEmisionRecibo5 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo5");
+            string nDiasEmisionRecibo6 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo6");
+            string nDiasEmisionRecibo7 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo7");
+            string nDiasEmisionRecibo8 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo8");
+            string nDiasEmisionRecibo9 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo9");
+            string nDiasEmisionRecibo10 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo10");
+            string nDiasEmisionRecibo11 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo11");
+            string nDiasEmisionRecibo12 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo12");
+            string estaCobrada = jsonControl(jsonfil, "datos", 2, "estaCobrada");
+            string metodoCobroEfectivo = jsonControl(jsonfil, "datos", 2, "metodoCobroEfectivo");
+            string anulada = jsonControl(jsonfil, "datos", 2, "anulada");
+            string facturaPDF = jsonControl(jsonfil, "datos", 2, "facturaPDF");
+            string id = jsonControl(jsonfil, "datos", 2, "id");
+            string empresaId = jsonControl(jsonfil, "datos", 2, "empresaId");
+            string parentId = jsonControl(jsonfil, "datos", 2, "parentId");
+            string parentCode = jsonControl(jsonfil, "datos", 2, "parentCode");
 
             return "OK#";
         }
