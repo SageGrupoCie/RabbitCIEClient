@@ -31,7 +31,6 @@ namespace RabbitCIEClient
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
-            this.BD = new System.Windows.Forms.Button();
             this.colaTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -59,7 +58,6 @@ namespace RabbitCIEClient
             this.userBDTB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.servidorTB = new System.Windows.Forms.TextBox();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -78,7 +76,6 @@ namespace RabbitCIEClient
             // 
             // ParamTB
             // 
-            this.ParamTB.Controls.Add(this.BD);
             this.ParamTB.Controls.Add(this.colaTB);
             this.ParamTB.Controls.Add(this.label7);
             this.ParamTB.Controls.Add(this.button3);
@@ -100,17 +97,6 @@ namespace RabbitCIEClient
             this.ParamTB.TabIndex = 0;
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
-            // 
-            // BD
-            // 
-            this.BD.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.BD.Location = new System.Drawing.Point(44, 230);
-            this.BD.Name = "BD";
-            this.BD.Size = new System.Drawing.Size(70, 23);
-            this.BD.TabIndex = 58;
-            this.BD.Text = "BD";
-            this.BD.UseVisualStyleBackColor = true;
-            this.BD.Click += new System.EventHandler(this.button4_Click);
             // 
             // colaTB
             // 
@@ -397,11 +383,9 @@ namespace RabbitCIEClient
         private System.Windows.Forms.TextBox VirtualHostTB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox HostTB;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox colaTB;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button BD;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox empSAGETB;
         private System.Windows.Forms.Label label8;

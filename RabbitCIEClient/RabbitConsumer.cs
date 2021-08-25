@@ -17,7 +17,7 @@ namespace RabbitCIEClient
         private IModel channel;
 
 
-        public void Connect()
+        public void Connect(Logs lg)
         {
             ConnectionFactory factory = new ConnectionFactory();
             factory.UserName = Funciones.obtenerValoresIni("USUARIO");
@@ -28,18 +28,15 @@ namespace RabbitCIEClient
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
-
-            //channel.QueueDeclare(ValoresCon(6), false, false, false, null);
             channel.QueueBind("exportaciones", "exportaciones_exchange", "", null);
         }
 
         
 
-        public void ConsumeMessages()
+        public void ConsumeMessages(Logs lg)
         {
-            
-            //QueueingBasicConsumer consumer = MakeConsumer();
-            
+
+            string pathFicheros = Funciones.carpetaFicherosRabbit();
             while (true)
             {
                 QueueingBasicConsumer consumer = new QueueingBasicConsumer(channel);
@@ -50,7 +47,7 @@ namespace RabbitCIEClient
                 string[] nomFicGuardar = Funciones.obtenerContadorIni();
                 Funciones.guardarValoresIni("CONTADOR", nomFicGuardar[0] + "#" + (int.Parse(nomFicGuardar[1]) + 1).ToString());
                 string[] lines = message.Split("\r\n");
-                using (StreamWriter outputFile = new StreamWriter("C:\\COMPARTIDA\\RabMQCIE_" + nomFicGuardar[0] + "_" + (int.Parse(nomFicGuardar[1]) + 1).ToString() + ".txt"))
+                using (StreamWriter outputFile = new StreamWriter(pathFicheros + "\\RabMQCIE_" + nomFicGuardar[0] + "_" + (int.Parse(nomFicGuardar[1]) + 1).ToString() + ".txt"))
                 {
                     foreach (string line in lines)
                         outputFile.WriteLine(line);

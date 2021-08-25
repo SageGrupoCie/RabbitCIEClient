@@ -96,15 +96,23 @@ namespace RabbitCIEClient
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            //Creamos fichero de logs
+            Logs lg = new Logs();
             //Comprobamos si hay ficheros y los procesamos. Este paso se hace al principio por si hubiera algún archivo por procesar
-            Funciones.procesar_ficheros();
+            Funciones.procesar_ficheros(lg,"SI");
             //Descargamos los mensajes y creamos lo ficheros
             RabbitConsumer cliente = new RabbitConsumer();
-            cliente.Connect();
-            cliente.ConsumeMessages();
+            cliente.Connect(lg);
+            cliente.ConsumeMessages(lg);
 
             //Comprobamos si hay ficheros y los procesamos
-            Funciones.procesar_ficheros();
+            Funciones.procesar_ficheros(lg);
+
+            //Enviamos el log si fuera necesario
+            if (lg.hayErrores(""))
+            { 
+                //Enviamos mail con reporte
+            }
 
         }
 
@@ -120,7 +128,7 @@ namespace RabbitCIEClient
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //BaseDatos.ConectarBD();
+           
         }
 
         private void button1_Click_1(object sender, EventArgs e)

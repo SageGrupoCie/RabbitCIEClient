@@ -89,6 +89,17 @@ namespace RabbitCIEClient
             File.Delete(pathPrincipal);
         }
 
+        public static String carpetaFicherosRabbit()
+        {
+            string pathPrincipal = AppDomain.CurrentDomain.BaseDirectory;
+            pathPrincipal += "FICHEROS_RABBIT";
+            if (!System.IO.Directory.Exists(pathPrincipal))
+            {
+                System.IO.Directory.CreateDirectory(pathPrincipal);
+            }
+            return pathPrincipal;
+        }
+
         public static void guardarValoresIni(string cadena, string valor,string tipoIni = "")
         {   // tipoIni puede ser "" o "BD", indicando respectivamente si el ini es el de parámetros de rabbit y contador, o es el de parámetros de la base de datos
             /*
@@ -152,36 +163,54 @@ namespace RabbitCIEClient
         }
 
 
-        public static void procesar_ficheros()
+        public static void procesar_ficheros(Logs lg, string esPRevio="")
         {
-            string folderPath = @"C:\COMPARTIDA";
+            string lgCab = "Error en ficheros pendientes de procesar:";
+            string folderPath = Funciones.carpetaFicherosRabbit();
             foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "RabMQCIE_*.txt"))
             {   //recorremos todos los arhivos de la carpeta
                 string nombreFile = Path.GetFileName(nombreFilePath);
                 string[] arraOrden = nombreFile.Split('_');
                 int ordenFic = int.Parse(arraOrden[1].Substring(2, arraOrden[1].Length-2) + arraOrden[2].Substring(0,arraOrden[2].Length-4));
                 string readText = File.ReadAllText(nombreFilePath);
-                JObject jsonfil = JObject.Parse(readText);
-                string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
                 string resulprocesa = "#";
-                int empresaSAGE = Int32.Parse(Funciones.obtenerValoresIni("EMPRESA_SAGE"));
-                if (tipo != null)
+                try
                 {
-                    string comando = (string)jsonfil["comando"];
-                    switch (tipo)
+                    JObject jsonfil = JObject.Parse(readText);
+                    string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
+                    
+                    int empresaSAGE = Int32.Parse(Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD"));
+                    if (tipo != null)
                     {
-                        case "SEDE":
-                            resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic);
-                            break;
-                        case "CLIENTE":
-                            resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
-                            break;
-                        case "FACTURA":
-                            resulprocesa = procesaFACTURA(comando, jsonfil, empresaSAGE, ordenFic);
-                            break;
-                    }
+                        string comando = (string)jsonfil["comando"];
+                        switch (tipo)
+                        {
+                            case "SEDE":
+                                resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic);
+                                break;
+                            case "CLIENTE":
+                                resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
+                                break;
+                            case "FACTURA":
+                                resulprocesa = procesaFACTURA(comando, jsonfil, empresaSAGE, ordenFic);
+                                break;
+                        }
 
+                    }
                 }
+                catch
+                {
+                    string errx = "No se ha podido procesar el fichero " + nombreFilePath;
+                    if (esPRevio == "")
+                    {
+                        lg.addError("erroresProcesado", errx);
+                    }
+                    else
+                    {
+                        lg.addError("erroresPreviosProcesado", errx);
+                    }
+                }
+                
                 //si el resultado no es OK escribimos en el log
                 if (resulprocesa.Split('#')[0] != "OK") { }
                 //pasamos el archivo a la carpeta de procesados
