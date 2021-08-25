@@ -10,10 +10,24 @@ namespace RabbitCIEClient
 {
     class BaseDatos
     {
-        public static void ConectarBD()
+        public static bool ConectarBD(string servidor, string database, string user, string pass)
         {
-            SqlConnection conexion = new SqlConnection("server=PORTATIL-JORDI; database=FORMACION; integrated security= true");
-            conexion.Open();
+            SqlConnection conexion = new SqlConnection();
+            conexion.ConnectionString =
+              "Data Source=" + servidor + ";" +
+              "Initial Catalog=" + database + ";" +
+              "User id=" + user + ";" +
+              "Password=" + pass + ";";
+            try
+            {
+                conexion.Open();
+            }
+            catch(Exception ex) 
+            {
+                return false;
+            }
+            return true;
+            /*
             MessageBox.Show("Se abrió la conexión con el servidor SQL Server correctamente");
             String sql = "Select Empresa FROM Empresas";
             using (SqlCommand command = new SqlCommand(sql, conexion))
@@ -26,6 +40,7 @@ namespace RabbitCIEClient
                     }
                 }
             }
+            */
             conexion.Close();
         }
     }

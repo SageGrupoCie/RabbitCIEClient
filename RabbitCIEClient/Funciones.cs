@@ -75,9 +75,18 @@ namespace RabbitCIEClient
         }
 
 
-        public static void borrarValoresIni(string cadena)
+        public static void borrarValoresIni( string tipoIni = "")
         {
-            File.Delete(cadena);
+            string pathPrincipal = AppDomain.CurrentDomain.BaseDirectory;
+            if (tipoIni == "BD")
+            {
+                pathPrincipal += "ConfigCIERabbitDATABASE.ini";
+            }
+            else
+            {
+                pathPrincipal += "ConfigCIERabbit.ini";
+            }
+            File.Delete(pathPrincipal);
         }
 
         public static void guardarValoresIni(string cadena, string valor,string tipoIni = "")

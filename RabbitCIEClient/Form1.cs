@@ -43,7 +43,7 @@ namespace RabbitCIEClient
             servidorTB.Text = Funciones.obtenerValoresIni("SERVIDOR","BD");
             userBDTB.Text = Funciones.obtenerValoresIni("USUARIO", "BD");
             passBDTB.Text = Funciones.obtenerValoresIni("PASSWORD", "BD");
-            empSAGETB.Text = Funciones.obtenerValoresIni("DATABASE", "BD");
+            BDTB.Text = Funciones.obtenerValoresIni("DATABASE", "BD");
             empSAGETB.Text = Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD");
         }
 
@@ -84,7 +84,7 @@ namespace RabbitCIEClient
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Funciones.borrarValoresIni(@"C:\COMPARTIDA\ConfigCIERabbit.ini");
+            Funciones.borrarValoresIni();
             Funciones.guardarValoresIni("HOST", HostTB.Text);
             Funciones.guardarValoresIni("VIRTUALHOST", VirtualHostTB.Text);
             Funciones.guardarValoresIni("PUERTO", PuertoTB.Text);
@@ -120,7 +120,7 @@ namespace RabbitCIEClient
 
         private void button4_Click(object sender, EventArgs e)
         {
-            BaseDatos.ConectarBD();
+            //BaseDatos.ConectarBD();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -130,11 +130,29 @@ namespace RabbitCIEClient
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text, "BD");
-            Funciones.guardarValoresIni("EMPRESA_SAGE", userBDTB.Text, "BD");
-            Funciones.guardarValoresIni("EMPRESA_SAGE", passBDTB.Text, "BD");
-            Funciones.guardarValoresIni("EMPRESA_SAGE", BDTB.Text, "BD");
+            Funciones.borrarValoresIni("BD");
+            Funciones.guardarValoresIni("SERVIDOR", servidorTB.Text, "BD");
+            Funciones.guardarValoresIni("USUARIO", userBDTB.Text, "BD");
+            Funciones.guardarValoresIni("PASSWORD", passBDTB.Text, "BD");
+            Funciones.guardarValoresIni("DATABASE", BDTB.Text, "BD");
             Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text,"BD");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (BaseDatos.ConectarBD(servidorTB.Text, BDTB.Text, userBDTB.Text, passBDTB.Text))
+            {
+                MessageBox.Show("Se ha realizado la conexión correctamente", "Conexión establecida");
+            }
+            else
+            {
+                MessageBox.Show("Parámetros de conexión incorrectos", "Error de conexión");
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

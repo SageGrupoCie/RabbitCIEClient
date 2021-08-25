@@ -46,10 +46,6 @@ namespace RabbitCIEClient
             this.VirtualHostTB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.HostTB = new System.Windows.Forms.TextBox();
-            this.RutasTB = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
@@ -66,20 +62,19 @@ namespace RabbitCIEClient
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
-            this.RutasTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.ParamTB);
-            this.tabControl1.Controls.Add(this.RutasTB);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(489, 319);
             this.tabControl1.TabIndex = 33;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ParamTB
             // 
@@ -241,47 +236,6 @@ namespace RabbitCIEClient
             this.HostTB.Size = new System.Drawing.Size(265, 23);
             this.HostTB.TabIndex = 42;
             // 
-            // RutasTB
-            // 
-            this.RutasTB.Controls.Add(this.button1);
-            this.RutasTB.Controls.Add(this.label6);
-            this.RutasTB.Controls.Add(this.textBox1);
-            this.RutasTB.Location = new System.Drawing.Point(4, 24);
-            this.RutasTB.Name = "RutasTB";
-            this.RutasTB.Padding = new System.Windows.Forms.Padding(3);
-            this.RutasTB.Size = new System.Drawing.Size(481, 291);
-            this.RutasTB.TabIndex = 1;
-            this.RutasTB.Text = "Rutas";
-            this.RutasTB.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(395, 251);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 46;
-            this.button1.Text = "Guardar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(14, 21);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 15);
-            this.label6.TabIndex = 45;
-            this.label6.Text = "Ruta .ini";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(14, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(456, 23);
-            this.textBox1.TabIndex = 44;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.button5);
@@ -312,6 +266,7 @@ namespace RabbitCIEClient
             this.button5.TabIndex = 63;
             this.button5.Text = "Comprobar Conexión";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label12
             // 
@@ -327,7 +282,6 @@ namespace RabbitCIEClient
             // 
             this.BDTB.Location = new System.Drawing.Point(98, 100);
             this.BDTB.Name = "BDTB";
-            this.BDTB.PasswordChar = '*';
             this.BDTB.Size = new System.Drawing.Size(248, 23);
             this.BDTB.TabIndex = 61;
             // 
@@ -422,8 +376,6 @@ namespace RabbitCIEClient
             this.tabControl1.ResumeLayout(false);
             this.ParamTB.ResumeLayout(false);
             this.ParamTB.PerformLayout();
-            this.RutasTB.ResumeLayout(false);
-            this.RutasTB.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
@@ -445,10 +397,6 @@ namespace RabbitCIEClient
         private System.Windows.Forms.TextBox VirtualHostTB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox HostTB;
-        private System.Windows.Forms.TabPage RutasTB;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox colaTB;
