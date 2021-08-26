@@ -55,7 +55,7 @@ namespace RabbitCIEClient
             */
         }
 
-        public void InsertarDatos(List<String> lista, string indicesNumericos="", string nombreTabla)
+        public void InsertarDatos(List<String> lista, string indicesNumericos="", string nombreTabla="")
         {
 
             String sql = "INSERT INTO " + nombreTabla + " values(";
