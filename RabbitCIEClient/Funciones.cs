@@ -8,6 +8,11 @@ namespace RabbitCIEClient
 {
     class Funciones
     {
+        private static string xServidor;
+        private static string xUser;
+        private static string xPass;
+        private static string xDataBase;
+
         public static string obtenerValoresIni(string cadena, string tipoIni = "")
         {   // tipoIni puede ser "" o "BD", indicando respectivamente si el ini es el de parámetros de rabbit y contador, o es el de parámetros de la base de datos
             string linea;
@@ -47,6 +52,14 @@ namespace RabbitCIEClient
             }
             
             return resultado;
+        }
+
+        public static void rellenaDatosBD()
+        {
+            xServidor = obtenerValoresIni("SERVIDOR", "BD");
+            xUser = obtenerValoresIni("USUARIO", "BD");
+            xPass = obtenerValoresIni("PASSWORD", "BD");
+            xDataBase = obtenerValoresIni("DATABASE", "BD");
         }
 
         public static string[] obtenerContadorIni()
@@ -165,6 +178,7 @@ namespace RabbitCIEClient
 
         public static void procesar_ficheros(Logs lg, string esPRevio="")
         {
+            rellenaDatosBD();
             string lgCab = "Error en ficheros pendientes de procesar:";
             string folderPath = Funciones.carpetaFicherosRabbit();
             foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "RabMQCIE_*.txt"))
@@ -239,32 +253,15 @@ namespace RabbitCIEClient
             // FIN CLAVES PRIVAMRIAS
             if (codCliente == "") { return "ERROR#Faltan datos de clave primaria"; }
 
+            List<String> lista = new List<String>();
 
-
-            string emailFacturacion = jsonControl(jsonfil, "datos", 2, "emailFacturacion");
-            string codigoTerminoPago = jsonControl(jsonfil, "datos", 2, "codigoTerminoPago");
-            string codigoFormaPago = jsonControl(jsonfil, "datos", 2, "codigoFormaPago");
-            string diasPago = jsonControl(jsonfil, "datos", 2, "diasPago");
-            string diasEmisionRecibo = jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo");
-            string cuentas = jsonControl(jsonfil, "datos", 2, "cuentas");
-            string clieCuentacodigoBanco = "";
-            string clieCuentaiban = "";
-            string clieCuentaswiftCode = "";
-            string clieCuentanombre = "";
-            string clieCuentaactiva = "";
-            string clieCuentacuentaContable = "";
-            string bancGenDtonombre = "";
-            string bancGenDtoprefijoIban = "";
-            string bancGenDtocodigoSwift = "";
-            string bancGenDtocif = "";
-            string bancGenDtoid = "";
-            string bancGenDtoempresaId = "";
-            string bancGenDtoparentId = "";
-            string bancGenDtoparentCode = "";
-            string clieCuentaid = "";
-            string clieCuentaempresaId = "";
-            string clieCuentaparentId = "";
-            string clieCuentaparentCode = "";
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoTerminoPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFormaPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
+            /*
             if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
             {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
                 //cuentas
@@ -288,176 +285,206 @@ namespace RabbitCIEClient
                 clieCuentaparentCode = (string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"];
                 //fin cuentas
             }
-            string fechaAlta = jsonControl(jsonfil, "datos", 2, "fechaAlta");
-            string tipoCliente = jsonControl(jsonfil, "datos", 2, "tipoCliente");
-            string nombre = jsonControl(jsonfil, "datos", 2, "nombre");
-            string apellidos = jsonControl(jsonfil, "datos", 2, "apellidos");
-            string observaciones = jsonControl(jsonfil, "datos", 2, "observaciones");
-            string fechaAltaPotencial = jsonControl(jsonfil, "datos", 2, "fechaAltaPotencial");
-            string numeroDeCliente = jsonControl(jsonfil, "datos", 2, "numeroDeCliente");
-            string codigoSecundario = jsonControl(jsonfil, "datos", 2, "codigoSecundario");
-            string comoNosHaConocido = jsonControl(jsonfil, "datos", 2, "comoNosHaConocido");
-            string detallesComoNosHaConocido = jsonControl(jsonfil, "datos", 2, "detallesComoNosHaConocido");
-            string subCuenta = jsonControl(jsonfil, "datos", 2, "subCuenta");
-            string url = jsonControl(jsonfil, "datos", 2, "url");
-            string estado = jsonControl(jsonfil, "datos", 2, "estado");
-            string motivoInactivo = jsonControl(jsonfil, "datos", 2, "motivoInactivo");
-            string importadoDesde = jsonControl(jsonfil, "datos", 2, "importadoDesde");
-            string nombreEnvio = jsonControl(jsonfil, "datos", 2, "nombreEnvio");
-            string direccionEnvio = jsonControl(jsonfil, "datos", 2, "direccionEnvio");
-            string distritoEnvio = jsonControl(jsonfil, "datos", 2, "distritoEnvio");
-            string codigoPostalEnvio = jsonControl(jsonfil, "datos", 2, "codigoPostalEnvio");
-            string localidadEnvio = jsonControl(jsonfil, "datos", 2, "localidadEnvio");
-            string nombrePaisEnvio = jsonControl(jsonfil, "datos", 2, "nombrePaisEnvio");
-            string telefonoEnvio = jsonControl(jsonfil, "datos", 2, "telefonoEnvio");
-            string codigoProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "codigoProvinciaEnvio");
-            string nombreProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "nombreProvinciaEnvio");
-            string idProvinciaEnvio = jsonControl(jsonfil, "datos", 2, "idProvinciaEnvio");
-            string atencionAEnvio = jsonControl(jsonfil, "datos", 2, "atencionAEnvio");
-            string observacionesFacturacion = jsonControl(jsonfil, "datos", 2, "observacionesFacturacion");
-            string datosImportacion = jsonControl(jsonfil, "datos", 2, "datosImportacion");
-            string emailsDondeEnviarFacturas = jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarFacturas");
-            string riesgoEconomico = jsonControl(jsonfil, "datos", 2, "riesgoEconomico");
-            string sepaFirmado = jsonControl(jsonfil, "datos", 2, "sepaFirmado");
-            string coste = jsonControl(jsonfil, "datos", 2, "coste");
-            string rentabilidad = jsonControl(jsonfil, "datos", 2, "rentabilidad");
-            string beneficio = jsonControl(jsonfil, "datos", 2, "beneficio");
-            string totalVentas = jsonControl(jsonfil, "datos", 2, "totalVentas");
-            string formaCobro = jsonControl(jsonfil, "datos", 2, "formaCobro");
-            string diasDePago = jsonControl(jsonfil, "datos", 2, "diasDePago");
-            string diasDeFacturacion = jsonControl(jsonfil, "datos", 2, "diasDeFacturacion");
-            string fechaPuntualFactura = jsonControl(jsonfil, "datos", 2, "fechaPuntualFactura");
-            string fechaEmisionPuntual = jsonControl(jsonfil, "datos", 2, "fechaEmisionPuntual");
-            string variasFechasFactura = jsonControl(jsonfil, "datos", 2, "variasFechasFactura");
-            string nDiasEmisionRecibo1 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo1");
-            string nDiasEmisionRecibo2 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo2");
-            string nDiasEmisionRecibo3 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo3");
-            string nDiasEmisionRecibo4 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo4");
-            string nDiasEmisionRecibo5 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo5");
-            string nDiasEmisionRecibo6 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo6");
-            string nDiasEmisionRecibo7 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo7");
-            string nDiasEmisionRecibo8 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo8");
-            string nDiasEmisionRecibo9 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo9");
-            string nDiasEmisionRecibo10 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo10");
-            string nDiasEmisionRecibo11 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo11");
-            string nDiasEmisionRecibo12 = jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo12");
-            string permiteValidarCertificados = jsonControl(jsonfil, "datos", 2, "permiteValidarCertificados");
-            string codigoComoProveedor = jsonControl(jsonfil, "datos", 2, "codigoComoProveedor");
-            string contadorNumeroDeCliente = jsonControl(jsonfil, "datos", 2, "contadorNumeroDeCliente");
-            string emailsDondeEnviarPresupuestos = jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarPresupuestos");
-            string formaFacturacion = jsonControl(jsonfil, "datos", 2, "formaFacturacion");
-            string prorrateoFacturasFechasContrato = jsonControl(jsonfil, "datos", 2, "prorrateoFacturasFechasContrato");
-            string generarFacturasAPlazoVencido = jsonControl(jsonfil, "datos", 2, "generarFacturasAPlazoVencido");
-            string numeroFacturasAEmitir = jsonControl(jsonfil, "datos", 2, "numeroFacturasAEmitir");
-            string requiereLlevarFacturasImpresos = jsonControl(jsonfil, "datos", 2, "requiereLlevarFacturasImpresos");
-            string esIntracomunitario = jsonControl(jsonfil, "datos", 2, "esIntracomunitario");
-            string zonaComercial = jsonControl(jsonfil, "datos", 2, "zonaComercial");
-            string codigoZonaComercial = jsonControl(jsonfil, "datos", 2, "codigoZonaComercial");
-            string fechaBaja = jsonControl(jsonfil, "datos", 2, "fechaBaja");
-            string perdidoCompetidor = jsonControl(jsonfil, "datos", 2, "perdidoCompetidor");
-            string tcNecesarios = jsonControl(jsonfil, "datos", 2, "tcNecesarios");
-            string codigosClasificacion = jsonControl(jsonfil, "datos", 2, "codigosClasificacion");
-            string nombresClasificacion = jsonControl(jsonfil, "datos", 2, "nombresClasificacion");
-            string grupoContableClienteCodigo = jsonControl(jsonfil, "datos", 2, "grupoContableClienteCodigo");
-            string grupoContableClienteCuentaContableCliente = jsonControl(jsonfil, "datos", 2, "grupoContableClienteCuentaContableCliente");
-            string grupoContableNegocioCodigo = jsonControl(jsonfil, "datos", 2, "grupoContableNegocioCodigo");
-            string grupoContableNegocioDescripcion = jsonControl(jsonfil, "datos", 2, "grupoContableNegocioDescripcion");
-            string grupoRegistroIVACodigo = jsonControl(jsonfil, "datos", 2, "grupoRegistroIVACodigo");
-            string grupoRegistroIVADescripcion = jsonControl(jsonfil, "datos", 2, "grupoRegistroIVADescripcion");
-            string sectorCodigo = jsonControl(jsonfil, "datos", 2, "sectorCodigo");
-            string sectorNombre = jsonControl(jsonfil, "datos", 2, "sectorNombre");
-            string actividad = jsonControl(jsonfil, "datos", 2, "actividad");
-            string codigoActividad = jsonControl(jsonfil, "datos", 2, "codigoActividad");
-            string codigoDelegacion = jsonControl(jsonfil, "datos", 2, "codigoDelegacion");
+            else
+            {
+                string clieCuentacodigoBanco = "";
+                string clieCuentaiban = "";
+                string clieCuentaswiftCode = "";
+                string clieCuentanombre = "";
+                string clieCuentaactiva = "";
+                string clieCuentacuentaContable = "";
+                string bancGenDtonombre = "";
+                string bancGenDtoprefijoIban = "";
+                string bancGenDtocodigoSwift = "";
+                string bancGenDtocif = "";
+                string bancGenDtoid = "";
+                string bancGenDtoempresaId = "";
+                string bancGenDtoparentId = "";
+                string bancGenDtoparentCode = "";
+                string clieCuentaid = "";
+                string clieCuentaempresaId = "";
+                string clieCuentaparentId = "";
+                string clieCuentaparentCode = "";
+            }*/
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaAlta"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "apellidos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "observaciones"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaAltaPotencial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroDeCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoSecundario"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "comoNosHaConocido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "detallesComoNosHaConocido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "subCuenta"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "url"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "estado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "motivoInactivo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "importadoDesde"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombreEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "direccionEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "distritoEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoPostalEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "localidadEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombrePaisEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "telefonoEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombreProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "idProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "atencionAEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "observacionesFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "datosImportacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarFacturas"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "riesgoEconomico"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sepaFirmado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "coste"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "rentabilidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "beneficio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "totalVentas"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "formaCobro"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasDePago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasDeFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaPuntualFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaEmisionPuntual"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "variasFechasFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo1"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo2"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo3"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo4"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo5"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo6"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo7"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo8"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo9"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo10"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo11"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo12"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "permiteValidarCertificados"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoComoProveedor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "contadorNumeroDeCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarPresupuestos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "formaFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "prorrateoFacturasFechasContrato"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "generarFacturasAPlazoVencido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroFacturasAEmitir"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "requiereLlevarFacturasImpresos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "esIntracomunitario"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "zonaComercial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoZonaComercial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaBaja"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "perdidoCompetidor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tcNecesarios"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigosClasificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombresClasificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableClienteCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableClienteCuentaContableCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableNegocioCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableNegocioDescripcion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoRegistroIVACodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoRegistroIVADescripcion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sectorCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sectorNombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "actividad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoActividad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoDelegacion"));
             //gestionadoPor
-            string gesPorID = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "id");
-            string gesPorNombre = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "nombre");
-            string gesPorApellidos = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "apellidos");
-            string gesPorAlias = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "alias");
-            string gesPorCodIdent = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoIdentificacion");
-            string gesPorcodEmpleado = jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoEmpleado");
-            string codigoGestionadoPor = jsonControl(jsonfil, "datos", 2, "codigoGestionadoPor");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "apellidos"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "alias"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoEmpleado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoGestionadoPor"));
             //fin gestionadoPor
             //idioma
-            string idiomaNombre = jsonControl(jsonfil, "datos", 3, "idioma", "nombre");
-            string idiomaCodigo = jsonControl(jsonfil, "datos", 3, "idioma", "codigo");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "idioma", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "idioma", "codigo"));
             //fin idioma
             //personaContacto
-            string persContactonombre = jsonControl(jsonfil, "datos", 3, "personaContacto", "nombre");
-            string persContactomovil = jsonControl(jsonfil, "datos", 3, "personaContacto", "movil");
-            string persContactofax = jsonControl(jsonfil, "datos", 3, "personaContacto", "fax");
-            string persContactotelefono = jsonControl(jsonfil, "datos", 3, "personaContacto", "telefono");
-            string persContactoemail = jsonControl(jsonfil, "datos", 3, "personaContacto", "email");
-            string persContactocargo = jsonControl(jsonfil, "datos", 3, "personaContacto", "cargo");
-            string persContactoesLaPrincipal = jsonControl(jsonfil, "datos", 3, "personaContacto", "esLaPrincipal");
-            string persContactodireccion = jsonControl(jsonfil, "datos", 3, "personaContacto", "direccion");
-            string persContactocodigoPostal = jsonControl(jsonfil, "datos", 3, "personaContacto", "codigoPostal");
-            string persContactolocalidad = jsonControl(jsonfil, "datos", 3, "personaContacto", "localidad");
-            string persContactonumeroFax = jsonControl(jsonfil, "datos", 3, "personaContacto", "numeroFax");
-            string persContactoProvincID = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia","id");
-            string persContactoProvincnombre = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "nombre");
-            string persContactoProvinccodigo = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "codigo");
-            string persContactoProvincpaisID = jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "paisId");
-            string persContactoID = jsonControl(jsonfil, "datos", 3, "personaContacto", "id");
-            string persContactoempresaID = jsonControl(jsonfil, "datos", 3, "personaContacto", "empresaId");
-            string persContactoparentID = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentId");
-            string persContactoparentCod = jsonControl(jsonfil, "datos", 3, "personaContacto", "parentCode");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "movil"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "fax"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "telefono"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "email"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "cargo"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "esLaPrincipal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "numeroFax"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "codigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "paisId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "empresaId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "parentId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "parentCode"));
             //fin personaContacto
             //datosFacturacion
-            string datFacturacnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "nombreFacturacion");
-            string datFacturaccodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoIdentificacion");
-            string datFacturacdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "direccion");
-            string datFacturaccodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoPostal");
-            string datFacturaclocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "localidad");
-            string datFacturacprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "provincia");
-            string datFacturaccodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoProvincia");
-            string datFacturacalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "alfa2codepais");
-            string datFacturacpais = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "pais");
-            string datFacturaccomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "comuna");
-            string datFacturacregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacion", "regimenFiscal");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "nombreFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "provincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoProvincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "pais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "regimenFiscal"));
             //fin datosFacturacion
             //datosClienteFacturae
-            string facturae_activada = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_activada");
-            string facturae_canalEnvio = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio");
-            string facturae_customerId = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_customerId");
-            string facturae_dir3 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir3");
-            string facturae_dir31 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir31");
-            string facturae_dir32 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir32");
-            string facturae_dir33 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir33");
-            string facturae_dir34 = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir34");
-            string facturae_direccionOficinaContable = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable");
-            string facturae_direccionOrganoGestor = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor");
-            string facturae_denominacionUnidadTramitadora = jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_activada"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_customerId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir3"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir31"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir32"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir33"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir34"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora"));
             //fin datosClienteFacturae
-            string clienteEdi = jsonControl(jsonfil, "datos", 2, "clienteEdi");
-            string tipoEDI = jsonControl(jsonfil, "datos", 2, "tipoEDI");
-            string tipoPersonaReceptor = jsonControl(jsonfil, "datos", 2, "tipoPersonaReceptor");
-            string tipoResidencia = jsonControl(jsonfil, "datos", 2, "tipoResidencia");
-            string plataFormaEDI = jsonControl(jsonfil, "datos", 2, "plataFormaEDI");
-            string autoFactura = jsonControl(jsonfil, "datos", 2, "autoFactura");
-            string subTipoEDI = jsonControl(jsonfil, "datos", 2, "subTipoEDI");
-            string infoExtraEDI = jsonControl(jsonfil, "datos", 2, "infoExtraEDI");
-            string referenciaContratoReceptorEDI = jsonControl(jsonfil, "datos", 2, "referenciaContratoReceptorEDI");
-            string codigoPagador = jsonControl(jsonfil, "datos", 2, "codigoPagador");
-            string fechaBloqueo = jsonControl(jsonfil, "datos", 2, "fechaBloqueo");
-            string cuentaBancariaPreferida = jsonControl(jsonfil, "datos", 2, "cuentaBancariaPreferida");
-            string comuna = jsonControl(jsonfil, "datos", 2, "comuna");
-            string acteco = jsonControl(jsonfil, "datos", 2, "acteco");
-            string figuraJuridica = jsonControl(jsonfil, "datos", 2, "figuraJuridica");
-            string codigoFiguraJuridica = jsonControl(jsonfil, "datos", 2, "codigoFiguraJuridica");
-            string codigoIdentificativoDestinatarioFacturaE = jsonControl(jsonfil, "datos", 2, "codigoIdentificativoDestinatarioFacturaE");
-            string partidaIva = jsonControl(jsonfil, "datos", 2, "partidaIva");
-            string emailNotificacionesCertificadas = jsonControl(jsonfil, "datos", 2, "emailNotificacionesCertificadas");
+            lista.Add(jsonControl(jsonfil, "datos", 2, "clienteEdi"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoPersonaReceptor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoResidencia"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "plataFormaEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "autoFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "subTipoEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "infoExtraEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "referenciaContratoReceptorEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoPagador"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaBloqueo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "cuentaBancariaPreferida"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "acteco"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "figuraJuridica"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFiguraJuridica"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoIdentificativoDestinatarioFacturaE"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "partidaIva"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailNotificacionesCertificadas"));
             //datosBaseDelegacion
-            string datBasDelgid = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "id");
-            string datBasDelgnombre = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "nombre");
-            string datBasDelgcodigo = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "codigo");
-            string datBasDelgcif = jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "cif");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "codigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "cif"));
             //fin datosBaseDelegacion
-            string id = jsonControl(jsonfil, "datos", 2, "id");
-            string empresaId = jsonControl(jsonfil, "datos", 2, "empresaId");
-            string parentId = jsonControl(jsonfil, "datos", 2, "parentId");
-            string parentCode = jsonControl(jsonfil, "datos", 2, "parentCode");
+            lista.Add(jsonControl(jsonfil, "datos", 2, "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "empresaId"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "parentId"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "parentCode"));
+
+            BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+            if(bd.estaConectado())
+            {
+                bd.InsertarDatos(lista);
+                bd.desConectarBD();
+            }
+
+
 
             return "OK#";
         }

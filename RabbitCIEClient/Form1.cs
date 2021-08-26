@@ -156,7 +156,9 @@ namespace RabbitCIEClient
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (BaseDatos.ConectarBD(servidorTB.Text, BDTB.Text, userBDTB.Text, passBDTB.Text))
+            BaseDatos bd = new BaseDatos(servidorTB.Text, BDTB.Text, userBDTB.Text, passBDTB.Text);
+
+            if (bd.estaConectado())
             {
                 MessageBox.Show("Se ha realizado la conexión correctamente", "Conexión establecida");
             }
