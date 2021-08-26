@@ -58,6 +58,7 @@ namespace RabbitCIEClient
             this.userBDTB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.servidorTB = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -67,6 +68,7 @@ namespace RabbitCIEClient
             // 
             this.tabControl1.Controls.Add(this.ParamTB);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -241,7 +243,7 @@ namespace RabbitCIEClient
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(481, 291);
             this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Parámetros";
+            this.tabPage1.Text = "Parámetros SAGE";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // button5
@@ -350,6 +352,16 @@ namespace RabbitCIEClient
             this.servidorTB.Size = new System.Drawing.Size(265, 23);
             this.servidorTB.TabIndex = 44;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(481, 291);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Reporte Email";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -399,6 +411,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox BDTB;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
