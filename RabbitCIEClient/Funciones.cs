@@ -464,7 +464,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoPagador"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "fechaBloqueo"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "cuentaBancariaPreferida"));
-            lista.Add(jsonControl(jsonfil, "datos", 2, "comuna"));
+                    jsonControl(jsonfil, "datos", 2, "comuna"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "acteco"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "figuraJuridica"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFiguraJuridica"));
@@ -497,47 +497,49 @@ namespace RabbitCIEClient
 
         private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
-            string cif = jsonControl(jsonfil, "datos", 2, "cif");
-            string numeroFactura = jsonControl(jsonfil, "datos", 2, "numeroFactura");
-            string numero = jsonControl(jsonfil, "datos", 2, "numero");
-            string fechaRegistro = jsonControl(jsonfil, "datos", 2, "fechaRegistro");
-            string fechaEmision = jsonControl(jsonfil, "datos", 2, "fechaEmision");
-            string fechaVencimiento = jsonControl(jsonfil, "datos", 2, "fechaVencimiento");
-            string facturaANombreDe = jsonControl(jsonfil, "datos", 2, "facturaANombreDe");
-            string facturaANumeroCliente = jsonControl(jsonfil, "datos", 2, "facturaANumeroCliente");
-            string importeSinImpuestos = jsonControl(jsonfil, "datos", 2, "importeSinImpuestos");
-            string importe = jsonControl(jsonfil, "datos", 2, "importe");
-            string formaCobro = jsonControl(jsonfil, "datos", 2, "formaCobro");
-            string metodoPago = jsonControl(jsonfil, "datos", 2, "metodoPago");
-            string numeroFacturaCorregida = jsonControl(jsonfil, "datos", 2, "numeroFacturaCorregida");
-            string nombreLineaNegocio = jsonControl(jsonfil, "datos", 2, "nombreLineaNegocio");
-            string codigoLineaNegocio = jsonControl(jsonfil, "datos", 2, "codigoLineaNegocio");
-            string cuota = jsonControl(jsonfil, "datos", 2, "cuota");
+            List<String> lista = new List<String>();
+            //CLAVES PRIMARIAS
+            //FIN CLAVES PRIMARIAS
+            lista.Add(jsonControl(jsonfil, "datos", 2, "cif"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numero"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaRegistro"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaEmision"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaVencimiento"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "facturaANombreDe"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "facturaANumeroCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "importeSinImpuestos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "importe"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "formaCobro"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "metodoPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroFacturaCorregida"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombreLineaNegocio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoLineaNegocio"));
             //datosFacturacionEmisor
-            string datFacEmisnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "nombreFacturacion");
-            string datFacEmiscodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoIdentificacion");
-            string datFacEmisdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "direccion");
-            string datFacEmiscodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoPostal");
-            string datFacEmislocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "localidad");
-            string datFacEmisprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "provincia");
-            string datFacEmiscodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoProvincia");
-            string datFacEmisalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "alfa2codepais");
-            string datFacEmispais = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "pais");
-            string datFacEmiscomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "comuna");
-            string datFacEmisregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "regimenFiscal");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "nombreFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "provincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "codigoProvincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "pais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionEmisor", "regimenFiscal"));
             //fin datosFacturacionEmisor
             //datosFacturacionReceptor
-            string datFacRecepnombreFacturacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "nombreFacturacion");
-            string datFacRecepcodigoIdentificacion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoIdentificacion");
-            string datFacRecepdireccion = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "direccion");
-            string datFacRecepcodigoPostal = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoPostal");
-            string datFacReceplocalidad = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "localidad");
-            string datFacRecepprovincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "provincia");
-            string datFacRecepcodigoProvincia = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoProvincia");
-            string datFacRecepalfa2codepais = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "alfa2codepais");
-            string datFacReceppais = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "pais");
-            string datFacRecepcomuna = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "comuna");
-            string datFacRecepregimenFiscal = jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "regimenFiscal");
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "nombreFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "provincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "codigoProvincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "pais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacionReceptor", "regimenFiscal"));
             //fin datosFacturacionReceptor
             string comuna = jsonControl(jsonfil, "datos", 2, "comuna");
             string acteco = jsonControl(jsonfil, "datos", 2, "acteco");
