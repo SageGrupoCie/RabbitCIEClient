@@ -20,7 +20,6 @@ namespace RabbitCIEClient
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                //if (getPrevInstance(args)) { System.Windows.Forms.Application.Exit(); }
                 Application.Run(new Principal(args));
             }
             else
