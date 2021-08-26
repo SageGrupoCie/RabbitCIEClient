@@ -16,13 +16,17 @@ namespace RabbitCIEClient
 {
     public partial class Principal : Form
     {
-        private IConnection connection;
-        private IModel channel;
-        private string folderPath;
-
-        public Principal()
+        public Principal(string[] args)
         {
-            InitializeComponent();
+            if (args.Length == 0)
+            {
+                InitializeComponent();
+            }
+            else
+            {
+                procesarFichero();
+                Application.Exit();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -93,13 +97,12 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("COLA", colaTB.Text);
             Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text);
         }
-
-        private void button2_Click_1(object sender, EventArgs e)
+        public void procesarFichero()
         {
             //Creamos fichero de logs
             Logs lg = new Logs();
             //Comprobamos si hay ficheros y los procesamos. Este paso se hace al principio por si hubiera algún archivo por procesar
-            Funciones.procesar_ficheros(lg,"SI");
+            Funciones.procesar_ficheros(lg, "SI");
             //Descargamos los mensajes y creamos lo ficheros
             RabbitConsumer cliente = new RabbitConsumer();
             cliente.Connect(lg);
@@ -110,9 +113,14 @@ namespace RabbitCIEClient
 
             //Enviamos el log si fuera necesario
             if (lg.hayErrores(""))
-            { 
+            {
                 //Enviamos mail con reporte
             }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            procesarFichero();
 
         }
 
