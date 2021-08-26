@@ -55,10 +55,10 @@ namespace RabbitCIEClient
             */
         }
 
-        public void InsertarDatos(List<String> lista, string indicesNumericos="")
+        public void InsertarDatos(List<String> lista, string indicesNumericos="", string nombreTabla)
         {
 
-            String sql = "INSERT INTO dbo.CieTmpClienteIGEO values(";
+            String sql = "INSERT INTO " + nombreTabla + " values(";
 
 
             for (int i = 0; i < lista.Count; i++)
