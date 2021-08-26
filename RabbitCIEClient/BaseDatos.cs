@@ -55,21 +55,41 @@ namespace RabbitCIEClient
             */
         }
 
-        public void InsertarDatos(List<String> lista)
+        public void InsertarDatos(List<String> lista, string indicesNumericos="")
         {
 
-            String sql = "INSERT INTO CieTmpClientesIGEO values(";
+            String sql = "INSERT INTO dbo.CieTmpClienteIGEO values(";
 
 
             for (int i = 0; i < lista.Count; i++)
             {
+                bool esIndNumerico = false;
+                if (indicesNumericos != "")
+                {
+                    string axInd = "," + i.ToString() + ",";
+                    if (indicesNumericos.Contains(axInd)) { esIndNumerico = true; }
+                }
                 if (i == lista.Count - 1)
                 {
-                    sql += lista[i].ToString() + ")";
+                    if (esIndNumerico)
+                    {
+                        sql += lista[i].ToString() + ")";
+                    }
+                    else
+                    {
+                        sql += "'" + lista[i].ToString() + "'" + ")";
+                    }
                 }
                 else
                 {
-                    sql += lista[i].ToString() + ",";
+                    if(esIndNumerico)
+                    {
+                        sql +=  lista[i].ToString() + ",";
+                    }
+                    else
+                    {
+                        sql += "'" + lista[i].ToString() + "'" + ",";
+                    }
                 }
             }
 

@@ -212,7 +212,7 @@ namespace RabbitCIEClient
 
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                     string errx = "No se ha podido procesar el fichero " + nombreFilePath;
                     if (esPRevio == "")
@@ -250,11 +250,16 @@ namespace RabbitCIEClient
         {
             // Obtenemos claves primarias para tabla de SAGE
             string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
+
             // FIN CLAVES PRIVAMRIAS
             if (codCliente == "") { return "ERROR#Faltan datos de clave primaria"; }
 
             List<String> lista = new List<String>();
-
+            //INSERTAMOS PRIMERO LAS CLAVES PRIMARIAS
+            lista.Add(empSAGE.ToString());
+            lista.Add(codCliente);
+            lista.Add(ordenFic.ToString());
+            // FIN INSERCION CLAVES PRIMARIAS
             lista.Add(jsonControl(jsonfil, "datos", 2, "emailFacturacion"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoTerminoPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFormaPago"));
@@ -475,12 +480,13 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, "datos", 2, "id"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "empresaId"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "parentId"));
-            lista.Add(jsonControl(jsonfil, "datos", 2, "parentCode"));
+            //lista.Add(jsonControl(jsonfil, "datos", 2, "parentCode"));
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if(bd.estaConectado())
             {
-                bd.InsertarDatos(lista);
+                string indicesNumericos = ",2,";
+                bd.InsertarDatos(lista, indicesNumericos);
                 bd.desConectarBD();
             }
 
