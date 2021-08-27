@@ -260,12 +260,13 @@ namespace RabbitCIEClient
             lista.Add(codCliente);
             lista.Add(ordenFic.ToString());
             // FIN INSERCION CLAVES PRIMARIAS
+            lista.Add(comando);
             lista.Add(jsonControl(jsonfil, "datos", 2, "emailFacturacion"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoTerminoPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFormaPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "diasPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo"));
-            lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
+            //lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
             
             if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
             {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
