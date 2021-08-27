@@ -206,7 +206,13 @@ namespace RabbitCIEClient
                                 resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
                                 break;
                             case "FACTURA":
-                                resulprocesa = procesaFACTURA(comando, jsonfil, empresaSAGE, ordenFic);
+                                resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic);
+                                break;
+                            case "PROVEEDOR":
+                                resulprocesa = procesaPROVEEDOR(comando, jsonfil, empresaSAGE, ordenFic);
+                                break;
+                            case "COMPRA":
+                                resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic);
                                 break;
                         }
 
@@ -243,31 +249,29 @@ namespace RabbitCIEClient
 
         private static string procesaSEDE(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
-            return "";
+            return "OK#";
         }
-
-        private static string procesaCLIENTE(string comando, JObject jsonfil, int empSAGE, int ordenFic)
+        private static string procesaPROVEEDOR(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
             // Obtenemos claves primarias para tabla de SAGE
-            string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
+            string codProveedor = jsonControl(jsonfil, "datos", 2, "codigo");
 
             // FIN CLAVES PRIVAMRIAS
-            if (codCliente == "") { return "ERROR#Faltan datos de clave primaria"; }
+            if (codProveedor == "") { return "ERROR#Faltan datos de clave primaria"; }
 
             List<String> lista = new List<String>();
             //INSERTAMOS PRIMERO LAS CLAVES PRIMARIAS
             lista.Add(empSAGE.ToString());
-            lista.Add(codCliente);
+            lista.Add(codProveedor);
             lista.Add(ordenFic.ToString());
             // FIN INSERCION CLAVES PRIMARIAS
-            lista.Add(comando);
             lista.Add(jsonControl(jsonfil, "datos", 2, "emailFacturacion"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoTerminoPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFormaPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "diasPago"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo"));
-            //lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
-            
+            lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
+
             if (jsonfil["datos"]["cliente"]["cuentas"].HasValues)
             {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
                 //cuentas
@@ -484,6 +488,283 @@ namespace RabbitCIEClient
             //lista.Add(jsonControl(jsonfil, "datos", 2, "parentCode"));
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+            if (bd.estaConectado())
+            {
+                string indicesNumericos = ",2,";
+                bd.InsertarDatos(lista, indicesNumericos, "CieTmpClienteIGEO");
+                bd.desConectarBD();
+            }
+
+
+
+            return "OK#";
+        }
+        private static string procesaCLIENTE(string comando, JObject jsonfil, int empSAGE, int ordenFic)
+        {
+            // Obtenemos claves primarias para tabla de SAGE
+            string codCliente = jsonControl(jsonfil, "datos",2,"codigo");
+
+            // FIN CLAVES PRIVAMRIAS
+            if (codCliente == "") { return "ERROR#Faltan datos de clave primaria"; }
+
+            List<String> lista = new List<String>();
+            //INSERTAMOS PRIMERO LAS CLAVES PRIMARIAS
+            lista.Add(empSAGE.ToString());
+            lista.Add(codCliente);
+            lista.Add(ordenFic.ToString());
+            // FIN INSERCION CLAVES PRIMARIAS
+            lista.Add(comando);
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoTerminoPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFormaPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasPago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo"));
+            //lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
+            JArray items;
+            try
+            {
+                items = (JArray)jsonfil["datos"]["cliente"]["cuentas"];
+            }
+            catch
+            {
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+            }
+            
+            int countLineas = items.Count;
+            if (countLineas > 0)
+            {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
+                    //cuentas
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["codigoBanco"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["iban"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["swiftCode"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["nombre"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["activa"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["cuentaContable"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["nombre"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["cif"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["id"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["empresaId"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentId"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentCode"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["id"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["empresaId"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["parentId"]);
+                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"]);
+                //fin cuentas
+            }
+            else
+            {
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+                lista.Add("");
+            }
+            
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaAlta"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "apellidos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "observaciones"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaAltaPotencial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroDeCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoSecundario"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "comoNosHaConocido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "detallesComoNosHaConocido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "subCuenta"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "url"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "estado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "motivoInactivo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "importadoDesde"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombreEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "direccionEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "distritoEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoPostalEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "localidadEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombrePaisEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "telefonoEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombreProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "idProvinciaEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "atencionAEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "observacionesFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "datosImportacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarFacturas"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "riesgoEconomico"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sepaFirmado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "coste"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "rentabilidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "beneficio"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "totalVentas"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "formaCobro"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasDePago"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "diasDeFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaPuntualFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaEmisionPuntual"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "variasFechasFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo1"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo2"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo3"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo4"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo5"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo6"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo7"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo8"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo9"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo10"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo11"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nDiasEmisionRecibo12"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "permiteValidarCertificados"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoComoProveedor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "contadorNumeroDeCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailsDondeEnviarPresupuestos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "formaFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "prorrateoFacturasFechasContrato"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "generarFacturasAPlazoVencido"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "numeroFacturasAEmitir"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "requiereLlevarFacturasImpresos"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "esIntracomunitario"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "zonaComercial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoZonaComercial"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaBaja"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "perdidoCompetidor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tcNecesarios"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigosClasificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "nombresClasificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableClienteCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableClienteCuentaContableCliente"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableNegocioCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoContableNegocioDescripcion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoRegistroIVACodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "grupoRegistroIVADescripcion"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sectorCodigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "sectorNombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "actividad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoActividad"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoDelegacion"));
+            //gestionadoPor
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "apellidos"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "alias"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "gestionadoPor", "codigoEmpleado"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoGestionadoPor"));
+            //fin gestionadoPor
+            //idioma
+            lista.Add(jsonControl(jsonfil, "datos", 3, "idioma", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "idioma", "codigo"));
+            //fin idioma
+            //personaContacto
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "movil"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "fax"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "telefono"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "email"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "cargo"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "esLaPrincipal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "numeroFax"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "codigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 4, "personaContacto", "provincia", "paisId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "empresaId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "parentId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "personaContacto", "parentCode"));
+            //fin personaContacto
+            //datosFacturacion
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "nombreFacturacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoIdentificacion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "direccion"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "localidad"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "provincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "codigoProvincia"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "pais"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosFacturacion", "regimenFiscal"));
+            //fin datosFacturacion
+            //datosClienteFacturae
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_activada"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_customerId"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir3"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir31"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir32"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir33"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_dir34"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora"));
+            //fin datosClienteFacturae
+            lista.Add(jsonControl(jsonfil, "datos", 2, "clienteEdi"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoPersonaReceptor"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "tipoResidencia"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "plataFormaEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "autoFactura"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "subTipoEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "infoExtraEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "referenciaContratoReceptorEDI"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoPagador"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "fechaBloqueo"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "cuentaBancariaPreferida"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "comuna"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "acteco"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "figuraJuridica"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoFiguraJuridica"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "codigoIdentificativoDestinatarioFacturaE"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "partidaIva"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "emailNotificacionesCertificadas"));
+            //datosBaseDelegacion
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "nombre"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "codigo"));
+            lista.Add(jsonControl(jsonfil, "datos", 3, "datosBaseDelegacion", "cif"));
+            //fin datosBaseDelegacion
+            lista.Add(jsonControl(jsonfil, "datos", 2, "id"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "empresaId"));
+            lista.Add(jsonControl(jsonfil, "datos", 2, "parentId"));
+            //lista.Add(jsonControl(jsonfil, "datos", 2, "parentCode"));
+
+            BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if(bd.estaConectado())
             {
                 string indicesNumericos = ",2,";
@@ -496,7 +777,7 @@ namespace RabbitCIEClient
             return "OK#";
         }
 
-        private static string procesaFACTURA(string comando, JObject jsonfil, int empSAGE, int ordenFic)
+        private static string procesaFACTURACli(string comando, JObject jsonfil, int empSAGE, int ordenFic)
         {
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             List<String> lista = new List<String>();
