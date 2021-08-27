@@ -59,6 +59,7 @@ namespace RabbitCIEClient
         {
 
             String sql = "INSERT INTO " + nombreTabla + " values(";
+            string valor;
 
 
             for (int i = 0; i < lista.Count; i++)
@@ -69,26 +70,34 @@ namespace RabbitCIEClient
                     string axInd = "," + i.ToString() + ",";
                     if (indicesNumericos.Contains(axInd)) { esIndNumerico = true; }
                 }
+                if (lista[i] == null)
+                {
+                    valor = "";
+                }
+                else
+                {
+                    valor = lista[i].ToString();
+                }
                 if (i == lista.Count - 1)
                 {
                     if (esIndNumerico)
                     {
-                        sql += lista[i].ToString() + ")";
+                        sql += valor + ")";
                     }
                     else
                     {
-                        sql += "'" + lista[i].ToString() + "'" + ")";
+                        sql += "'" + valor + "'" + ")";
                     }
                 }
                 else
                 {
                     if(esIndNumerico)
                     {
-                        sql +=  lista[i].ToString() + ",";
+                        sql += valor + ",";
                     }
                     else
                     {
-                        sql += "'" + lista[i].ToString() + "'" + ",";
+                        sql += "'" + valor + "'" + ",";
                     }
                 }
             }

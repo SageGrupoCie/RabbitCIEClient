@@ -521,11 +521,14 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, "datos", 2, "diasEmisionRecibo"));
             //lista.Add(jsonControl(jsonfil, "datos", 2, "cuentas"));
             JArray items;
+            int countLineas=0;
+            bool agregarCuentas = true;
             try
             {
-                items = (JArray)jsonfil["datos"]["cliente"]["cuentas"];
+                items = (JArray)jsonfil["datos"]["cuentas"];
+                countLineas = items.Count;
             }
-            catch
+            catch(NullReferenceException ex)
             {
                 lista.Add("");
                 lista.Add("");
@@ -545,54 +548,55 @@ namespace RabbitCIEClient
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
+                agregarCuentas = false;
             }
-            
-            int countLineas = items.Count;
-            if (countLineas > 0)
-            {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
-                    //cuentas
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["codigoBanco"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["iban"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["swiftCode"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["nombre"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["activa"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["cuentaContable"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["nombre"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["cif"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["id"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["empresaId"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentId"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["bancoGenericoDto"]["parentCode"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["id"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["empresaId"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["parentId"]);
-                lista.Add((string)jsonfil["datos"]["cliente"]["cuentas"].First["parentCode"]);
-                //fin cuentas
-            }
-            else
+            if (agregarCuentas)
             {
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
+                if (countLineas > 0)
+                {       // DEL ARRAY DE CUENTAS SOLO COGEMOS EL PRIMERO, SI EXISTE
+                        //cuentas
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["codigoBanco"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["iban"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["swiftCode"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["nombre"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["activa"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["cuentaContable"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["nombre"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["prefijoIban"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["cif"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["id"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["empresaId"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentId"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentCode"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["id"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["empresaId"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["parentId"]);
+                    lista.Add((string)jsonfil["datos"]["cuentas"].First["parentCode"]);
+                    //fin cuentas
+                }
+                else
+                {
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                    lista.Add("");
+                }
             }
-            
             lista.Add(jsonControl(jsonfil, "datos", 2, "fechaAlta"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "tipoCliente"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "nombre"));
@@ -786,6 +790,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, "datos", 2, "numeroFactura"));
             lista.Add(ordenFic.ToString());
             //FIN CLAVES PRIMARIAS
+            lista.Add(comando);
             lista.Add(jsonControl(jsonfil, "datos", 2, "cif"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "numero"));
             lista.Add(jsonControl(jsonfil, "datos", 2, "fechaRegistro"));
@@ -952,7 +957,7 @@ namespace RabbitCIEClient
                 //Insertar línea en BD teniendo en cuenta las claves primarias de la cabecera
                 if (bd.estaConectado())
                 {
-                    string indicesNumericos = ",3,";
+                    string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos,"tablalineasalbaran");
                     bd.desConectarBD();
                 }
