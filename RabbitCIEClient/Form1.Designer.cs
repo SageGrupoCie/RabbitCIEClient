@@ -105,7 +105,8 @@ namespace RabbitCIEClient
             this.colaTB.Location = new System.Drawing.Point(87, 163);
             this.colaTB.Name = "colaTB";
             this.colaTB.Size = new System.Drawing.Size(265, 23);
-            this.colaTB.TabIndex = 55;
+            this.colaTB.TabIndex = 5;
+            this.colaTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.colaTB_KeyPress);
             // 
             // label7
             // 
@@ -153,7 +154,9 @@ namespace RabbitCIEClient
             this.PuertoTB.Location = new System.Drawing.Point(87, 134);
             this.PuertoTB.Name = "PuertoTB";
             this.PuertoTB.Size = new System.Drawing.Size(265, 23);
-            this.PuertoTB.TabIndex = 50;
+            this.PuertoTB.TabIndex = 4;
+            this.PuertoTB.TextChanged += new System.EventHandler(this.PuertoTB_TextChanged);
+            this.PuertoTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PuertoTB_KeyPress);
             // 
             // label4
             // 
@@ -171,7 +174,7 @@ namespace RabbitCIEClient
             this.PassTB.Name = "PassTB";
             this.PassTB.PasswordChar = '*';
             this.PassTB.Size = new System.Drawing.Size(265, 23);
-            this.PassTB.TabIndex = 48;
+            this.PassTB.TabIndex = 3;
             // 
             // label3
             // 
@@ -188,7 +191,8 @@ namespace RabbitCIEClient
             this.UserTB.Location = new System.Drawing.Point(87, 76);
             this.UserTB.Name = "UserTB";
             this.UserTB.Size = new System.Drawing.Size(265, 23);
-            this.UserTB.TabIndex = 46;
+            this.UserTB.TabIndex = 2;
+            this.UserTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.UserTB_KeyPress);
             // 
             // label2
             // 
@@ -205,7 +209,8 @@ namespace RabbitCIEClient
             this.VirtualHostTB.Location = new System.Drawing.Point(87, 47);
             this.VirtualHostTB.Name = "VirtualHostTB";
             this.VirtualHostTB.Size = new System.Drawing.Size(265, 23);
-            this.VirtualHostTB.TabIndex = 44;
+            this.VirtualHostTB.TabIndex = 1;
+            this.VirtualHostTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.VirtualHostTB_KeyPress);
             // 
             // label1
             // 
@@ -222,7 +227,8 @@ namespace RabbitCIEClient
             this.HostTB.Location = new System.Drawing.Point(87, 18);
             this.HostTB.Name = "HostTB";
             this.HostTB.Size = new System.Drawing.Size(265, 23);
-            this.HostTB.TabIndex = 42;
+            this.HostTB.TabIndex = 0;
+            this.HostTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HostTB_KeyPress);
             // 
             // tabPage1
             // 
@@ -271,7 +277,8 @@ namespace RabbitCIEClient
             this.BDTB.Location = new System.Drawing.Point(98, 100);
             this.BDTB.Name = "BDTB";
             this.BDTB.Size = new System.Drawing.Size(248, 23);
-            this.BDTB.TabIndex = 61;
+            this.BDTB.TabIndex = 9;
+            this.BDTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BDTB_KeyPress);
             // 
             // button4
             // 
@@ -288,7 +295,8 @@ namespace RabbitCIEClient
             this.empSAGETB.Location = new System.Drawing.Point(98, 129);
             this.empSAGETB.Name = "empSAGETB";
             this.empSAGETB.Size = new System.Drawing.Size(248, 23);
-            this.empSAGETB.TabIndex = 59;
+            this.empSAGETB.TabIndex = 10;
+            this.empSAGETB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empSAGETB_KeyPress);
             // 
             // label8
             // 
@@ -316,7 +324,7 @@ namespace RabbitCIEClient
             this.passBDTB.Name = "passBDTB";
             this.passBDTB.PasswordChar = '*';
             this.passBDTB.Size = new System.Drawing.Size(265, 23);
-            this.passBDTB.TabIndex = 52;
+            this.passBDTB.TabIndex = 8;
             // 
             // label11
             // 
@@ -333,7 +341,8 @@ namespace RabbitCIEClient
             this.userBDTB.Location = new System.Drawing.Point(81, 42);
             this.userBDTB.Name = "userBDTB";
             this.userBDTB.Size = new System.Drawing.Size(265, 23);
-            this.userBDTB.TabIndex = 50;
+            this.userBDTB.TabIndex = 7;
+            this.userBDTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userBDTB_KeyPress);
             // 
             // label9
             // 
@@ -350,7 +359,9 @@ namespace RabbitCIEClient
             this.servidorTB.Location = new System.Drawing.Point(81, 13);
             this.servidorTB.Name = "servidorTB";
             this.servidorTB.Size = new System.Drawing.Size(265, 23);
-            this.servidorTB.TabIndex = 44;
+            this.servidorTB.TabIndex = 6;
+            this.servidorTB.TextChanged += new System.EventHandler(this.servidorTB_TextChanged);
+            this.servidorTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.servidorTB_KeyPress);
             // 
             // tabPage2
             // 
@@ -366,9 +377,10 @@ namespace RabbitCIEClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 518);
+            this.ClientSize = new System.Drawing.Size(509, 341);
             this.Controls.Add(this.tabControl1);
             this.Name = "Principal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Enlace RabbitMQ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);

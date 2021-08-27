@@ -179,74 +179,89 @@ namespace RabbitCIEClient
         public static void procesar_ficheros(Logs lg, string esPRevio="")
         {
             rellenaDatosBD();
-            string lgCab = "Error en ficheros pendientes de procesar:";
-            string folderPath = Funciones.carpetaFicherosRabbit();
-            foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "RabMQCIE_*.txt"))
-            {   //recorremos todos los arhivos de la carpeta
-                string nombreFile = Path.GetFileName(nombreFilePath);
-                string[] arraOrden = nombreFile.Split('_');
-                int ordenFic = int.Parse(arraOrden[1].Substring(2, arraOrden[1].Length-2) + arraOrden[2].Substring(0,arraOrden[2].Length-4));
-                string readText = File.ReadAllText(nombreFilePath);
-                string resulprocesa = "#";
-                try
-                {
-                    JObject jsonfil = JObject.Parse(readText);
-                    string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
-                    
-                    int empresaSAGE = Int32.Parse(Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD"));
-                    if (tipo != null)
+            bool errorEmpresa = false;
+            int empresaSAGE=-1;
+            try
+            {
+                empresaSAGE = Int32.Parse(obtenerValoresIni("EMPRESA_SAGE","BD"));
+            }
+            catch (Exception ex)
+            {
+                errorEmpresa = true;
+            }
+            if ((errorEmpresa) || (empresaSAGE == -1))
+            {
+                if (esPRevio == "SI") { lg.addError("erroresPreviosProcesado", "El código de empresa no se encuentra informado"); }
+                else { lg.addError("erroresProcesado", "El código de empresa no se encuentra informado"); }
+            }
+            else
+            {
+                string folderPath = Funciones.carpetaFicherosRabbit();
+                foreach (string nombreFilePath in Directory.EnumerateFiles(folderPath, "RabMQCIE_*.txt"))
+                {   //recorremos todos los arhivos de la carpeta
+                    string nombreFile = Path.GetFileName(nombreFilePath);
+                    string[] arraOrden = nombreFile.Split('_');
+                    int ordenFic = int.Parse(arraOrden[1].Substring(2, arraOrden[1].Length - 2) + arraOrden[2].Substring(0, arraOrden[2].Length - 4));
+                    string readText = File.ReadAllText(nombreFilePath);
+                    string resulprocesa = "#";
+                    try
                     {
-                        string comando = (string)jsonfil["comando"];
-                        switch (tipo)
+                        JObject jsonfil = JObject.Parse(readText);
+                        string tipo = jsonControl(jsonfil, "claseEntidadIgeo");
+                        if (tipo != null)
                         {
-                            case "SEDE":
-                                resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic);
-                                break;
-                            case "CLIENTE":
-                                resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
-                                break;
-                            case "FACTURA":
-                                resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic);
-                                break;
-                                /*
-                                 * NOS COMENTA OSCAR DE IGEO QUE MICROSERVICES SOLO TIENE CONTRATADO SEDE, CLIENTE Y FACTURACLIENTE
-                            case "PROVEEDOR":
-                                resulprocesa = procesaPROVEEDOR(comando, jsonfil, empresaSAGE, ordenFic);
-                                break;
-                            case "COMPRA":
-                                resulprocesa = procesaFACTURAProv(comando, jsonfil, empresaSAGE, ordenFic);
-                                break;
-                                */
-                        }
+                            string comando = (string)jsonfil["comando"];
+                            switch (tipo)
+                            {
+                                case "SEDE":
+                                    resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic);
+                                    break;
+                                case "CLIENTE":
+                                    resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic);
+                                    break;
+                                case "FACTURA":
+                                    resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic);
+                                    break;
+                                    /*
+                                     * NOS COMENTA OSCAR DE IGEO QUE MICROSERVICES SOLO TIENE CONTRATADO SEDE, CLIENTE Y FACTURACLIENTE
+                                case "PROVEEDOR":
+                                    resulprocesa = procesaPROVEEDOR(comando, jsonfil, empresaSAGE, ordenFic);
+                                    break;
+                                case "COMPRA":
+                                    resulprocesa = procesaFACTURAProv(comando, jsonfil, empresaSAGE, ordenFic);
+                                    break;
+                                    */
+                            }
 
+                        }
                     }
-                }
-                catch(Exception ex)
-                {
-                    string errx = "No se ha podido procesar el fichero " + nombreFilePath;
-                    if (esPRevio == "")
+                    catch (Exception ex)
                     {
-                        lg.addError("erroresProcesado", errx);
+                        string errx = "No se ha podido procesar el fichero " + nombreFilePath;
+                        if (esPRevio == "")
+                        {
+                            lg.addError("erroresProcesado", errx);
+                        }
+                        else
+                        {
+                            lg.addError("erroresPreviosProcesado", errx);
+                        }
                     }
-                    else
+
+                    //si el resultado no es OK escribimos en el log
+                    if (resulprocesa.Split('#')[0] != "OK") { }
+                    //pasamos el archivo a la carpeta de procesados
+                    string directorioProcesados = Path.Combine(folderPath, "procesados");
+                    if (!Directory.Exists(directorioProcesados))
                     {
-                        lg.addError("erroresPreviosProcesado", errx);
+                        Directory.CreateDirectory(directorioProcesados);
                     }
+                    if (File.Exists(Path.Combine(directorioProcesados, nombreFile)))
+                    {
+                        File.Delete(Path.Combine(directorioProcesados, nombreFile));
+                    }
+                    System.IO.File.Move(nombreFilePath, Path.Combine(directorioProcesados, nombreFile));
                 }
-                
-                //si el resultado no es OK escribimos en el log
-                if (resulprocesa.Split('#')[0] != "OK") { }
-                //pasamos el archivo a la carpeta de procesados
-                string directorioProcesados = Path.Combine(folderPath, "procesados");
-                if (!Directory.Exists(directorioProcesados))
-                {
-                    Directory.CreateDirectory(directorioProcesados);
-                }
-                if (File.Exists(Path.Combine(directorioProcesados, nombreFile)))
-                {
-                    File.Delete(Path.Combine(directorioProcesados, nombreFile));
-                }
-                System.IO.File.Move(nombreFilePath, Path.Combine(directorioProcesados, nombreFile));
             }
         }
 
