@@ -16,16 +16,11 @@ namespace RabbitCIEClient
 {
     public partial class Principal : Form
     {
-        public Principal(string[] args)
+        public Principal(bool autom = false)
         {
-            if (args.Length == 0)
+            if (!autom)
             {
                 InitializeComponent();
-            }
-            else
-            {
-                procesarFichero();
-                Application.Exit();
             }
         }
 
@@ -112,16 +107,162 @@ namespace RabbitCIEClient
             Funciones.procesar_ficheros(lg);
 
             //Enviamos el log si fuera necesario
-            if (lg.hayErrores(""))
-            {
-                //Enviamos mail con reporte
-            }
+            lg.enviarLogEmail();
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            procesarFichero();
+            string comprobParam = comprobarParametros();
+            string[] arrComParam = comprobParam.Split('#');
+            if (arrComParam[0] == "OK")
+            {
+                procesarFichero();
+            }
+            else
+            {
+                string msg = "Debe informar los siguientes datos correctamente:";
+                for (int i = 1; i < arrComParam.Length; i++)
+                {
+                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                }
+                MessageBox.Show(msg,"ERROR",MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+        }
+
+        private string comprobarParametros()
+        {
+            string resultado = "OK#";
+            if (Funciones.obtenerValoresIni("HOST") == "")
+            {
+                resultado += "Dirección Host de RAbbitMQ del proveedor de servicios";
+            }
+            if (Funciones.obtenerValoresIni("VIRTUALHOST") == "")
+            {
+                string msg = "Espacio VirtualHost de RAbbitMQ";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("PUERTO") == "")
+            {
+                string msg = "Puerto de connexión de RAbbitMQ";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("USUARIO") == "")
+            {
+                string msg = "Usuario de connexión de RAbbitMQ";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("CONTRASENA") == "")
+            {
+                string msg = "Contraseña asociada al usuario de connexión de RAbbitMQ";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("COLA") == "")
+            {
+                string msg = "Cola de exportación de RAbbitMQ";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+
+            if (Funciones.obtenerValoresIni("SERVIDOR","BD") == "")
+            {
+                string msg = "Instancia del servidor SQL Server";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("USUARIO", "BD") == "")
+            {
+                string msg = "Usuario con acceso a la base de datos";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("PASSWORD", "BD") == "")
+            {
+                string msg = "Contraseña asociada al usuario de la base de datos";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("DATABASE", "BD") == "")
+            {
+                string msg = "Base de datos de SQL Server";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD") == "")
+            {
+                string msg = "Código de empresa asociado a SAGE";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (resultado != "OK#")
+            {
+                resultado = "ERROR#" + resultado.Substring(3,resultado.Length-3);
+            }
+            return resultado;
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -171,6 +312,71 @@ namespace RabbitCIEClient
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void PuertoTB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PuertoTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            
+        }
+
+        private void empSAGETB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            
+        }
+
+        private void servidorTB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void servidorTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void userBDTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void BDTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void HostTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void VirtualHostTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void UserTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void colaTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
         }
     }
 }

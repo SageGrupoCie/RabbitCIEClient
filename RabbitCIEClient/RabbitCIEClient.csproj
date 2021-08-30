@@ -4,6 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Company>GRUPO CIE</Company>
+    <Authors>Andreu y Jordi</Authors>
+    <Description>Aplicación que realiza importación de entidades JSON desde RabbitMQ a Sage tomando una cola de mensajes.</Description>
   </PropertyGroup>
 
   <ItemGroup>
