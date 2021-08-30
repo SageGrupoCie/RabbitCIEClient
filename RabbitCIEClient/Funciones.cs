@@ -1094,7 +1094,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos,"tablalineasalbaran");
+                    bd.InsertarDatos(listaLineas, indicesNumericos,"CieTmpLineasAlbaranIGEO");
                     bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -1121,7 +1121,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranImpuestos");
+                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpLineasImpuestosIGEO");
                     bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -1149,7 +1149,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranRetenciones");
+                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRetencionesIGEO");
                     bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -1211,7 +1211,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranRecibos");
+                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRecibosIGEO");
                     bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -1270,7 +1270,7 @@ namespace RabbitCIEClient
             if (bd.estaConectado())
             {
                 string indicesNumericos = ",0,2,";
-                bd.InsertarDatos(lista, indicesNumericos, "tablaCabeceraAlbaran");
+                bd.InsertarDatos(lista, indicesNumericos, "CieTmpCabeceraAlbaranIGEO");
                 bd.desConectarBD();
             }
             countLinAX += 1;
