@@ -151,7 +151,19 @@ namespace RabbitCIEClient
                 email.Subject = asunto;
                 email.Body = construirCuerpoEmail();
                 email.From = emisor;
-                bool success = email.AddTo("Receptor reporte Rabbit Grupo CIE", receptor);
+                bool success = false;
+                if (receptor.Contains(";"))
+                {
+                    string[] arrRecept = receptor.Split(';');
+                    for (int i = 0; i < arrRecept.Length; i++)
+                    {
+                        success = email.AddTo("Receptor reporte Rabbit Grupo CIE", arrRecept[i]);
+                    }
+                }
+                else
+                {
+                    success = email.AddTo("Receptor reporte Rabbit Grupo CIE", receptor);
+                }
 
                 success = mailman.SendEmail(email);
                 if (success != true)
