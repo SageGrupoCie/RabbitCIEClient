@@ -831,7 +831,7 @@ namespace RabbitCIEClient
                 {
                     string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaran");
-                    bd.desConectarBD();
+                    //bd.desConectarBD();
                 }
                 countLinAX += 1;
             }
@@ -859,7 +859,7 @@ namespace RabbitCIEClient
                 {
                     string indicesNumericos = ",3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranImpuestos");
-                    bd.desConectarBD();
+                    //bd.desConectarBD();
                 }
                 countLinAX += 1;
             }
@@ -897,7 +897,7 @@ namespace RabbitCIEClient
                 {
                     string indicesNumericos = ",3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranRecibos");
-                    bd.desConectarBD();
+                    //bd.desConectarBD();
                 }
                 countLinAX += 1;
             }
@@ -911,7 +911,7 @@ namespace RabbitCIEClient
             {
                 string indicesNumericos = ",2,";
                 bd.InsertarDatos(lista, indicesNumericos, "tablaCabeceraAlbaranProve");
-                bd.desConectarBD();
+                //bd.desConectarBD();
             }
             countLinAX += 1;
             return "OK#";
@@ -1096,6 +1096,7 @@ namespace RabbitCIEClient
                     string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos,"CieTmpLineasAlbaranIGEO");
                     bd.desConectarBD();
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
                 countLinAX += 1;
             }
@@ -1123,6 +1124,7 @@ namespace RabbitCIEClient
                     string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpLineasImpuestosIGEO");
                     bd.desConectarBD();
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
                 countLinAX += 1;
             }
@@ -1151,6 +1153,7 @@ namespace RabbitCIEClient
                     string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRetencionesIGEO");
                     bd.desConectarBD();
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
                 countLinAX += 1;
             }
@@ -1213,6 +1216,7 @@ namespace RabbitCIEClient
                     string indicesNumericos = ",0,3,";
                     bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRecibosIGEO");
                     bd.desConectarBD();
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
                 countLinAX += 1;
             }
@@ -1274,6 +1278,7 @@ namespace RabbitCIEClient
                 bd.desConectarBD();
             }
             countLinAX += 1;
+            
             return "OK#";
         }
 

@@ -11,7 +11,6 @@ namespace RabbitCIEClient
     class BaseDatos
     {
         private static SqlConnection conexion;
-        private static bool conectado;
         public BaseDatos(string servidor, string database, string user, string pass)
         {
             ConectarBD(servidor,database,user,pass);
@@ -20,7 +19,7 @@ namespace RabbitCIEClient
         {
             return conexion;
         }
-        public bool estaConectado() { return conectado; }
+        public bool estaConectado() { return (conexion.State == System.Data.ConnectionState.Open); }
         public void desConectarBD() { conexion.Close(); }
         public static void ConectarBD(string servidor, string database, string user, string pass)
         {
@@ -33,11 +32,11 @@ namespace RabbitCIEClient
             try
             {
                 conexion.Open();
-                conectado = true;
+
             }
             catch(Exception ex) 
             {
-                conectado = false;
+                
             }
             /*
             MessageBox.Show("Se abrió la conexión con el servidor SQL Server correctamente");
@@ -101,19 +100,27 @@ namespace RabbitCIEClient
                     }
                 }
             }
-
-            if (conectado)
+            
+            if (estaConectado())
             {
 
                 using (var connection = getConexion())
                 {
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Registro realizado");
+                        try
+                        {
+                            command.ExecuteNonQuery();
+                            MessageBox.Show("Registro realizado");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Registro NO realizado: " + ex.Message);
+                        }
                     }
                 }
             }
+            
 
             MessageBox.Show(sql);
 
