@@ -45,7 +45,7 @@ namespace RabbitCIEClient
                 case "erroresProcesado":
                     return (erroresProcesado == null);
                 case "":
-                    if ((erroresPreviosProcesado == null) || (erroresconsumoRabbit == null) || (erroresProcesado == null)){ return true; }
+                    if ((erroresPreviosProcesado != null) || (erroresconsumoRabbit != null) || (erroresProcesado != null)){ return true; }
                     break;
             }
             return false;
@@ -89,15 +89,15 @@ namespace RabbitCIEClient
             }
 
             string resulproces = "";
-            for (int i = 0; i < erroresconsumoRabbit.Count; i++)
+            for (int i = 0; i < erroresProcesado.Count; i++)
             {
                 if (resulproces == "")
                 {
-                    resulproces = new string(' ', 10) + erroresPreviosProcesado[i];
+                    resulproces = new string(' ', 10) + erroresProcesado[i];
                 }
                 else
                 {
-                    resulproces += "\r\n" + new string(' ', 10) + erroresPreviosProcesado[i];
+                    resulproces += "\r\n" + new string(' ', 10) + erroresProcesado[i];
                 }
             }
             if (resulproces != "")
@@ -128,35 +128,43 @@ namespace RabbitCIEClient
             return resultado;
         }
 
-        public void enviarLogEmail()
+        public void enviarLogEmail(string emisor, string receptor, string pass, string asunto, string host, int puerto, bool ssl)
         {
             if (hayErrores())
             {
-                var fromAddress = new MailAddress("tucorreode@gmail.com", "From Name");
-                var toAddress = new MailAddress("to@example.com", "To Name");
-                const string fromPassword = "fromPassword";
-                const string subject = "Subject";
                 
-                string body = construirCuerpoEmail();
-                if (body != "")
+                Chilkat.MailMan mailman = new Chilkat.MailMan();
+
+                // Datos servidor SMTP
+                mailman.SmtpHost = host;
+
+                mailman.SmtpUsername = emisor;
+                mailman.SmtpPassword = pass;
+
+                mailman.SmtpPort = puerto;
+
+                mailman.StartTLS = ssl;
+
+                // Create a new email object
+                Chilkat.Email email = new Chilkat.Email();
+
+                email.Subject = asunto;
+                email.Body = construirCuerpoEmail();
+                email.From = emisor;
+                bool success = email.AddTo("Receptor reporte Rabbit Grupo CIE", receptor);
+
+                success = mailman.SendEmail(email);
+                if (success != true)
                 {
-                    var smtp = new SmtpClient
-                    {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                    };
-                    using (var message = new MailMessage(fromAddress, toAddress)
-                    {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(message);
-                    }
+                    //Debug.WriteLine(mailman.LastErrorText);
+                    return;
+                }
+
+                success = mailman.CloseSmtpConnection();
+                if (success != true)
+                {
+                    //Debug.WriteLine("Connection to SMTP server not closed cleanly.");
+                    //return;
                 }
             }
         }

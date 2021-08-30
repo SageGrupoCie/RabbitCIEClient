@@ -21,6 +21,10 @@ namespace RabbitCIEClient
             {
                 pathPrincipal += "ConfigCIERabbitDATABASE.ini";
             }
+            else if (tipoIni == "EMAIL")
+            {
+                pathPrincipal += "ConfigCIERabbitEMAIL.ini";
+            }
             else
             {
                 pathPrincipal += "ConfigCIERabbit.ini";
@@ -95,6 +99,10 @@ namespace RabbitCIEClient
             {
                 pathPrincipal += "ConfigCIERabbitDATABASE.ini";
             }
+            else if(tipoIni == "EMAIL")
+            {
+                pathPrincipal += "ConfigCIERabbitEMAIL.ini";
+            }
             else
             {
                 pathPrincipal += "ConfigCIERabbit.ini";
@@ -128,6 +136,10 @@ namespace RabbitCIEClient
             if (tipoIni == "BD")
             {
                 pathPrincipal += "ConfigCIERabbitDATABASE.ini";
+            }
+            else if (tipoIni == "EMAIL")
+            {
+                pathPrincipal += "ConfigCIERabbitEMAIL.ini";
             }
             else
             {

@@ -44,6 +44,21 @@ namespace RabbitCIEClient
             passBDTB.Text = Funciones.obtenerValoresIni("PASSWORD", "BD");
             BDTB.Text = Funciones.obtenerValoresIni("DATABASE", "BD");
             empSAGETB.Text = Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD");
+            //Parámetros email
+            emisorEMTB.Text = Funciones.obtenerValoresIni("EMISOR", "EMAIL");
+            receptorEMTB.Text = Funciones.obtenerValoresIni("RECEPTOR", "EMAIL");
+            passEMTB.Text = Funciones.obtenerValoresIni("PASSWORD", "EMAIL");
+            asuntoEMTB.Text = Funciones.obtenerValoresIni("ASUNTO", "EMAIL");
+            hostEMTB.Text = Funciones.obtenerValoresIni("HOST", "EMAIL");
+            puertoEMTB.Text = Funciones.obtenerValoresIni("PUERTO", "EMAIL");
+            if (Funciones.obtenerValoresIni("SSL", "EMAIL") == "True")
+            {
+                sslEMTB.Checked = true;
+            }
+            else
+            {
+                sslEMTB.Checked = false;
+            }
         }
 
 
@@ -107,26 +122,99 @@ namespace RabbitCIEClient
             Funciones.procesar_ficheros(lg);
 
             //Enviamos el log si fuera necesario
-            lg.enviarLogEmail();
+            string comprobParam = comprobarParamEmail();
+            string[] arrComParam = comprobParam.Split('#');
+            if (arrComParam[0] == "OK")
+            {
+                string xemisorEMTB = Funciones.obtenerValoresIni("EMISOR", "EMAIL");
+                string xreceptorEMTB = Funciones.obtenerValoresIni("RECEPTOR", "EMAIL");
+                string xpassEMTB = Funciones.obtenerValoresIni("PASSWORD", "EMAIL");
+                string xasuntoEMTB = Funciones.obtenerValoresIni("ASUNTO", "EMAIL");
+                string xhostEMTB = Funciones.obtenerValoresIni("HOST", "EMAIL");
+                string xpuertoEMTB = Funciones.obtenerValoresIni("PUERTO", "EMAIL");
+                int xintpuertoEMTB = 0;
+                if (xpuertoEMTB != "")
+                {
+                    xintpuertoEMTB = int.Parse(xpuertoEMTB);
+                }
+                bool xsslEMTB = false;
+                if (Funciones.obtenerValoresIni("SSL", "EMAIL") == "True")
+                {
+                    xsslEMTB = true;
+                }
+                lg.addError("erroresProcesado", "Error de prueba Andreu");
+                lg.enviarLogEmail(xemisorEMTB, xreceptorEMTB, xpassEMTB, xasuntoEMTB, xhostEMTB, xintpuertoEMTB, xsslEMTB);
+            }
         }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            string comprobParam = comprobarParametros();
-            string[] arrComParam = comprobParam.Split('#');
-            if (arrComParam[0] == "OK")
+            
+
+        }
+
+        private string comprobarParamEmail()
+        {
+            string resultado = "OK#";
+            if (Funciones.obtenerValoresIni("EMISOR", "EMAIL") == "")
             {
-                procesarFichero();
+                resultado += "Dirección email del emisor";
             }
-            else
+            if (Funciones.obtenerValoresIni("RECEPTOR", "EMAIL") == "")
             {
-                string msg = "Debe informar los siguientes datos correctamente:";
-                for (int i = 1; i < arrComParam.Length; i++)
+                string msg = "Dirección email del receptor";
+                if (resultado == "OK#")
                 {
-                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                    resultado += msg;
                 }
-                MessageBox.Show(msg,"ERROR",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    resultado += "#" + msg;
+                }
             }
+            if (Funciones.obtenerValoresIni("PASSWORD", "EMAIL") == "")
+            {
+                string msg = "Contraseña de logueo";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("HOST", "EMAIL") == "")
+            {
+                string msg = "Dirección del servidor de correo SMTP";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (Funciones.obtenerValoresIni("PUERTO", "EMAIL") == "")
+            {
+                string msg = "Puerto de salida SMTP";
+                if (resultado == "OK#")
+                {
+                    resultado += msg;
+                }
+                else
+                {
+                    resultado += "#" + msg;
+                }
+            }
+            if (resultado != "OK#")
+            {
+                resultado = "ERROR#" + resultado.Substring(3, resultado.Length - 3);
+            }
+            return resultado;
+
+
 
         }
 
@@ -377,6 +465,57 @@ namespace RabbitCIEClient
         private void colaTB_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = e.KeyChar == Convert.ToChar(Keys.Space);
+        }
+
+        private void puertoEMTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Funciones.borrarValoresIni("EMAIL");
+            Funciones.guardarValoresIni("EMISOR", emisorEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("RECEPTOR", receptorEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("PASSWORD", passEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("ASUNTO", asuntoEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("HOST", hostEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("PUERTO", puertoEMTB.Text, "EMAIL");
+            Funciones.guardarValoresIni("SSL", sslEMTB.Checked.ToString(), "EMAIL");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string comprobParam = comprobarParamEmail();
+            string[] arrComParam = comprobParam.Split('#');
+            if (arrComParam[0] != "OK")
+            {
+                string msg = "Faltan parámetros email para el envío de logs (no son obligatorios, en tal caso el log no se enviará):";
+                for (int i = 1; i < arrComParam.Length; i++)
+                {
+                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                }
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            comprobParam = comprobarParametros();
+            arrComParam = comprobParam.Split('#');
+            if (arrComParam[0] == "OK")
+            {
+                procesarFichero();
+            }
+            else
+            {
+                string msg = "Debe informar los siguientes datos correctamente:";
+                for (int i = 1; i < arrComParam.Length; i++)
+                {
+                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                }
+                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
