@@ -295,26 +295,31 @@ namespace RabbitCIEClient
         private static string procesaSEDE(string comando, JObject jsonfil, int empSAGE, int ordenFic, Logs lg, string esPRevio)
         {
             // Obtenemos claves primarias para tabla de SAGE
-            string codSede = jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigo");
-            string codCliente = jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoCliente");
+            //string codSede = jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigo");
+            //string codCliente = jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoCliente");
 
             // FIN CLAVES PRIVAMRIAS
-            if ((codSede == "") && (codCliente == "")) { return "ERROR#Faltan datos de clave primaria"; }
+            //if ((codSede == "") && (codCliente == "")) { return "ERROR#Faltan datos de clave primaria"; }
             List<String> lista = new List<String>();
             //INSERTAMOS PRIMERO LAS CLAVES PRIMARIAS
             lista.Add(empSAGE.ToString());
-            lista.Add(codSede);
-            lista.Add(codCliente);
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigo","","","string","","SI"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoCliente", "", "", "string", "", "SI"));
             lista.Add(ordenFic.ToString());
             // FIN INSERCION CLAVES PRIMARIAS
             lista.Add(comando);
-
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "observaciones"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "zonaComercial"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoZonaComercial"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "latitud"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "longitud"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "distanciaDelegacionSede"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "nombre"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "estado"));
+
+
+
+
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "motivoInactivo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaBaja"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "direccion2"));
@@ -324,7 +329,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "horarios"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m3"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "notificarCliente"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "notificarCliente")); //true false
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "cifDni"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "distrito"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipo"));
@@ -339,17 +344,27 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "alfa2codepais"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "pais"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "codigoProvincia"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "distrito"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoActividad"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoDelegacion"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoIdioma"));
+            
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "actividad", "nombre"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoActividad"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "actividad", "tipoEmpresa"));
+
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoDelegacion"));
+
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosBaseDelegacion", "id"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosBaseDelegacion", "nombre"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosBaseDelegacion", "cif"));
+
+
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "idioma"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoIdioma"));
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if (bd.estaConectado())
             {
-                if (!existeErrorEntidad) { return "ERROR#"; }
-                string indicesNumericos = ",0,3,";
-                bd.InsertarDatos(lista, indicesNumericos, "CieTmpClienteIGEO");
+                if (existeErrorEntidad) { return "ERROR#"; }
+                string indicesNumericos = ",0,3,8,9,10,22,34,36,41,";
+                bd.InsertarDatos(lista, indicesNumericos, "CieTmpSedeIGEO");
                 bd.desConectarBD();
             }
 
@@ -752,7 +767,7 @@ namespace RabbitCIEClient
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if(bd.estaConectado())
             {
-                if (!existeErrorEntidad) { return "ERROR#"; }
+                if (existeErrorEntidad) { return "ERROR#"; }
                 string indicesNumericos = ",0,2,";
                 bd.InsertarDatos(lista, indicesNumericos, "CieTmpClienteIGEO");
                 bd.desConectarBD();
@@ -1291,7 +1306,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "parentCode"));
             if (bd.estaConectado())
             {
-                if (!existeErrorEntidad) { return "ERROR#"; }
+                if (existeErrorEntidad) { return "ERROR#"; }
                 string indicesNumericos = ",0,2,";
                 bd.InsertarDatos(lista, indicesNumericos, "CieTmpCabeceraAlbaranIGEO");
                 bd.desConectarBD();
