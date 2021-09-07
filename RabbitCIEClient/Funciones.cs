@@ -329,7 +329,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "horarios"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m3"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "notificarCliente")); //true false
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "notificarCliente","","","bool")); //true false
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "cifDni"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "distrito"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipo"));
@@ -358,12 +358,13 @@ namespace RabbitCIEClient
 
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "idioma"));
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoIdioma"));
+            lista.Add("0");
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if (bd.estaConectado())
             {
                 if (existeErrorEntidad) { return "ERROR#"; }
-                string indicesNumericos = ",0,3,8,9,10,22,34,36,41,";
+                string indicesNumericos = ",0,3,8,9,10,22,34,36,41,46,";
                 bd.InsertarDatos(lista, indicesNumericos, "CieTmpSedeIGEO");
                 bd.desConectarBD();
             }
@@ -1350,69 +1351,77 @@ namespace RabbitCIEClient
             {
                 resultado = "";
             }
-            if (obligatorio != "NO")
-            {
-                if (tipoCampo != "string")
-                {   //COMPROBAMOS QUE LOS TIPOS SE CORRESPONDEN REALIZANDO UNA CONVERSIÓN AUXILIAR DE COMPROBACIÓN
-                    bool xCorrecto = true;
-                    switch (tipoCampo)
-                    {
-                        case "int":
-                            try
-                            {
-                                int xAux;
-                                xAux = int.Parse(resultado);
-                            }
-                            catch
-                            {
-                                xCorrecto = false;
-                            }
-                            break;
-                        case "double":
-                            try
-                            {
-                                double xAux;
-                                xAux = Double.Parse(resultado);
-                            }
-                            catch
-                            {
-                                xCorrecto = false;
-                            }
-                            break;
-                        case "datetime":
-                            try
-                            {
-                                DateTime xAux;
-                                xAux = DateTime.Parse(resultado);
-                            }
-                            catch
-                            {
-                                xCorrecto = false;
-                            }
-                            break;
-                        case "bool":
-                            try
-                            {
-                                bool xAux;
-                                xAux = bool.Parse(resultado);
-                            }
-                            catch
-                            {
-                                xCorrecto = false;
-                            }
-                            break;
-                    }
-                    if (!xCorrecto)
-                    {
-                        existeErrorEntidad = true;
-                        string tipolist = "erroresProcesado";
-                        if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
-                        lg.addError(tipolist, "Error al convertir campo (" + clavesJSON + ") al formato " + tipoCampo);
-                    }
+
+            if (tipoCampo != "string")
+            {   //COMPROBAMOS QUE LOS TIPOS SE CORRESPONDEN REALIZANDO UNA CONVERSIÓN AUXILIAR DE COMPROBACIÓN
+                bool xCorrecto = true;
+                switch (tipoCampo)
+                {
+                    case "int":
+                        try
+                        {
+                            int xAux;
+                            xAux = int.Parse(resultado);
+                        }
+                        catch
+                        {
+                            xCorrecto = false;
+                        }
+                        break;
+                    case "double":
+                        try
+                        {
+                            double xAux;
+                            xAux = Double.Parse(resultado);
+                        }
+                        catch
+                        {
+                            xCorrecto = false;
+                        }
+                        break;
+                    case "datetime":
+                        try
+                        {
+                            DateTime xAux;
+                            xAux = DateTime.Parse(resultado);
+                        }
+                        catch
+                        {
+                            xCorrecto = false;
+                        }
+                        break;
+                    case "bool":
+                        try
+                        {
+                            bool xAux;
+                            xAux = bool.Parse(resultado);
+                            resultado = "0";
+                            if (xAux == true) { resultado = "-1"; }
+                        }
+                        catch
+                        {
+                            xCorrecto = false;
+                        }
+                        break;
+                }
+                if ((!xCorrecto) && (obligatorio == "NO"))
+                {
+                    existeErrorEntidad = true;
+                    string tipolist = "erroresProcesado";
+                    if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
+                    lg.addError(tipolist, "Error al convertir campo (" + clavesJSON + ") al formato " + tipoCampo + ".");
                 }
             }
+            
             if (resultado == null) { resultado = ""; }
-            return resultado;
+            if ((obligatorio != "NO") && (resultado == ""))
+            {
+                existeErrorEntidad = true;
+                string tipolist = "erroresProcesado";
+                if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
+                lg.addError(tipolist, "El campo (" + clavesJSON + ") de tipo " + tipoCampo + " no está informado y es obligatorio.");
+            }
+                return resultado;
         }
 
         

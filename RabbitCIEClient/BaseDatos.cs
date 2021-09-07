@@ -81,6 +81,7 @@ namespace RabbitCIEClient
                 {
                     if (esIndNumerico)
                     {
+                        if (valor == "") { valor = "null"; }
                         sql += valor + ")";
                     }
                     else
@@ -92,6 +93,7 @@ namespace RabbitCIEClient
                 {
                     if(esIndNumerico)
                     {
+                        if (valor == "") { valor = "null"; }
                         sql += valor + ",";
                     }
                     else
