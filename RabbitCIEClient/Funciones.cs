@@ -303,8 +303,8 @@ namespace RabbitCIEClient
             List<String> lista = new List<String>();
             //INSERTAMOS PRIMERO LAS CLAVES PRIMARIAS
             lista.Add(empSAGE.ToString());
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigo","","","string","","SI"));
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoCliente", "", "", "string", "", "SI"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigo","","","string","","SI"));
             lista.Add(ordenFic.ToString());
             // FIN INSERCION CLAVES PRIMARIAS
             lista.Add(comando);
@@ -364,8 +364,10 @@ namespace RabbitCIEClient
             if (bd.estaConectado())
             {
                 if (existeErrorEntidad) { return "ERROR#"; }
-                string indicesNumericos = ",0,3,8,9,10,22,34,36,41,46,";
-                bd.InsertarDatos(lista, indicesNumericos, "CieTmpSedeIGEO");
+                string indicesNumericos = ",0,3,8,9,10,22,36,41,";
+                string indicesBool = ",22,46,";
+                string indicesDate = ",14,16,";
+                bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpSedeIGEO", indicesBool, indicesDate);
                 bd.desConectarBD();
             }
 
@@ -488,7 +490,7 @@ namespace RabbitCIEClient
             if (bd.estaConectado())
             {
                 string indicesNumericos = ",2,";
-                bd.InsertarDatos(lista, indicesNumericos, "CieTmpClienteIGEO");
+                bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpClienteIGEO");
                 bd.desConectarBD();
             }
 
@@ -510,7 +512,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigo","","","string","","SI"));
             lista.Add(ordenFic.ToString());
             // FIN INSERCION CLAVES PRIMARIAS
-            lista.Add(comando);
+            
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "emailFacturacion"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoTerminoPago"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoFormaPago"));
@@ -531,20 +533,20 @@ namespace RabbitCIEClient
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
+                lista.Add("0");
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
                 lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
-                lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
+                //lista.Add("");
                 agregarCuentas = false;
             }
             if (agregarCuentas)
@@ -563,13 +565,13 @@ namespace RabbitCIEClient
                     lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["codigoSwift"]);
                     lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["cif"]);
                     lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["id"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["empresaId"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentId"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentCode"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["id"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["empresaId"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["parentId"]);
-                    lista.Add((string)jsonfil["datos"]["cuentas"].First["parentCode"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["empresaId"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentId"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["bancoGenericoDto"]["parentCode"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["id"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["empresaId"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["parentId"]);
+                    //lista.Add((string)jsonfil["datos"]["cuentas"].First["parentCode"]);
                     //fin cuentas
                 }
                 else
@@ -585,13 +587,13 @@ namespace RabbitCIEClient
                     lista.Add("");
                     lista.Add("");
                     lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
-                    lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
+                    //lista.Add("");
                 }
             }
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAlta"));
@@ -602,13 +604,13 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAltaPotencial"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "numeroDeCliente"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoSecundario"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "comoNosHaConocido"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "detallesComoNosHaConocido"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "comoNosHaConocido"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "detallesComoNosHaConocido"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "subCuenta"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "url"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "estado"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "motivoInactivo"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "importadoDesde"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "motivoInactivo"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "importadoDesde"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nombreEnvio"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "direccionEnvio"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "distritoEnvio"));
@@ -629,12 +631,14 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "rentabilidad"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "beneficio"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "totalVentas"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "formaCobro"));
+
+
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "formaCobro"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "diasDePago"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "diasDeFacturacion"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaPuntualFactura"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaEmisionPuntual"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "variasFechasFactura"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaPuntualFactura"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaEmisionPuntual"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "variasFechasFactura"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nDiasEmisionRecibo1"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nDiasEmisionRecibo2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nDiasEmisionRecibo3"));
@@ -659,7 +663,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "esIntracomunitario"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "zonaComercial"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoZonaComercial"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaBaja"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaBaja"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "perdidoCompetidor"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tcNecesarios"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigosClasificacion"));
@@ -676,24 +680,32 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoActividad"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoDelegacion"));
             //gestionadoPor
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "id"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "nombre"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "apellidos"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "alias"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "codigoIdentificacion"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "codigoEmpleado"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoGestionadoPor"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "id"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "nombre"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "apellidos"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "alias"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "codigoIdentificacion"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "codigoEmpleado"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoGestionadoPor"));
             //fin gestionadoPor
             //idioma
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "idioma", "nombre"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "idioma", "nombre"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "idioma", "codigo"));
             //fin idioma
             //personaContacto
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "telefono"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "movil"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "email"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "fax"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "nombre"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "movil"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "fax"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "telefono"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "email"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "movil")); // repetido
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "fax"));   // repetido
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "telefono")); // repetido
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "email"));  // repetido
+
+
+
+
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "cargo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "esLaPrincipal"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "direccion"));
@@ -704,36 +716,39 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 4, "personaContacto", "provincia", "nombre"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 4, "personaContacto", "provincia", "codigo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 4, "personaContacto", "provincia", "paisId"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "id"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "empresaId"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "parentId"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "parentCode"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "id"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "empresaId"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "parentId"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "parentCode"));
             //fin personaContacto
             //datosFacturacion
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "nombreFacturacion"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoIdentificacion"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "direccion"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoPostal"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "localidad"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "provincia"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoProvincia"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "alfa2codepais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "pais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "comuna"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "regimenFiscal"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosFacturacion", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosFacturacion", "pais"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosFacturacion", "comuna"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "datosFacturacion", "regimenFiscal"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "localidad"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "provincia"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoProvincia"));
+            
+ 
+            
             //fin datosFacturacion
             //datosClienteFacturae
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_activada"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_customerId"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir3"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir31"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir32"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir33"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir34"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_activada"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_canalEnvio"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_customerId"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir3"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir31"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir32"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir33"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_dir34"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_direccionOficinaContable"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_direccionOrganoGestor"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosClienteFacturae", "facturae_denominacionUnidadTramitadora"));
             //fin datosClienteFacturae
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "clienteEdi"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipoEDI"));
@@ -758,19 +773,23 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosBaseDelegacion", "id"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosBaseDelegacion", "nombre"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosBaseDelegacion", "codigo"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosBaseDelegacion", "cif"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosBaseDelegacion", "cif"));
+            lista.Add("0"); //Procesado
             //fin datosBaseDelegacion
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "id"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "empresaId"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "parentId"));
-            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "parentCode"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "localidad"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "provincia"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoProvincia"));
+            lista.Add(comando);
+
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if(bd.estaConectado())
             {
                 if (existeErrorEntidad) { return "ERROR#"; }
-                string indicesNumericos = ",0,2,";
-                bd.InsertarDatos(lista, indicesNumericos, "CieTmpClienteIGEO");
+                string indicesNumericos = ",0,2,44,46,47,48,49,71,90,141,";
+                string indicesBool = ",12,29,45,70,72,73,119,124,";
+                string indicesDate = ",19,129,";
+                bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpClienteIGEO",indicesBool,indicesDate);
                 bd.desConectarBD();
             }
 
@@ -864,7 +883,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaran");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "tablalineasalbaran");
                     //bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -892,7 +911,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranImpuestos");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "tablalineasalbaranImpuestos");
                     //bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -930,7 +949,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "tablalineasalbaranRecibos");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "tablalineasalbaranRecibos");
                     //bd.desConectarBD();
                 }
                 countLinAX += 1;
@@ -944,7 +963,7 @@ namespace RabbitCIEClient
             if (bd.estaConectado())
             {
                 string indicesNumericos = ",2,";
-                bd.InsertarDatos(lista, indicesNumericos, "tablaCabeceraAlbaranProve");
+                bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "tablaCabeceraAlbaranProve");
                 //bd.desConectarBD();
             }
             countLinAX += 1;
@@ -1128,7 +1147,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos,"CieTmpLineasAlbaranIGEO");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos,"CieTmpLineasAlbaranIGEO");
                     bd.desConectarBD();
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
@@ -1156,7 +1175,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpLineasImpuestosIGEO");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "CieTmpLineasImpuestosIGEO");
                     bd.desConectarBD();
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
@@ -1185,7 +1204,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRetencionesIGEO");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "CieTmpRetencionesIGEO");
                     bd.desConectarBD();
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
@@ -1248,7 +1267,7 @@ namespace RabbitCIEClient
                 if (bd.estaConectado())
                 {
                     string indicesNumericos = ",0,3,";
-                    bd.InsertarDatos(listaLineas, indicesNumericos, "CieTmpRecibosIGEO");
+                    bd.InsertarDatos(listaLineas,lg,esPRevio, indicesNumericos, "CieTmpRecibosIGEO");
                     bd.desConectarBD();
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                 }
@@ -1309,14 +1328,14 @@ namespace RabbitCIEClient
             {
                 if (existeErrorEntidad) { return "ERROR#"; }
                 string indicesNumericos = ",0,2,";
-                bd.InsertarDatos(lista, indicesNumericos, "CieTmpCabeceraAlbaranIGEO");
+                bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpCabeceraAlbaranIGEO");
                 bd.desConectarBD();
             }
             
             return "OK#";
         }
 
-        private static string jsonControl(JObject jsonfil, Logs lg, string esPRevio, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "", string codClave4 = "", string tipoCampo = "string", string tipoFichero="", string obligatorio = "NO")
+        private static string jsonControl(JObject jsonfil, Logs lg, string esPRevio, string codClave, int numClaves = 1, string codClave2 = "", string codClave3 = "", string codClave4 = "", string tipoCampo = "string", string tipoFichero = "", string obligatorio = "NO")
         {
             string resultado = "";
             string clavesJSON = "";
@@ -1325,9 +1344,9 @@ namespace RabbitCIEClient
                 if (numClaves == 4)
                 {
                     resultado = (string)jsonfil[codClave][codClave2][codClave3][codClave4];
-                    clavesJSON = "["+codClave+"]["+codClave2+"]["+codClave3+"]["+codClave4+"]";
+                    clavesJSON = "[" + codClave + "][" + codClave2 + "][" + codClave3 + "][" + codClave4 + "]";
                 }
-                else if(numClaves == 3)
+                else if (numClaves == 3)
                 {
                     resultado = (string)jsonfil[codClave][codClave2][codClave3];
                     clavesJSON = "[" + codClave + "][" + codClave2 + "][" + codClave3 + "]";
@@ -1404,27 +1423,31 @@ namespace RabbitCIEClient
                         }
                         break;
                 }
-                if ((!xCorrecto) && (obligatorio == "NO"))
+                if ((!xCorrecto) && (obligatorio != "NO"))
                 {
                     existeErrorEntidad = true;
                     string tipolist = "erroresProcesado";
                     if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
                     lg.addError(tipolist, "Error al convertir campo (" + clavesJSON + ") al formato " + tipoCampo + ".");
                 }
-            }
-            
-            if (resultado == null) { resultado = ""; }
-            if ((obligatorio != "NO") && (resultado == ""))
-            {
-                existeErrorEntidad = true;
-                string tipolist = "erroresProcesado";
-                if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
-                lg.addError(tipolist, "El campo (" + clavesJSON + ") de tipo " + tipoCampo + " no está informado y es obligatorio.");
-            }
-                return resultado;
-        }
+                else if ((!xCorrecto) && (obligatorio == "NO"))
+                {
+                    return null;
+                }
 
-        
+                if (resultado == null) { resultado = ""; }
+                if ((obligatorio != "NO") && (resultado == ""))
+                {
+                    existeErrorEntidad = true;
+                    string tipolist = "erroresProcesado";
+                    if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
+                    lg.addError(tipolist, "El campo (" + clavesJSON + ") de tipo " + tipoCampo + " no está informado y es obligatorio.");
+                }
+                //return resultado;
+            }
+            return resultado;
+
+        }
 
     }
 }
