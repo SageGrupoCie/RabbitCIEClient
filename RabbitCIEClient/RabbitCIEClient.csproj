@@ -7,6 +7,8 @@
     <Company>GRUPO CIE</Company>
     <Authors>Andreu y Jordi</Authors>
     <Description>Aplicación que realiza importación de entidades JSON desde RabbitMQ a Sage tomando una cola de mensajes.</Description>
+    <ApplicationIcon>ZalandoZZ_Icon7.ico</ApplicationIcon>
+    <Win32Resource />
   </PropertyGroup>
 
   <ItemGroup>

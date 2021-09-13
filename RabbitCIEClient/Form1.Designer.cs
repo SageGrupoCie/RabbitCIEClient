@@ -29,6 +29,7 @@ namespace RabbitCIEClient
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
             this.colaTB = new System.Windows.Forms.TextBox();
@@ -544,6 +545,7 @@ namespace RabbitCIEClient
             this.ClientSize = new System.Drawing.Size(509, 369);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Enlace RabbitMQ";
