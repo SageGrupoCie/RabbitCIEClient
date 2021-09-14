@@ -52,7 +52,7 @@ namespace RabbitCIEClient
             {
                 if (args.Length == 0)
                 {
-                    MessageBox.Show("La aplicación ya se encuentra en uso. Debe cerrar antes la instancia existente");
+                    MessageBox.Show("La aplicación ya se encuentra en uso. Debe cerrar antes la instancia existente. Compruebe el Administrador de Tareas.");
                 }
                 return true; 
             }
