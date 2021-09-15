@@ -536,5 +536,19 @@ namespace RabbitCIEClient
                 PassTB.PasswordChar = '*';
             }
         }
+
+        private void verPassEmailBTN_Click(object sender, EventArgs e)
+        {
+            if (verPassEmailBTN.ImageIndex == 1)
+            {
+                verPassEmailBTN.ImageIndex = 0;
+                passEMTB.PasswordChar = '\0';
+            }
+            else
+            {
+                verPassEmailBTN.ImageIndex = 1;
+                passEMTB.PasswordChar = '*';
+            }
+        }
     }
 }

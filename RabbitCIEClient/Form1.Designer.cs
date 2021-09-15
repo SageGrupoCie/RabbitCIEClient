@@ -80,6 +80,7 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.verPassEmailBTN = new System.Windows.Forms.Button();
             imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
@@ -418,6 +419,7 @@ namespace RabbitCIEClient
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.verPassEmailBTN);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label15);
@@ -584,6 +586,18 @@ namespace RabbitCIEClient
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // verPassEmailBTN
+            // 
+            this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.verPassEmailBTN.ImageIndex = 1;
+            this.verPassEmailBTN.ImageList = imageList1;
+            this.verPassEmailBTN.Location = new System.Drawing.Point(374, 73);
+            this.verPassEmailBTN.Name = "verPassEmailBTN";
+            this.verPassEmailBTN.Size = new System.Drawing.Size(33, 23);
+            this.verPassEmailBTN.TabIndex = 62;
+            this.verPassEmailBTN.UseVisualStyleBackColor = true;
+            this.verPassEmailBTN.Click += new System.EventHandler(this.verPassEmailBTN_Click);
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -661,6 +675,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button verPassBTN;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button verPassEmailBTN;
     }
 }
 
