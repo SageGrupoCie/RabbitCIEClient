@@ -38,6 +38,7 @@ namespace RabbitCIEClient
             UserTB.Text = Funciones.obtenerValoresIni("USUARIO");
             PassTB.Text = Funciones.obtenerValoresIni("CONTRASENA");
             colaTB.Text = Funciones.obtenerValoresIni("COLA");
+            exchangeTB.Text = Funciones.obtenerValoresIni("EXCHANGE");
             //Parámetros empresa
             servidorTB.Text = Funciones.obtenerValoresIni("SERVIDOR","BD");
             userBDTB.Text = Funciones.obtenerValoresIni("USUARIO", "BD");
@@ -105,6 +106,7 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("USUARIO", UserTB.Text);
             Funciones.guardarValoresIni("CONTRASENA", PassTB.Text);
             Funciones.guardarValoresIni("COLA", colaTB.Text);
+            Funciones.guardarValoresIni("EXCHANGE", exchangeTB.Text);
             Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text);
         }
         public void procesarFichero()
@@ -489,6 +491,7 @@ namespace RabbitCIEClient
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button2.Enabled = false;
             string comprobParam = comprobarParamEmail();
             string[] arrComParam = comprobParam.Split('#');
             if (arrComParam[0] != "OK")
@@ -506,6 +509,7 @@ namespace RabbitCIEClient
             if (arrComParam[0] == "OK")
             {
                 procesarFichero();
+                MessageBox.Show("Se ha completado el proceso." + "\r\n" + "Compruebe la bandeja de entrada del correo electrónico por si hubiera incidencias.", "Proceso finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -515,6 +519,21 @@ namespace RabbitCIEClient
                     msg += "\r\n" + new string(' ', 5) + arrComParam[i];
                 }
                 MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            button2.Enabled = true;
+        }
+
+        private void verPassBTN_Click(object sender, EventArgs e)
+        {
+            if (verPassBTN.ImageIndex == 1) 
+            { 
+                verPassBTN.ImageIndex = 0;
+                PassTB.PasswordChar = '\0';
+            }
+            else 
+            {
+                verPassBTN.ImageIndex = 1;
+                PassTB.PasswordChar = '*';
             }
         }
     }

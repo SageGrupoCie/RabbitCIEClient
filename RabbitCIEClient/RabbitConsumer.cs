@@ -25,10 +25,12 @@ namespace RabbitCIEClient
             factory.VirtualHost = Funciones.obtenerValoresIni("VIRTUALHOST");
             factory.Port = Int32.Parse(Funciones.obtenerValoresIni("PUERTO"));
             factory.HostName = Funciones.obtenerValoresIni("HOST");
+            string cola = Funciones.obtenerValoresIni("COLA");
+            string exchange = Funciones.obtenerValoresIni("EXCHANGE");
 
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
-            channel.QueueBind("exportaciones", "exportaciones_exchange", "", null);
+            channel.QueueBind(cola, exchange, "", null);
         }
 
         

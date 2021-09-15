@@ -29,9 +29,14 @@ namespace RabbitCIEClient
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ImageList imageList1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
+            this.verPassBTN = new System.Windows.Forms.Button();
+            this.exchangeTB = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.colaTB = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
@@ -75,12 +80,21 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // imageList1
+            // 
+            imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            imageList1.Images.SetKeyName(0, "eyeglasses_2.png");
+            imageList1.Images.SetKeyName(1, "eyeglasses.png");
             // 
             // tabControl1
             // 
@@ -96,6 +110,9 @@ namespace RabbitCIEClient
             // 
             // ParamTB
             // 
+            this.ParamTB.Controls.Add(this.verPassBTN);
+            this.ParamTB.Controls.Add(this.exchangeTB);
+            this.ParamTB.Controls.Add(this.label18);
             this.ParamTB.Controls.Add(this.colaTB);
             this.ParamTB.Controls.Add(this.label7);
             this.ParamTB.Controls.Add(this.button3);
@@ -116,6 +133,35 @@ namespace RabbitCIEClient
             this.ParamTB.TabIndex = 0;
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
+            // 
+            // verPassBTN
+            // 
+            this.verPassBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.verPassBTN.ImageIndex = 1;
+            this.verPassBTN.ImageList = imageList1;
+            this.verPassBTN.Location = new System.Drawing.Point(358, 105);
+            this.verPassBTN.Name = "verPassBTN";
+            this.verPassBTN.Size = new System.Drawing.Size(33, 23);
+            this.verPassBTN.TabIndex = 57;
+            this.verPassBTN.UseVisualStyleBackColor = true;
+            this.verPassBTN.Click += new System.EventHandler(this.verPassBTN_Click);
+            // 
+            // exchangeTB
+            // 
+            this.exchangeTB.Location = new System.Drawing.Point(87, 192);
+            this.exchangeTB.Name = "exchangeTB";
+            this.exchangeTB.Size = new System.Drawing.Size(265, 23);
+            this.exchangeTB.TabIndex = 55;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label18.Location = new System.Drawing.Point(14, 195);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(58, 15);
+            this.label18.TabIndex = 56;
+            this.label18.Text = "Exchange";
             // 
             // colaTB
             // 
@@ -138,7 +184,7 @@ namespace RabbitCIEClient
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(277, 217);
+            this.button3.Location = new System.Drawing.Point(277, 224);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 53;
@@ -542,6 +588,7 @@ namespace RabbitCIEClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(509, 369);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
@@ -610,6 +657,10 @@ namespace RabbitCIEClient
         private System.Windows.Forms.TextBox emisorEMTB;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox exchangeTB;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button verPassBTN;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

@@ -41,6 +41,7 @@ namespace RabbitCIEClient
                 while ((linea = file.ReadLine()) != null)
                 {   //recorremos cada una de las líneas del archivo para que se procesen
                     //System.Console.WriteLine(linea);
+                    linea = Seguridad.DesEncriptar(linea);
                     string[] sp1 = linea.Split(':');
                     string clave = sp1[0];
                     if (cadena == clave)
@@ -57,6 +58,7 @@ namespace RabbitCIEClient
             
             return resultado;
         }
+
 
         public static void rellenaDatosBD()
         {
@@ -162,11 +164,11 @@ namespace RabbitCIEClient
                                 
                                 if (datos[0] != cadena)
                                 {
-                                    fileWrite.WriteLine(datos[0] + ":" + datos[1]);
+                                    fileWrite.WriteLine(Seguridad.Encriptar(datos[0] + ":" + datos[1]));
                                 }
 
                             }
-                            fileWrite.WriteLine(cadena + ":" + valor);
+                            fileWrite.WriteLine(Seguridad.Encriptar(cadena + ":" + valor));
                             //File.AppendAllText(@"C:\COMPARTIDA\ConfigCIERabbitAUX.ini", cadena + ":" + valor);
                         }
                     }
@@ -178,11 +180,11 @@ namespace RabbitCIEClient
             else if (File.Exists(@pathPrincipal))
             {
                 File.AppendAllText(@pathPrincipal, "\r\n");
-                File.AppendAllText(@pathPrincipal, cadena + ":" + valor);
+                File.AppendAllText(@pathPrincipal, Seguridad.Encriptar(cadena + ":" + valor));
             }
             else
             {
-                File.AppendAllText(@pathPrincipal, cadena + ":" + valor);
+                File.AppendAllText(@pathPrincipal, Seguridad.Encriptar(cadena + ":" + valor));
             }
 
         }
@@ -318,8 +320,10 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaBaja"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "direccion2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAlta"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "personaContacto"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "telefonoPersonaContacto").Substring(0,14));
+            string personaContacto = jsonControl(jsonfil, lg, esPRevio, "datos", 2, "personaContacto");
+            if (personaContacto.Length > 15){ personaContacto = personaContacto.Substring(0, 14); }
+            lista.Add(personaContacto);
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "telefonoPersonaContacto"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "horarios"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "m3"));
