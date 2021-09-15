@@ -142,7 +142,7 @@ namespace RabbitCIEClient
                 {
                     xsslEMTB = true;
                 }
-                lg.addError("erroresProcesado", "Error de prueba Andreu");
+                //lg.addError("erroresProcesado", "Error de prueba Andreu");
                 lg.enviarLogEmail(xemisorEMTB, xreceptorEMTB, xpassEMTB, xasuntoEMTB, xhostEMTB, xintpuertoEMTB, xsslEMTB);
             }
         }

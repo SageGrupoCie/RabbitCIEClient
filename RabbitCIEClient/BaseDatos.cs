@@ -54,7 +54,30 @@ namespace RabbitCIEClient
             */
         }
 
-        public void InsertarDatos(List<String> lista, Logs lg, string esPRevio, string indicesNumericos="", string nombreTabla="", string indicesBool = "", string indicesDate = "")
+        public void eliminarDatosTabla(string nombreTabla, string whereDelete)
+        {
+            String sql = "DELETE from " + nombreTabla + " " + whereDelete;
+            if (estaConectado())
+            {
+
+                using (var connection = getConexion())
+                {
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        try
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool InsertarDatos(List<String> lista, Logs lg, string esPRevio, string indicesNumericos="", string nombreTabla="", string indicesBool = "", string indicesDate = "")
         {
 
             String sql = "INSERT INTO " + nombreTabla + " values(";
@@ -196,12 +219,13 @@ namespace RabbitCIEClient
                             //MessageBox.Show("Registro NO realizado: " + ex.Message);
                             string tipolist = "erroresProcesado";
                             if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
-                            lg.addError(tipolist, "Error al insertar los datos en la tabla: " + "\r\n" + sql);
+                            lg.addError(tipolist, "\r\n" + "Error al insertar los datos en la tabla: " + ex.Message + "\r\n" + sql + "\r\n");
+                            return false;
                         }
                     }
                 }
             }
-            
+            return true;
 
             //MessageBox.Show(sql);
 

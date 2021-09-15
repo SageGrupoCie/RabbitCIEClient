@@ -39,13 +39,13 @@ namespace RabbitCIEClient
             switch (tipolist)
             {
                 case "erroresPreviosProcesado":
-                    return (erroresPreviosProcesado == null);
+                    return (erroresPreviosProcesado.Count != 0);
                 case "erroresconsumoRabbit":
-                    return (erroresconsumoRabbit == null);
+                    return (erroresconsumoRabbit.Count != 0);
                 case "erroresProcesado":
-                    return (erroresProcesado == null);
+                    return (erroresProcesado.Count != 0);
                 case "":
-                    if ((erroresPreviosProcesado != null) || (erroresconsumoRabbit != null) || (erroresProcesado != null)){ return true; }
+                    if ((erroresPreviosProcesado.Count != 0) || (erroresconsumoRabbit.Count != 0) || (erroresProcesado.Count != 0)){ return true; }
                     break;
             }
             return false;
