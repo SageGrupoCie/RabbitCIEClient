@@ -129,7 +129,7 @@ namespace RabbitCIEClient
             // verPassBTN
             // 
             this.verPassBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.verPassBTN.ImageIndex = 1;
+            this.verPassBTN.ImageIndex = 0;
             this.verPassBTN.ImageList = this.imageList1;
             this.verPassBTN.Location = new System.Drawing.Point(358, 105);
             this.verPassBTN.Name = "verPassBTN";
@@ -440,7 +440,7 @@ namespace RabbitCIEClient
             // verPassEmailBTN
             // 
             this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.verPassEmailBTN.ImageIndex = 1;
+            this.verPassEmailBTN.ImageIndex = 0;
             this.verPassEmailBTN.ImageList = this.imageList1;
             this.verPassEmailBTN.Location = new System.Drawing.Point(374, 73);
             this.verPassEmailBTN.Name = "verPassEmailBTN";

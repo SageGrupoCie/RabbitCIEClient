@@ -533,12 +533,12 @@ namespace RabbitCIEClient
             if (verPassBTN.ImageIndex == 1) 
             { 
                 verPassBTN.ImageIndex = 0;
-                PassTB.PasswordChar = '\0';
+                PassTB.PasswordChar = '*';
             }
             else 
             {
                 verPassBTN.ImageIndex = 1;
-                PassTB.PasswordChar = '*';
+                PassTB.PasswordChar = '\0';
             }
         }
 
@@ -547,12 +547,12 @@ namespace RabbitCIEClient
             if (verPassEmailBTN.ImageIndex == 1)
             {
                 verPassEmailBTN.ImageIndex = 0;
-                passEMTB.PasswordChar = '\0';
+                passEMTB.PasswordChar = '*';
             }
             else
             {
                 verPassEmailBTN.ImageIndex = 1;
-                passEMTB.PasswordChar = '*';
+                passEMTB.PasswordChar = '\0';
             }
         }
     }
