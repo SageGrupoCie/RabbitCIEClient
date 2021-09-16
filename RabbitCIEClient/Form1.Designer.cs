@@ -29,10 +29,12 @@ namespace RabbitCIEClient
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
             this.verPassBTN = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.exchangeTB = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.colaTB = new System.Windows.Forms.TextBox();
@@ -128,12 +130,21 @@ namespace RabbitCIEClient
             // 
             this.verPassBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.verPassBTN.ImageIndex = 1;
+            this.verPassBTN.ImageList = this.imageList1;
             this.verPassBTN.Location = new System.Drawing.Point(358, 105);
             this.verPassBTN.Name = "verPassBTN";
             this.verPassBTN.Size = new System.Drawing.Size(33, 23);
             this.verPassBTN.TabIndex = 57;
             this.verPassBTN.UseVisualStyleBackColor = true;
             this.verPassBTN.Click += new System.EventHandler(this.verPassBTN_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "eyeglasses_2.png");
+            this.imageList1.Images.SetKeyName(1, "eyeglasses.png");
             // 
             // exchangeTB
             // 
@@ -428,8 +439,9 @@ namespace RabbitCIEClient
             // 
             // verPassEmailBTN
             // 
-            this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.verPassEmailBTN.ImageIndex = 1;
+            this.verPassEmailBTN.ImageList = this.imageList1;
             this.verPassEmailBTN.Location = new System.Drawing.Point(374, 73);
             this.verPassEmailBTN.Name = "verPassEmailBTN";
             this.verPassEmailBTN.Size = new System.Drawing.Size(33, 23);
@@ -662,6 +674,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button verPassBTN;
         private System.Windows.Forms.Button verPassEmailBTN;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
