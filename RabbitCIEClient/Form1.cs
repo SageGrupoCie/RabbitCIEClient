@@ -11,6 +11,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Threading;
 
 namespace RabbitCIEClient
 {
@@ -23,6 +24,7 @@ namespace RabbitCIEClient
                 InitializeComponent();
             }
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -491,36 +493,39 @@ namespace RabbitCIEClient
 
         private void button2_Click(object sender, EventArgs e)
         {
-            button2.Enabled = false;
-            string comprobParam = comprobarParamEmail();
-            string[] arrComParam = comprobParam.Split('#');
-            if (arrComParam[0] != "OK")
+            if (MessageBox.Show("Se va a iniciar el proceso de importación de entidades de IGEO, ¿Desea continuar?", "Inicio de proceso", MessageBoxButtons.YesNo,MessageBoxIcon.Asterisk) == System.Windows.Forms.DialogResult.Yes)
             {
-                string msg = "Faltan parámetros email para el envío de logs (no son obligatorios, en tal caso el log no se enviará):";
-                for (int i = 1; i < arrComParam.Length; i++)
+                button2.Enabled = false;
+                string comprobParam = comprobarParamEmail();
+                string[] arrComParam = comprobParam.Split('#');
+                if (arrComParam[0] != "OK")
                 {
-                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                    string msg = "Faltan parámetros email para el envío de logs (no son obligatorios, en tal caso el log no se enviará):";
+                    for (int i = 1; i < arrComParam.Length; i++)
+                    {
+                        msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                    }
+                    MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
 
-            comprobParam = comprobarParametros();
-            arrComParam = comprobParam.Split('#');
-            if (arrComParam[0] == "OK")
-            {
-                procesarFichero();
-                MessageBox.Show("Se ha completado el proceso." + "\r\n" + "Compruebe la bandeja de entrada del correo electrónico por si hubiera incidencias.", "Proceso finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                string msg = "Debe informar los siguientes datos correctamente:";
-                for (int i = 1; i < arrComParam.Length; i++)
+                comprobParam = comprobarParametros();
+                arrComParam = comprobParam.Split('#');
+                if (arrComParam[0] == "OK")
                 {
-                    msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                    procesarFichero();
+                    MessageBox.Show("Se ha completado el proceso." + "\r\n" + "Compruebe la bandeja de entrada del correo electrónico por si hubiera incidencias.", "Proceso finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            button2.Enabled = true;
+                else
+                {
+                    string msg = "Debe informar los siguientes datos correctamente:";
+                    for (int i = 1; i < arrComParam.Length; i++)
+                    {
+                        msg += "\r\n" + new string(' ', 5) + arrComParam[i];
+                    }
+                    MessageBox.Show(msg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                button2.Enabled = true;
+            }            
         }
 
         private void verPassBTN_Click(object sender, EventArgs e)

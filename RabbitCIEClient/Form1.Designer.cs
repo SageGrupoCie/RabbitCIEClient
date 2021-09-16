@@ -29,8 +29,6 @@ namespace RabbitCIEClient
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ImageList imageList1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
@@ -64,6 +62,7 @@ namespace RabbitCIEClient
             this.label9 = new System.Windows.Forms.Label();
             this.servidorTB = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.verPassEmailBTN = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.sslEMTB = new System.Windows.Forms.CheckBox();
@@ -80,22 +79,12 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.verPassEmailBTN = new System.Windows.Forms.Button();
-            imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // imageList1
-            // 
-            imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            imageList1.Images.SetKeyName(0, "eyeglasses_2.png");
-            imageList1.Images.SetKeyName(1, "eyeglasses.png");
             // 
             // tabControl1
             // 
@@ -139,7 +128,6 @@ namespace RabbitCIEClient
             // 
             this.verPassBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.verPassBTN.ImageIndex = 1;
-            this.verPassBTN.ImageList = imageList1;
             this.verPassBTN.Location = new System.Drawing.Point(358, 105);
             this.verPassBTN.Name = "verPassBTN";
             this.verPassBTN.Size = new System.Drawing.Size(33, 23);
@@ -152,7 +140,7 @@ namespace RabbitCIEClient
             this.exchangeTB.Location = new System.Drawing.Point(87, 192);
             this.exchangeTB.Name = "exchangeTB";
             this.exchangeTB.Size = new System.Drawing.Size(265, 23);
-            this.exchangeTB.TabIndex = 55;
+            this.exchangeTB.TabIndex = 6;
             // 
             // label18
             // 
@@ -188,7 +176,7 @@ namespace RabbitCIEClient
             this.button3.Location = new System.Drawing.Point(277, 224);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 53;
+            this.button3.TabIndex = 15;
             this.button3.Text = "Guardar";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -331,7 +319,7 @@ namespace RabbitCIEClient
             this.BDTB.Location = new System.Drawing.Point(98, 100);
             this.BDTB.Name = "BDTB";
             this.BDTB.Size = new System.Drawing.Size(248, 23);
-            this.BDTB.TabIndex = 9;
+            this.BDTB.TabIndex = 10;
             this.BDTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BDTB_KeyPress);
             // 
             // button4
@@ -349,7 +337,7 @@ namespace RabbitCIEClient
             this.empSAGETB.Location = new System.Drawing.Point(98, 129);
             this.empSAGETB.Name = "empSAGETB";
             this.empSAGETB.Size = new System.Drawing.Size(248, 23);
-            this.empSAGETB.TabIndex = 10;
+            this.empSAGETB.TabIndex = 11;
             this.empSAGETB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.empSAGETB_KeyPress);
             // 
             // label8
@@ -378,7 +366,7 @@ namespace RabbitCIEClient
             this.passBDTB.Name = "passBDTB";
             this.passBDTB.PasswordChar = '*';
             this.passBDTB.Size = new System.Drawing.Size(265, 23);
-            this.passBDTB.TabIndex = 8;
+            this.passBDTB.TabIndex = 9;
             // 
             // label11
             // 
@@ -395,7 +383,7 @@ namespace RabbitCIEClient
             this.userBDTB.Location = new System.Drawing.Point(81, 42);
             this.userBDTB.Name = "userBDTB";
             this.userBDTB.Size = new System.Drawing.Size(265, 23);
-            this.userBDTB.TabIndex = 7;
+            this.userBDTB.TabIndex = 8;
             this.userBDTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userBDTB_KeyPress);
             // 
             // label9
@@ -413,7 +401,7 @@ namespace RabbitCIEClient
             this.servidorTB.Location = new System.Drawing.Point(81, 13);
             this.servidorTB.Name = "servidorTB";
             this.servidorTB.Size = new System.Drawing.Size(265, 23);
-            this.servidorTB.TabIndex = 6;
+            this.servidorTB.TabIndex = 7;
             this.servidorTB.TextChanged += new System.EventHandler(this.servidorTB_TextChanged);
             this.servidorTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.servidorTB_KeyPress);
             // 
@@ -437,6 +425,17 @@ namespace RabbitCIEClient
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Reporte Email";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // verPassEmailBTN
+            // 
+            this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.verPassEmailBTN.ImageIndex = 1;
+            this.verPassEmailBTN.Location = new System.Drawing.Point(374, 73);
+            this.verPassEmailBTN.Name = "verPassEmailBTN";
+            this.verPassEmailBTN.Size = new System.Drawing.Size(33, 23);
+            this.verPassEmailBTN.TabIndex = 62;
+            this.verPassEmailBTN.UseVisualStyleBackColor = true;
+            this.verPassEmailBTN.Click += new System.EventHandler(this.verPassEmailBTN_Click);
             // 
             // button1
             // 
@@ -487,7 +486,7 @@ namespace RabbitCIEClient
             this.puertoEMTB.Location = new System.Drawing.Point(93, 51);
             this.puertoEMTB.Name = "puertoEMTB";
             this.puertoEMTB.Size = new System.Drawing.Size(93, 23);
-            this.puertoEMTB.TabIndex = 46;
+            this.puertoEMTB.TabIndex = 17;
             this.puertoEMTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.puertoEMTB_KeyPress);
             // 
             // label16
@@ -505,7 +504,7 @@ namespace RabbitCIEClient
             this.hostEMTB.Location = new System.Drawing.Point(93, 22);
             this.hostEMTB.Name = "hostEMTB";
             this.hostEMTB.Size = new System.Drawing.Size(265, 23);
-            this.hostEMTB.TabIndex = 44;
+            this.hostEMTB.TabIndex = 16;
             // 
             // label15
             // 
@@ -522,7 +521,7 @@ namespace RabbitCIEClient
             this.asuntoEMTB.Location = new System.Drawing.Point(103, 102);
             this.asuntoEMTB.Name = "asuntoEMTB";
             this.asuntoEMTB.Size = new System.Drawing.Size(265, 23);
-            this.asuntoEMTB.TabIndex = 50;
+            this.asuntoEMTB.TabIndex = 15;
             // 
             // label14
             // 
@@ -540,7 +539,7 @@ namespace RabbitCIEClient
             this.passEMTB.Name = "passEMTB";
             this.passEMTB.PasswordChar = '*';
             this.passEMTB.Size = new System.Drawing.Size(265, 23);
-            this.passEMTB.TabIndex = 48;
+            this.passEMTB.TabIndex = 14;
             // 
             // label13
             // 
@@ -557,7 +556,7 @@ namespace RabbitCIEClient
             this.receptorEMTB.Location = new System.Drawing.Point(103, 44);
             this.receptorEMTB.Name = "receptorEMTB";
             this.receptorEMTB.Size = new System.Drawing.Size(265, 23);
-            this.receptorEMTB.TabIndex = 46;
+            this.receptorEMTB.TabIndex = 13;
             // 
             // label6
             // 
@@ -574,29 +573,17 @@ namespace RabbitCIEClient
             this.emisorEMTB.Location = new System.Drawing.Point(103, 15);
             this.emisorEMTB.Name = "emisorEMTB";
             this.emisorEMTB.Size = new System.Drawing.Size(265, 23);
-            this.emisorEMTB.TabIndex = 44;
+            this.emisorEMTB.TabIndex = 12;
             // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(382, 337);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(115, 23);
-            this.button2.TabIndex = 53;
+            this.button2.TabIndex = 18;
             this.button2.Text = "Procesar datos";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // verPassEmailBTN
-            // 
-            this.verPassEmailBTN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.verPassEmailBTN.ImageIndex = 1;
-            this.verPassEmailBTN.ImageList = imageList1;
-            this.verPassEmailBTN.Location = new System.Drawing.Point(374, 73);
-            this.verPassEmailBTN.Name = "verPassEmailBTN";
-            this.verPassEmailBTN.Size = new System.Drawing.Size(33, 23);
-            this.verPassEmailBTN.TabIndex = 62;
-            this.verPassEmailBTN.UseVisualStyleBackColor = true;
-            this.verPassEmailBTN.Click += new System.EventHandler(this.verPassEmailBTN_Click);
             // 
             // Principal
             // 
@@ -674,7 +661,6 @@ namespace RabbitCIEClient
         private System.Windows.Forms.TextBox exchangeTB;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button verPassBTN;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button verPassEmailBTN;
     }
 }

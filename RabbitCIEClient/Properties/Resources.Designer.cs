@@ -59,5 +59,25 @@ namespace RabbitCIEClient.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_GRUPOCIE_mod {
+            get {
+                object obj = ResourceManager.GetObject("logo_GRUPOCIE_mod", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_GRUPOCIE_mod_png {
+            get {
+                object obj = ResourceManager.GetObject("logo_GRUPOCIE_mod_png", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
