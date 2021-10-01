@@ -47,6 +47,7 @@ namespace RabbitCIEClient
             passBDTB.Text = Funciones.obtenerValoresIni("PASSWORD", "BD");
             BDTB.Text = Funciones.obtenerValoresIni("DATABASE", "BD");
             empSAGETB.Text = Funciones.obtenerValoresIni("EMPRESA_SAGE", "BD");
+            diasLimitHistTB.Text = Funciones.obtenerValoresIni("DIAS_LIMITE_HISTORICO", "BD");      
             //Parámetros email
             emisorEMTB.Text = Funciones.obtenerValoresIni("EMISOR", "EMAIL");
             receptorEMTB.Text = Funciones.obtenerValoresIni("RECEPTOR", "EMAIL");
@@ -149,6 +150,16 @@ namespace RabbitCIEClient
                 //lg.addError("erroresProcesado", "Error de prueba Andreu");
                 lg.enviarLogEmail(xemisorEMTB, xreceptorEMTB, xpassEMTB, xasuntoEMTB, xhostEMTB, xintpuertoEMTB, xsslEMTB);
             }
+            int diasLimitHist;
+            try
+            {
+                diasLimitHist = int.Parse(Funciones.obtenerValoresIni("DIAS_LIMITE_HISTORICO", "BD"));
+            }
+            catch 
+            {
+                diasLimitHist = 0;
+            }
+            Funciones.eliminar_ficherosAntiguos(diasLimitHist);
         }
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -385,6 +396,7 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("PASSWORD", passBDTB.Text, "BD");
             Funciones.guardarValoresIni("DATABASE", BDTB.Text, "BD");
             Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text,"BD");
+            Funciones.guardarValoresIni("DIAS_LIMITE_HISTORICO", diasLimitHistTB.Text, "BD");
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -553,6 +565,19 @@ namespace RabbitCIEClient
             {
                 verPassEmailBTN.ImageIndex = 1;
                 passEMTB.PasswordChar = '\0';
+            }
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void diasLimitHistTB_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }

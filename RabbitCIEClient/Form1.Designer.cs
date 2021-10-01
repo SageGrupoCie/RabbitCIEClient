@@ -81,6 +81,8 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.diasLimitHistTB = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -285,6 +287,8 @@ namespace RabbitCIEClient
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.diasLimitHistTB);
+            this.tabPage1.Controls.Add(this.label19);
             this.tabPage1.Controls.Add(this.button5);
             this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.BDTB);
@@ -335,7 +339,7 @@ namespace RabbitCIEClient
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(271, 163);
+            this.button4.Location = new System.Drawing.Point(271, 260);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 60;
@@ -597,6 +601,25 @@ namespace RabbitCIEClient
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // diasLimitHistTB
+            // 
+            this.diasLimitHistTB.Location = new System.Drawing.Point(271, 205);
+            this.diasLimitHistTB.Name = "diasLimitHistTB";
+            this.diasLimitHistTB.Size = new System.Drawing.Size(75, 23);
+            this.diasLimitHistTB.TabIndex = 64;
+            this.diasLimitHistTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.diasLimitHistTB_KeyPress);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label19.Location = new System.Drawing.Point(137, 208);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(117, 15);
+            this.label19.TabIndex = 65;
+            this.label19.Text = "Días límete Histórico";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
+            // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -675,6 +698,8 @@ namespace RabbitCIEClient
         private System.Windows.Forms.Button verPassBTN;
         private System.Windows.Forms.Button verPassEmailBTN;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.TextBox diasLimitHistTB;
+        private System.Windows.Forms.Label label19;
     }
 }
 

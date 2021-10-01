@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RabbitCIEClient
 {
@@ -59,6 +60,66 @@ namespace RabbitCIEClient
             return resultado;
         }
 
+        public static void eliminar_ficherosAntiguos(int diasLimitHisto)
+        {
+            // ELIMINAMOS LOS FICHEROS ANTIGUOS
+            try
+            {
+                List<string> strFiles = Directory.GetFiles(Path.Combine(carpetaFicherosRabbit(), "procesados"), "*", SearchOption.AllDirectories).ToList();
+                foreach (string fichero in strFiles)
+                {
+                    if (File.GetCreationTime(fichero).AddDays(diasLimitHisto) <= DateTime.Today)
+                    {
+                        File.Delete(fichero);
+                    }
+                }
+            }
+            catch { }
+            try
+            {
+                List<string> strFiles = Directory.GetFiles(Path.Combine(carpetaFicherosRabbit(), "ERROR_procesados"), "*", SearchOption.AllDirectories).ToList();
+                foreach (string fichero in strFiles)
+                {
+                    if (File.GetCreationTime(fichero).AddDays(diasLimitHisto) <= DateTime.Today)
+                    {
+                        File.Delete(fichero);
+                    }
+                }
+            }
+            catch { }
+
+            // ELIMINAMOS LOS REGISTROS DE LA BASE DE DATOS ANTIGUOS EN LAS TABLAS TEMPORALES
+            BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+            if (bd.estaConectado())
+            {
+                try
+                {
+                    string whereAx = "WHERE (CieProcesado = - 1) AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) < GETDATE())";
+                    bd.eliminarDatosTabla("CieTmpSedeIGEO", whereAx);
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+                    bd.eliminarDatosTabla("CieTmpClienteIGEO", whereAx);
+                    whereAx = " WHERE (CodigoEmpresa IN (SELECT CodigoEmpresa" +
+                              "                            FROM CieTmpCabFacturaIGEO" +
+                              "                           WHERE (CieProcesado = -1)" +
+                              "                             AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())))" +
+                              "   AND (CieNumeroFacturaIGEO IN (SELECT CieNumeroFacturaIGEO" +
+                              "                                   FROM CieTmpCabFacturaIGEO AS CieTmpCabFacturaIGEO_2" +
+                              "                                  WHERE (CieProcesado = -1)" +
+                              "                                    AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())))" +
+                              "   AND (Ejercicio IN (SELECT Ejercicio" +
+                              "                        FROM CieTmpCabFacturaIGEO AS CieTmpCabFacturaIGEO_1" +
+                              "                       WHERE (CieProcesado = -1)" +
+                              "                         AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())))";
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+                    bd.eliminarDatosTabla("CieTmpLinFacturaIGEO", whereAx);
+                    whereAx = "WHERE (CieProcesado = - 1) AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())";
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+                    bd.eliminarDatosTabla("CieTmpCabFacturaIGEO", "WHERE (CieProcesado = - 1) AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())");
+                    bd.desConectarBD();
+                }
+                catch { }
+            }
+        }
 
         public static void rellenaDatosBD()
         {
@@ -160,7 +221,7 @@ namespace RabbitCIEClient
                             String line;
                             while ((line = fielRead.ReadLine()) != null)
                             {
-                                string[] datos = line.Split(new char[] { ':' });
+                                string[] datos = Seguridad.DesEncriptar(line).Split(new char[] { ':' });
                                 
                                 if (datos[0] != cadena)
                                 {
@@ -226,19 +287,25 @@ namespace RabbitCIEClient
                         if (tipo != null)
                         {
                             string comando = (string)jsonfil["comando"];
-                            switch (tipo)
+                            if (comando != "CREATE")
                             {
-                                case "SEDE":
-                                    resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
-                                    break;
-                                case "CLIENTE":
-                                    resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
-                                    break;
-                                case "FACTURA":
-                                    resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
-                                    break;
+                                resulprocesa = "OK#ELIMINAR";
                             }
-
+                            else
+                            {
+                                switch (tipo)
+                                {
+                                    case "SEDE":
+                                        resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        break;
+                                    case "CLIENTE":
+                                        resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        break;
+                                    case "FACTURA":
+                                        resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        break;
+                                }
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -271,16 +338,23 @@ namespace RabbitCIEClient
                         continue;
                     }
                     //pasamos el archivo a la carpeta de procesados
-                    string directorioProcesados = Path.Combine(folderPath, "procesados");
-                    if (!Directory.Exists(directorioProcesados))
+                    if (resulprocesa.Split('#')[1] == "ELIMINAR")
                     {
-                        Directory.CreateDirectory(directorioProcesados);
+                        File.Delete(nombreFilePath);
                     }
-                    if (File.Exists(Path.Combine(directorioProcesados, nombreFile)))
+                    else  //pasamos el archivo a la carpeta de procesados
                     {
-                        File.Delete(Path.Combine(directorioProcesados, nombreFile));
+                        string directorioProcesados = Path.Combine(folderPath, "procesados");
+                        if (!Directory.Exists(directorioProcesados))
+                        {
+                            Directory.CreateDirectory(directorioProcesados);
+                        }
+                        if (File.Exists(Path.Combine(directorioProcesados, nombreFile)))
+                        {
+                            File.Delete(Path.Combine(directorioProcesados, nombreFile));
+                        }
+                        System.IO.File.Move(nombreFilePath, Path.Combine(directorioProcesados, nombreFile));
                     }
-                    System.IO.File.Move(nombreFilePath, Path.Combine(directorioProcesados, nombreFile));
                 }
             }
         }
@@ -358,6 +432,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoIdioma"));
             lista.Add("False");
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "parentCode"));
+            lista.Add("");
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if (bd.estaConectado())
@@ -365,7 +440,7 @@ namespace RabbitCIEClient
                 if (existeErrorEntidad) { return "ERROR#"; }
                 string indicesNumericos = ",0,3,8,9,10,22,36,41,47,";
                 string indicesBool = ",22,46,";
-                string indicesDate = ",14,16,";
+                string indicesDate = ",14,16,48,";
                 bool resInsert = bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpSedeIGEO", indicesBool, indicesDate);
                 bd.desConectarBD();
                 bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
@@ -665,6 +740,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "provincia"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosFacturacion", "codigoProvincia"));
             lista.Add(comando);
+            lista.Add("");
 
 
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
@@ -673,7 +749,7 @@ namespace RabbitCIEClient
                 if (existeErrorEntidad) { return "ERROR#"; }
                 string indicesNumericos = ",0,2,44,46,47,48,49,71,90,";
                 string indicesBool = ",12,29,45,70,72,73,119,124,141,";
-                string indicesDate = ",19,129,";
+                string indicesDate = ",19,129,146,";
                 bool resInsert = bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpClienteIGEO",indicesBool,indicesDate);
                 bd.desConectarBD();
                 bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
