@@ -256,6 +256,21 @@ namespace RabbitCIEClient
             rellenaDatosBD();
             bool errorEmpresa = false;
             int empresaSAGE=-1;
+            bool chkCR = false;
+            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            {
+                chkCR = true;
+            }
+            bool chkUP = false;
+            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            {
+                chkUP = true;
+            }
+            bool chkDL = false;
+            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            {
+                chkDL = true;
+            }
             try
             {
                 empresaSAGE = Int32.Parse(obtenerValoresIni("EMPRESA_SAGE","BD"));
@@ -287,7 +302,7 @@ namespace RabbitCIEClient
                         if (tipo != null)
                         {
                             string comando = (string)jsonfil["comando"];
-                            if (comando != "CREATE")
+                            if (((comando == "CREATE") && !chkCR) || ((comando == "UPDATE") && !chkUP) || ((comando == "DELETE") && !chkDL))
                             {
                                 resulprocesa = "OK#ELIMINAR";
                             }

@@ -51,6 +51,8 @@ namespace RabbitCIEClient
             this.label1 = new System.Windows.Forms.Label();
             this.HostTB = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.diasLimitHistTB = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.BDTB = new System.Windows.Forms.TextBox();
@@ -81,13 +83,16 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.diasLimitHistTB = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.createCHK = new System.Windows.Forms.CheckBox();
+            this.updateCHK = new System.Windows.Forms.CheckBox();
+            this.deleteCHK = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -98,12 +103,13 @@ namespace RabbitCIEClient
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(489, 319);
+            this.tabControl1.Size = new System.Drawing.Size(489, 375);
             this.tabControl1.TabIndex = 33;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ParamTB
             // 
+            this.ParamTB.Controls.Add(this.groupBox2);
             this.ParamTB.Controls.Add(this.verPassBTN);
             this.ParamTB.Controls.Add(this.exchangeTB);
             this.ParamTB.Controls.Add(this.label18);
@@ -123,7 +129,7 @@ namespace RabbitCIEClient
             this.ParamTB.Location = new System.Drawing.Point(4, 24);
             this.ParamTB.Name = "ParamTB";
             this.ParamTB.Padding = new System.Windows.Forms.Padding(3);
-            this.ParamTB.Size = new System.Drawing.Size(481, 291);
+            this.ParamTB.Size = new System.Drawing.Size(481, 347);
             this.ParamTB.TabIndex = 0;
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
@@ -186,7 +192,7 @@ namespace RabbitCIEClient
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(277, 224);
+            this.button3.Location = new System.Drawing.Point(388, 301);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 15;
@@ -308,6 +314,25 @@ namespace RabbitCIEClient
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Parámetros SAGE";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // diasLimitHistTB
+            // 
+            this.diasLimitHistTB.Location = new System.Drawing.Point(271, 205);
+            this.diasLimitHistTB.Name = "diasLimitHistTB";
+            this.diasLimitHistTB.Size = new System.Drawing.Size(75, 23);
+            this.diasLimitHistTB.TabIndex = 64;
+            this.diasLimitHistTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.diasLimitHistTB_KeyPress);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label19.Location = new System.Drawing.Point(137, 208);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(117, 15);
+            this.label19.TabIndex = 65;
+            this.label19.Text = "Días límete Histórico";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // button5
             // 
@@ -593,7 +618,7 @@ namespace RabbitCIEClient
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(382, 337);
+            this.button2.Location = new System.Drawing.Point(382, 389);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(115, 23);
             this.button2.TabIndex = 18;
@@ -601,31 +626,54 @@ namespace RabbitCIEClient
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // diasLimitHistTB
+            // groupBox2
             // 
-            this.diasLimitHistTB.Location = new System.Drawing.Point(271, 205);
-            this.diasLimitHistTB.Name = "diasLimitHistTB";
-            this.diasLimitHistTB.Size = new System.Drawing.Size(75, 23);
-            this.diasLimitHistTB.TabIndex = 64;
-            this.diasLimitHistTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.diasLimitHistTB_KeyPress);
+            this.groupBox2.Controls.Add(this.deleteCHK);
+            this.groupBox2.Controls.Add(this.updateCHK);
+            this.groupBox2.Controls.Add(this.createCHK);
+            this.groupBox2.Location = new System.Drawing.Point(87, 224);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(265, 100);
+            this.groupBox2.TabIndex = 58;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Tipos de mensajes";
             // 
-            // label19
+            // createCHK
             // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label19.Location = new System.Drawing.Point(137, 208);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(117, 15);
-            this.label19.TabIndex = 65;
-            this.label19.Text = "Días límete Histórico";
-            this.label19.Click += new System.EventHandler(this.label19_Click);
+            this.createCHK.AutoSize = true;
+            this.createCHK.Location = new System.Drawing.Point(20, 23);
+            this.createCHK.Name = "createCHK";
+            this.createCHK.Size = new System.Drawing.Size(66, 19);
+            this.createCHK.TabIndex = 0;
+            this.createCHK.Text = "CREATE";
+            this.createCHK.UseVisualStyleBackColor = true;
+            // 
+            // updateCHK
+            // 
+            this.updateCHK.AutoSize = true;
+            this.updateCHK.Location = new System.Drawing.Point(126, 23);
+            this.updateCHK.Name = "updateCHK";
+            this.updateCHK.Size = new System.Drawing.Size(68, 19);
+            this.updateCHK.TabIndex = 1;
+            this.updateCHK.Text = "UPDATE";
+            this.updateCHK.UseVisualStyleBackColor = true;
+            // 
+            // deleteCHK
+            // 
+            this.deleteCHK.AutoSize = true;
+            this.deleteCHK.Location = new System.Drawing.Point(20, 48);
+            this.deleteCHK.Name = "deleteCHK";
+            this.deleteCHK.Size = new System.Drawing.Size(64, 19);
+            this.deleteCHK.TabIndex = 2;
+            this.deleteCHK.Text = "DELETE";
+            this.deleteCHK.UseVisualStyleBackColor = true;
             // 
             // Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(509, 369);
+            this.ClientSize = new System.Drawing.Size(509, 420);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -642,6 +690,8 @@ namespace RabbitCIEClient
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -700,6 +750,10 @@ namespace RabbitCIEClient
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.TextBox diasLimitHistTB;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox deleteCHK;
+        private System.Windows.Forms.CheckBox updateCHK;
+        private System.Windows.Forms.CheckBox createCHK;
     }
 }
 

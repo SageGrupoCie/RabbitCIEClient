@@ -41,6 +41,35 @@ namespace RabbitCIEClient
             PassTB.Text = Funciones.obtenerValoresIni("CONTRASENA");
             colaTB.Text = Funciones.obtenerValoresIni("COLA");
             exchangeTB.Text = Funciones.obtenerValoresIni("EXCHANGE");
+            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            {
+                createCHK.Checked = true;
+            }
+            else
+            {
+                createCHK.Checked = false;
+            }
+            if (Funciones.obtenerValoresIni("OPTION_UPDATE") == "True")
+            {
+                updateCHK.Checked = true;
+            }
+            else
+            {
+                updateCHK.Checked = false;
+            }
+            if (Funciones.obtenerValoresIni("OPTION_DELETE") == "True")
+            {
+                deleteCHK.Checked = true;
+            }
+            else
+            {
+                deleteCHK.Checked = false;
+            }
+            if ((!createCHK.Checked) && (!updateCHK.Checked) && (!deleteCHK.Checked))
+            {           //Esto se hace para la primera vez que se abre
+                createCHK.Checked = true;
+                Funciones.guardarValoresIni("OPTION_CREATE", createCHK.Checked.ToString());
+            }
             //Parámetros empresa
             servidorTB.Text = Funciones.obtenerValoresIni("SERVIDOR","BD");
             userBDTB.Text = Funciones.obtenerValoresIni("USUARIO", "BD");
@@ -111,6 +140,9 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("COLA", colaTB.Text);
             Funciones.guardarValoresIni("EXCHANGE", exchangeTB.Text);
             Funciones.guardarValoresIni("EMPRESA_SAGE", empSAGETB.Text);
+            Funciones.guardarValoresIni("OPTION_CREATE", createCHK.Checked.ToString());
+            Funciones.guardarValoresIni("OPTION_UPDATE", updateCHK.Checked.ToString());
+            Funciones.guardarValoresIni("OPTION_DELETE", deleteCHK.Checked.ToString());
         }
         public void procesarFichero()
         {
