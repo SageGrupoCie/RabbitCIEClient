@@ -262,12 +262,12 @@ namespace RabbitCIEClient
                 chkCR = true;
             }
             bool chkUP = false;
-            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            if (Funciones.obtenerValoresIni("OPTION_UPDATE") == "True")
             {
                 chkUP = true;
             }
             bool chkDL = false;
-            if (Funciones.obtenerValoresIni("OPTION_CREATE") == "True")
+            if (Funciones.obtenerValoresIni("OPTION_DELETE") == "True")
             {
                 chkDL = true;
             }
@@ -573,7 +573,15 @@ namespace RabbitCIEClient
             }
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAlta"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipoCliente"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nombre"));
+            string nombreCli = jsonControl(jsonfil, lg, esPRevio, "datos", 2, "nombre");
+            if (nombreCli.Length > 34)
+            {
+                lista.Add(nombreCli.Substring(0, 33));
+            }
+            else 
+            {
+                lista.Add(nombreCli);
+            }
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "apellidos"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "observaciones"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAltaPotencial"));
@@ -680,8 +688,15 @@ namespace RabbitCIEClient
 
 
 
-
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "cargo"));
+            string cargoCli = jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "cargo");
+            if (cargoCli.Length > 20)
+            {
+                lista.Add(cargoCli.Substring(0,19));
+            }
+            else
+            {
+                lista.Add(cargoCli);
+            }
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "esLaPrincipal"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "direccion"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "personaContacto", "codigoPostal"));
