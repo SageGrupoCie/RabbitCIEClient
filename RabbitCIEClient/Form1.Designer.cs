@@ -33,6 +33,10 @@ namespace RabbitCIEClient
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.deleteCHK = new System.Windows.Forms.CheckBox();
+            this.updateCHK = new System.Windows.Forms.CheckBox();
+            this.createCHK = new System.Windows.Forms.CheckBox();
             this.verPassBTN = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.exchangeTB = new System.Windows.Forms.TextBox();
@@ -83,16 +87,14 @@ namespace RabbitCIEClient
             this.label6 = new System.Windows.Forms.Label();
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.createCHK = new System.Windows.Forms.CheckBox();
-            this.updateCHK = new System.Windows.Forms.CheckBox();
-            this.deleteCHK = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -133,6 +135,48 @@ namespace RabbitCIEClient
             this.ParamTB.TabIndex = 0;
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.deleteCHK);
+            this.groupBox2.Controls.Add(this.updateCHK);
+            this.groupBox2.Controls.Add(this.createCHK);
+            this.groupBox2.Location = new System.Drawing.Point(87, 224);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(265, 100);
+            this.groupBox2.TabIndex = 58;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Tipos de mensajes";
+            // 
+            // deleteCHK
+            // 
+            this.deleteCHK.AutoSize = true;
+            this.deleteCHK.Location = new System.Drawing.Point(20, 48);
+            this.deleteCHK.Name = "deleteCHK";
+            this.deleteCHK.Size = new System.Drawing.Size(64, 19);
+            this.deleteCHK.TabIndex = 2;
+            this.deleteCHK.Text = "DELETE";
+            this.deleteCHK.UseVisualStyleBackColor = true;
+            // 
+            // updateCHK
+            // 
+            this.updateCHK.AutoSize = true;
+            this.updateCHK.Location = new System.Drawing.Point(126, 23);
+            this.updateCHK.Name = "updateCHK";
+            this.updateCHK.Size = new System.Drawing.Size(68, 19);
+            this.updateCHK.TabIndex = 1;
+            this.updateCHK.Text = "UPDATE";
+            this.updateCHK.UseVisualStyleBackColor = true;
+            // 
+            // createCHK
+            // 
+            this.createCHK.AutoSize = true;
+            this.createCHK.Location = new System.Drawing.Point(20, 23);
+            this.createCHK.Name = "createCHK";
+            this.createCHK.Size = new System.Drawing.Size(66, 19);
+            this.createCHK.TabIndex = 0;
+            this.createCHK.Text = "CREATE";
+            this.createCHK.UseVisualStyleBackColor = true;
             // 
             // verPassBTN
             // 
@@ -310,7 +354,7 @@ namespace RabbitCIEClient
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(481, 291);
+            this.tabPage1.Size = new System.Drawing.Size(481, 347);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Parámetros SAGE";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -461,7 +505,7 @@ namespace RabbitCIEClient
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(481, 291);
+            this.tabPage2.Size = new System.Drawing.Size(481, 347);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Reporte Email";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -626,47 +670,14 @@ namespace RabbitCIEClient
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // groupBox2
+            // pictureBox1
             // 
-            this.groupBox2.Controls.Add(this.deleteCHK);
-            this.groupBox2.Controls.Add(this.updateCHK);
-            this.groupBox2.Controls.Add(this.createCHK);
-            this.groupBox2.Location = new System.Drawing.Point(87, 224);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(265, 100);
-            this.groupBox2.TabIndex = 58;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tipos de mensajes";
-            // 
-            // createCHK
-            // 
-            this.createCHK.AutoSize = true;
-            this.createCHK.Location = new System.Drawing.Point(20, 23);
-            this.createCHK.Name = "createCHK";
-            this.createCHK.Size = new System.Drawing.Size(66, 19);
-            this.createCHK.TabIndex = 0;
-            this.createCHK.Text = "CREATE";
-            this.createCHK.UseVisualStyleBackColor = true;
-            // 
-            // updateCHK
-            // 
-            this.updateCHK.AutoSize = true;
-            this.updateCHK.Location = new System.Drawing.Point(126, 23);
-            this.updateCHK.Name = "updateCHK";
-            this.updateCHK.Size = new System.Drawing.Size(68, 19);
-            this.updateCHK.TabIndex = 1;
-            this.updateCHK.Text = "UPDATE";
-            this.updateCHK.UseVisualStyleBackColor = true;
-            // 
-            // deleteCHK
-            // 
-            this.deleteCHK.AutoSize = true;
-            this.deleteCHK.Location = new System.Drawing.Point(20, 48);
-            this.deleteCHK.Name = "deleteCHK";
-            this.deleteCHK.Size = new System.Drawing.Size(64, 19);
-            this.deleteCHK.TabIndex = 2;
-            this.deleteCHK.Text = "DELETE";
-            this.deleteCHK.UseVisualStyleBackColor = true;
+            this.pictureBox1.Location = new System.Drawing.Point(-1, 389);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(117, 27);
+            this.pictureBox1.TabIndex = 34;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // Principal
             // 
@@ -674,6 +685,7 @@ namespace RabbitCIEClient
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(509, 420);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -684,14 +696,15 @@ namespace RabbitCIEClient
             this.tabControl1.ResumeLayout(false);
             this.ParamTB.ResumeLayout(false);
             this.ParamTB.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -754,6 +767,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.CheckBox deleteCHK;
         private System.Windows.Forms.CheckBox updateCHK;
         private System.Windows.Forms.CheckBox createCHK;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

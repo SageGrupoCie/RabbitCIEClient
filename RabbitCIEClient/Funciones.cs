@@ -410,6 +410,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "direccion2"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAlta"));
             string personaContacto = jsonControl(jsonfil, lg, esPRevio, "datos", 2, "personaContacto");
+            if (personaContacto == null) { personaContacto = ""; }
             if (personaContacto.Length > 15){ personaContacto = personaContacto.Substring(0, 14); }
             lista.Add(personaContacto);
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "telefonoPersonaContacto"));
@@ -574,6 +575,7 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaAlta"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipoCliente"));
             string nombreCli = jsonControl(jsonfil, lg, esPRevio, "datos", 2, "nombre");
+            if (nombreCli == null) { nombreCli = ""; }
             if (nombreCli.Length > 34)
             {
                 lista.Add(nombreCli.Substring(0, 33));
@@ -689,6 +691,7 @@ namespace RabbitCIEClient
 
 
             string cargoCli = jsonControl(jsonfil, lg, esPRevio, "datos", 3, "personaContacto", "cargo");
+            if (cargoCli == null) { cargoCli = ""; }
             if (cargoCli.Length > 20)
             {
                 lista.Add(cargoCli.Substring(0,19));

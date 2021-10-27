@@ -144,19 +144,25 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("OPTION_UPDATE", updateCHK.Checked.ToString());
             Funciones.guardarValoresIni("OPTION_DELETE", deleteCHK.Checked.ToString());
         }
-        public void procesarFichero()
+        public void procesarFichero(string soloDescarga = "N")
         {
             //Creamos fichero de logs
             Logs lg = new Logs();
-            //Comprobamos si hay ficheros y los procesamos. Este paso se hace al principio por si hubiera algún archivo por procesar
-            Funciones.procesar_ficheros(lg, "SI");
+            if (soloDescarga != "S")
+            {
+                //Comprobamos si hay ficheros y los procesamos. Este paso se hace al principio por si hubiera algún archivo por procesar
+                Funciones.procesar_ficheros(lg, "SI");
+            }
             //Descargamos los mensajes y creamos lo ficheros
             RabbitConsumer cliente = new RabbitConsumer();
             cliente.Connect(lg);
             cliente.ConsumeMessages(lg);
 
-            //Comprobamos si hay ficheros y los procesamos
-            Funciones.procesar_ficheros(lg);
+            if (soloDescarga != "S")
+            {
+                //Comprobamos si hay ficheros y los procesamos
+                Funciones.procesar_ficheros(lg);
+            }
 
             //Enviamos el log si fuera necesario
             string comprobParam = comprobarParamEmail();
@@ -610,6 +616,20 @@ namespace RabbitCIEClient
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Se va a iniciar únicamente el proceso de descarga de entidades de IGEO, ¿Desea continuar?", "Inicio de proceso", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == System.Windows.Forms.DialogResult.Yes)
+            {
+                string comprobParam = comprobarParametros();
+                string[] arrComParam = comprobParam.Split('#');
+                if (arrComParam[0] == "OK")
+                {
+                    procesarFichero("S");
+                    MessageBox.Show("Se han descargado solo los mensajes." + "\r\n" + "Compruebe la bandeja de entrada del correo electrónico por si hubiera incidencias.", "Proceso finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }
