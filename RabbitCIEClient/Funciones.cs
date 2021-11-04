@@ -425,13 +425,13 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "movil"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "email"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "fax"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "direccion"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "codigoPostal"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "localidad"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "provincia"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "alfa2codepais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "pais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "codigoProvincia"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "direccion"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "localidad"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "provincia"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "pais"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "provinciaId"));
             
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "actividad", "nombre"));
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoActividad"));
