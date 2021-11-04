@@ -662,7 +662,8 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "sectorCodigo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "sectorNombre"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "actividad"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoActividad"));
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoActividad"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "actividad", "codigo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoDelegacion"));
             //gestionadoPor
             //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "gestionadoPor", "id"));
