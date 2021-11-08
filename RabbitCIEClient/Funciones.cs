@@ -781,7 +781,7 @@ namespace RabbitCIEClient
             if(bd.estaConectado())
             {
                 if (existeErrorEntidad) { return "ERROR#"; }
-                string indicesNumericos = ",0,2,44,46,47,48,49,71,90,";
+                string indicesNumericos = ",0,2,46,47,48,49,71,90,";
                 string indicesBool = ",12,29,45,70,72,73,119,124,141,";
                 string indicesDate = ",19,129,146,";
                 bool resInsert = bd.InsertarDatos(lista,lg,esPRevio, indicesNumericos, "CieTmpClienteIGEO",indicesBool,indicesDate);

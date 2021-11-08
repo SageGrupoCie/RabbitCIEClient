@@ -153,7 +153,7 @@ namespace RabbitCIEClient
                     }
                     else
                     {
-                        sql += "'" + valor + "'" + ")";
+                        sql += "'" + valor.Replace("'"," ") + "'" + ")";
                     }
                 }
                 else
@@ -161,7 +161,7 @@ namespace RabbitCIEClient
                     if(esIndNumerico)
                     {
                         if (valor == "") { valor = "null"; }
-                        sql += valor + ",";
+                        sql += valor.Replace("'", " ") + ",";
                     }
                     else if (esIndDate)
                     {
@@ -197,7 +197,7 @@ namespace RabbitCIEClient
                     }
                     else
                     {
-                        sql += "'" + valor + "'" + ",";
+                        sql += "'" + valor.Replace("'", " ") + "'" + ",";
                     }
                 }
             }
