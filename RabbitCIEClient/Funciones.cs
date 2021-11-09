@@ -271,6 +271,21 @@ namespace RabbitCIEClient
             {
                 chkDL = true;
             }
+            bool chkCLIENTE = false;
+            if (Funciones.obtenerValoresIni("OPTION_CLIENTE") == "True")
+            {
+                chkCLIENTE = true;
+            }
+            bool chkSEDE = false;
+            if (Funciones.obtenerValoresIni("OPTION_SEDE") == "True")
+            {
+                chkSEDE = true;
+            }
+            bool chkFACTURA = false;
+            if (Funciones.obtenerValoresIni("OPTION_FACTURA") == "True")
+            {
+                chkFACTURA = true;
+            }
             try
             {
                 empresaSAGE = Int32.Parse(obtenerValoresIni("EMPRESA_SAGE","BD"));
@@ -311,13 +326,25 @@ namespace RabbitCIEClient
                                 switch (tipo)
                                 {
                                     case "SEDE":
-                                        resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        if (chkSEDE)
+                                        {
+                                            resulprocesa = procesaSEDE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        }
+                                        else { resulprocesa = "OK#ELIMINAR"; }
                                         break;
                                     case "CLIENTE":
-                                        resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        if (chkCLIENTE)
+                                        {
+                                            resulprocesa = procesaCLIENTE(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        }
+                                        else { resulprocesa = "OK#ELIMINAR"; }
                                         break;
                                     case "FACTURA":
-                                        resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        if (chkFACTURA)
+                                        {
+                                            resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
+                                        }
+                                        else { resulprocesa = "OK#ELIMINAR"; }
                                         break;
                                 }
                             }
@@ -423,15 +450,15 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "tipo"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "telefono"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "movil"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "email"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "emailEnvioFacturas"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosContacto", "fax"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "direccion"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "codigoPostal"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "localidad"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "provincia"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "alfa2codepais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "pais"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostalesEnvio", "provinciaId"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "direccion"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "codigoPostal"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "localidad"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "provincia"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "alfa2codepais"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "pais"));
+            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 3, "datosPostales", "provinciaId"));
             
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "actividad", "nombre"));
             lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoActividad"));

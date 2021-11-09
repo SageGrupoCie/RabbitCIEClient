@@ -70,6 +70,37 @@ namespace RabbitCIEClient
                 createCHK.Checked = true;
                 Funciones.guardarValoresIni("OPTION_CREATE", createCHK.Checked.ToString());
             }
+            if (Funciones.obtenerValoresIni("OPTION_CLIENTE") == "True")
+            {
+                clienteCHK.Checked = true;
+            }
+            else
+            {
+                clienteCHK.Checked = false;
+            }
+            if (Funciones.obtenerValoresIni("OPTION_SEDE") == "True")
+            {
+                sedeCHK.Checked = true;
+            }
+            else
+            {
+                sedeCHK.Checked = false;
+            }
+            if (Funciones.obtenerValoresIni("OPTION_FACTURA") == "True")
+            {
+                facturaCHK.Checked = true;
+            }
+            else
+            {
+                facturaCHK.Checked = false;
+            }
+            if ((!clienteCHK.Checked) && (!sedeCHK.Checked) && (!facturaCHK.Checked))
+            {           //Esto se hace para la primera vez que se abre
+                clienteCHK.Checked = true;
+                sedeCHK.Checked = true;
+                Funciones.guardarValoresIni("OPTION_CLIENTE", clienteCHK.Checked.ToString());
+                Funciones.guardarValoresIni("OPTION_SEDE", sedeCHK.Checked.ToString());
+            }
             //Parámetros empresa
             servidorTB.Text = Funciones.obtenerValoresIni("SERVIDOR","BD");
             userBDTB.Text = Funciones.obtenerValoresIni("USUARIO", "BD");
@@ -143,6 +174,9 @@ namespace RabbitCIEClient
             Funciones.guardarValoresIni("OPTION_CREATE", createCHK.Checked.ToString());
             Funciones.guardarValoresIni("OPTION_UPDATE", updateCHK.Checked.ToString());
             Funciones.guardarValoresIni("OPTION_DELETE", deleteCHK.Checked.ToString());
+            Funciones.guardarValoresIni("OPTION_CLIENTE", clienteCHK.Checked.ToString());
+            Funciones.guardarValoresIni("OPTION_SEDE", sedeCHK.Checked.ToString());
+            Funciones.guardarValoresIni("OPTION_FACTURA", facturaCHK.Checked.ToString());
         }
         public void procesarFichero(string soloDescarga = "N")
         {
@@ -631,6 +665,12 @@ namespace RabbitCIEClient
                     MessageBox.Show("Se han descargado solo los mensajes." + "\r\n" + "Compruebe la bandeja de entrada del correo electrónico por si hubiera incidencias.", "Proceso finalizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void clienteCHK_CheckedChanged(object sender, EventArgs e)
+        {
+            if (clienteCHK.Checked) { sedeCHK.Checked = true; }
+            else { sedeCHK.Checked = false; }
         }
     }
 }
