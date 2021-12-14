@@ -89,6 +89,7 @@ namespace RabbitCIEClient
             catch { }
 
             // ELIMINAMOS LOS REGISTROS DE LA BASE DE DATOS ANTIGUOS EN LAS TABLAS TEMPORALES
+            rellenaDatosBD();
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             if (bd.estaConectado())
             {
@@ -112,6 +113,8 @@ namespace RabbitCIEClient
                               "                         AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())))";
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                     bd.eliminarDatosTabla("CieTmpLinFacturaIGEO", whereAx);
+                    bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+                    bd.eliminarDatosTabla("CieTmpOdtFacturaIGEO", whereAx);
                     whereAx = "WHERE (CieProcesado = - 1) AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())";
                     bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
                     bd.eliminarDatosTabla("CieTmpCabFacturaIGEO", "WHERE (CieProcesado = - 1) AND (DATEADD(DAY," + diasLimitHisto + ",CieFechaProcesado) <= GETDATE())");
@@ -940,6 +943,40 @@ namespace RabbitCIEClient
                     countLinAX += 1;
                 }
                 //fin lineas
+                //Odt'ssssss
+                items = (JArray)jsonfil["datos"]["odtsAsociadas"];
+                countLineas = items.Count;
+                countLinAX = 0;
+                while (countLineas > countLinAX)
+                {
+                    List<String> listaODTs = new List<String>();
+                    //CLAVES PRIMARIAS
+                    listaODTs.Add(codEmpresaSage);
+                    listaODTs.Add(numFacturaIGEO);
+                    listaODTs.Add(anyo);
+
+                    listaODTs.Add((string)jsonfil["datos"]["odtsAsociadas"][countLinAX]);
+                    //FIN CLAVES PRIMARIAS
+                    listaODTs.Add(comando);
+                    //Insertar línea en BD teniendo en cuenta las claves primarias de la cabecera
+                    if (bd.estaConectado())
+                    {
+                        string indicesNumericos = ",0,2,";
+                        string indicesBool = "";
+                        string indicesDate = "";
+                        bool resInsert = bd.InsertarDatos(listaODTs, lg, esPRevio, indicesNumericos, "CieTmpOdtFacturaIGEO", indicesBool, indicesDate);
+                        bd.desConectarBD();
+                        bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
+                        if (!resInsert)
+                        {
+                            bd.eliminarDatosTabla("CieTmpOdtFacturaIGEO", "WHERE CodigoEmpresa = " + codEmpresaSage + "  AND CieNumeroFacturaIGEO = " + numFacturaIGEO + " AND Ejercicio = " + anyo);
+                            bd.desConectarBD();
+                            return "ERROR#";
+                        }
+                    }
+                    countLinAX += 1;
+                }
+                //fin Odt's
             }
             else 
             {
