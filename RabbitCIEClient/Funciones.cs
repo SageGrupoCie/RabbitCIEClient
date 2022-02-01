@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace RabbitCIEClient
 {
@@ -345,6 +346,7 @@ namespace RabbitCIEClient
                                     case "FACTURA":
                                         if (chkFACTURA)
                                         {
+                                            
                                             resulprocesa = procesaFACTURACli(comando, jsonfil, empresaSAGE, ordenFic, lg, esPRevio);
                                         }
                                         else { resulprocesa = "OK#ELIMINAR"; }
@@ -837,6 +839,7 @@ namespace RabbitCIEClient
             BaseDatos bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
             List<String> lista = new List<String>();
             //CLAVES PRIMARIAS
+            
             string codEmpresaSage = empSAGE.ToString();
             lista.Add(codEmpresaSage);
             string numFacturaIGEO = jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroFactura", "", "", "string", "", "SI");
@@ -844,6 +847,7 @@ namespace RabbitCIEClient
             //Obtenemos el ejercico
             DateTime xAux;
             string anyo = "";
+
             try
             {
                 xAux = DateTime.Parse(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "fechaEmision", "", "", "datetime"));
@@ -863,24 +867,12 @@ namespace RabbitCIEClient
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaRegistro"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "fechaVencimiento"));
             lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "facturaANombreDe"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "facturaANumeroCliente"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "importeSinImpuestos"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "importe"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "formaCobro"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "metodoPago"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "numeroFacturaCorregida"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "nombreLineaNegocio"));
-            lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "codigoLineaNegocio"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "cuota"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroDePedido"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "tipoFactura"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "folioUUID"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoDivisa"));
-            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroDePedido"));//campo duplicado. Hay que solucionarlo en la definición de la tabla en SAGE
-            lista.Add("False");
-            lista.Add("");
-            lista.Add(comando);
+            //lista.Add(jsonControl(jsonfil,lg, esPRevio, "datos", 2, "facturaANumeroCliente"));
+            string codigoSedeFac = "";
             
+
+
+
 
             if (!existeErrorEntidad)
             {
@@ -921,6 +913,10 @@ namespace RabbitCIEClient
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["importeBruto"]);
                     //listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["numero"]);     //Retenciones ???
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["codigoSede"]);
+                    if (codigoSedeFac == "")
+                    {
+                        codigoSedeFac = (string)jsonfil["datos"]["lineas"][countLinAX]["codigoSede"];
+                    }
                     listaLineas.Add("False");
                     listaLineas.Add("");
                     listaLineas.Add(comando);
@@ -952,18 +948,22 @@ namespace RabbitCIEClient
                     List<String> listaODTs = new List<String>();
                     //CLAVES PRIMARIAS
                     listaODTs.Add(codEmpresaSage);
-                    listaODTs.Add(numFacturaIGEO);
+                    string[] arrnumFac = numFacturaIGEO.Split('-');
+                    listaODTs.Add(arrnumFac[2]);
                     listaODTs.Add(anyo);
 
                     listaODTs.Add((string)jsonfil["datos"]["odtsAsociadas"][countLinAX]);
                     //FIN CLAVES PRIMARIAS
                     listaODTs.Add(comando);
+                    listaODTs.Add("0");
+                    listaODTs.Add("");
+                    listaODTs.Add(arrnumFac[0]);
                     //Insertar línea en BD teniendo en cuenta las claves primarias de la cabecera
                     if (bd.estaConectado())
                     {
-                        string indicesNumericos = ",0,2,";
+                        string indicesNumericos = ",0,2,5,";
                         string indicesBool = "";
-                        string indicesDate = "";
+                        string indicesDate = ",6,";
                         bool resInsert = bd.InsertarDatos(listaODTs, lg, esPRevio, indicesNumericos, "CieTmpOdtFacturaIGEO", indicesBool, indicesDate);
                         bd.desConectarBD();
                         bd = new BaseDatos(xServidor, xDataBase, xUser, xPass);
@@ -982,6 +982,34 @@ namespace RabbitCIEClient
             {
                 return "ERROR#";
             }
+            if (codigoSedeFac != "")
+            {
+                lista.Add(codigoSedeFac);
+            }
+            else
+            {
+                lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "facturaANumeroCliente"));
+            }
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "importeSinImpuestos"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "importe"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "formaCobro"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "metodoPago"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroFacturaCorregida"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "nombreLineaNegocio"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoLineaNegocio"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "cuota"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroDePedido"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "tipoFactura"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "folioUUID"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "codigoDivisa"));
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 2, "numeroDePedido"));//campo duplicado. Hay que solucionarlo en la definición de la tabla en SAGE
+            lista.Add("False");
+            lista.Add("");
+            lista.Add(comando);
+            lista.Add(jsonControl(jsonfil, lg, esPRevio, "datos", 3, "contrato","numero"));
+
+            
+
             if (bd.estaConectado())
             {
                 string indicesNumericos = ",0,2,3,5,10,11,17,18,";

@@ -36,6 +36,7 @@ namespace RabbitCIEClient
             }
             catch(Exception ex) 
             {
+                MessageBox.Show(ex.Message);
                 
             }
             /*
@@ -77,131 +78,143 @@ namespace RabbitCIEClient
             }
         }
 
-        public bool InsertarDatos(List<String> lista, Logs lg, string esPRevio, string indicesNumericos="", string nombreTabla="", string indicesBool = "", string indicesDate = "")
+        public bool InsertarDatos(List<String> lista, Logs lg, string esPRevio, string indicesNumericos = "", string nombreTabla = "", string indicesBool = "", string indicesDate = "")
         {
 
             String sql = "INSERT INTO " + nombreTabla + " values(";
             string valor;
 
-
-            for (int i = 0; i < lista.Count; i++)
+            try
             {
-                bool esIndNumerico = false;
-                if (indicesNumericos != "")
+                for (int i = 0; i < lista.Count; i++)
                 {
-                    string axInd = "," + i.ToString() + ",";
-                    if (indicesNumericos.Contains(axInd)) { esIndNumerico = true; }
-                }
-                bool esIndDate = false;
-                if (indicesDate != "")
-                {
-                    string axInd = "," + i.ToString() + ",";
-                    if (indicesDate.Contains(axInd)) { esIndDate = true; }
-                }
-                bool esIndBool = false;
-                if (indicesBool != "")
-                {
-                    string axInd = "," + i.ToString() + ",";
-                    if (indicesBool.Contains(axInd)) { esIndBool = true; }
-                }
-                if (lista[i] == null)
-                {
-                    valor = "";
-                }
-                else
-                {
-                    valor = lista[i].ToString();
-                }
-                if (i == lista.Count - 1)
-                {
-                    if (esIndNumerico)
+                    bool esIndNumerico = false;
+                    if (indicesNumericos != "")
                     {
-                        if (valor == "") { valor = "null"; }
-                        sql += valor + ")";
+                        string axInd = "," + i.ToString() + ",";
+                        if (indicesNumericos.Contains(axInd)) { esIndNumerico = true; }
                     }
-                    else if (esIndDate)
+                    bool esIndDate = false;
+                    if (indicesDate != "")
                     {
-                        if (valor == "") { valor = "null"; }
-                        string valFech = "";
-                        try
-                        {
-                            DateTime axDM = DateTime.Parse(valor);
-                            valFech = axDM.ToString("yyyy-MM-dd h:m:s");
-                        }
-                        catch
-                        {
-                            valFech = "null";
-                        }
-                        if (valFech == "null") { sql += valFech + ")"; }
-                        else { sql += "'" + valFech + "')"; }
+                        string axInd = "," + i.ToString() + ",";
+                        if (indicesDate.Contains(axInd)) { esIndDate = true; }
                     }
-                    else if (esIndBool)
+                    bool esIndBool = false;
+                    if (indicesBool != "")
                     {
-                        if (valor == "") { valor = "null"; }
-                        string valFech = "";
-                        try
-                        {
-                            bool axBL = bool.Parse(valor);
-                            valFech = "0";
-                            if (axBL) { valFech = "-1"; }
-                        }
-                        catch
-                        {
-                            valFech = "null";
-                        }
-                        sql += valFech + ")";
+                        string axInd = "," + i.ToString() + ",";
+                        if (indicesBool.Contains(axInd)) { esIndBool = true; }
+                    }
+                    if (lista[i] == null)
+                    {
+                        valor = "";
                     }
                     else
                     {
-                        sql += "'" + valor.Replace("'"," ") + "'" + ")";
+                        valor = lista[i].ToString();
                     }
-                }
-                else
-                {
-                    if(esIndNumerico)
+                    if (i == lista.Count - 1)
                     {
-                        if (valor == "") { valor = "null"; }
-                        sql += valor.Replace("'", " ") + ",";
-                    }
-                    else if (esIndDate)
-                    {
-                        if (valor == "") { valor = "null"; }
-                        string valFech = "";
-                        try
+                        if (esIndNumerico)
                         {
-                            DateTime axDM = DateTime.Parse(valor);
-                            valFech = axDM.ToString("yyyy-MM-dd h:m:s");
+                            if (valor == "") { valor = "null"; }
+                            sql += valor + ")";
                         }
-                        catch
+                        else if (esIndDate)
                         {
-                            valFech = "null";
+                            if (valor == "") { valor = "null"; }
+                            string valFech = "";
+                            try
+                            {
+                                DateTime axDM = DateTime.Parse(valor);
+                                valFech = axDM.ToString("yyyy-MM-dd h:m:s");
+                            }
+                            catch
+                            {
+                                valFech = "null";
+                            }
+                            if (valFech == "null") { sql += valFech + ")"; }
+                            else { sql += "'" + valFech + "')"; }
                         }
-                        if (valFech == "null") { sql += valFech + ","; }
-                        else { sql += "'" + valFech + "',"; }
-                    }
-                    else if (esIndBool)
-                    {
-                        if (valor == "") { valor = "null"; }
-                        string valFech = "";
-                        try
+                        else if (esIndBool)
                         {
-                            bool axBL = bool.Parse(valor);
-                            valFech = "0";
-                            if (axBL) { valFech = "-1"; }
+                            if (valor == "") { valor = "null"; }
+                            string valFech = "";
+                            try
+                            {
+                                bool axBL = bool.Parse(valor);
+                                valFech = "0";
+                                if (axBL) { valFech = "-1"; }
+                            }
+                            catch
+                            {
+                                valFech = "null";
+                            }
+                            sql += valFech + ")";
                         }
-                        catch
+                        else
                         {
-                            valFech = "null";
+                            sql += "'" + valor.Replace("'", " ") + "'" + ")";
                         }
-                        sql += valFech + ",";
                     }
                     else
                     {
-                        sql += "'" + valor.Replace("'", " ") + "'" + ",";
+                        if (esIndNumerico)
+                        {
+                            if (valor == "") { valor = "null"; }
+                            sql += valor.Replace("'", " ") + ",";
+                        }
+                        else if (esIndDate)
+                        {
+                            if (valor == "") { valor = "null"; }
+                            string valFech = "";
+                            try
+                            {
+                                DateTime axDM = DateTime.Parse(valor);
+                                valFech = axDM.ToString("yyyy-MM-dd h:m:s");
+                            }
+                            catch
+                            {
+                                valFech = "null";
+                            }
+                            if (valFech == "null") { sql += valFech + ","; }
+                            else { sql += "'" + valFech + "',"; }
+                        }
+                        else if (esIndBool)
+                        {
+                            if (valor == "") { valor = "null"; }
+                            string valFech = "";
+                            try
+                            {
+                                bool axBL = bool.Parse(valor);
+                                valFech = "0";
+                                if (axBL) { valFech = "-1"; }
+                            }
+                            catch
+                            {
+                                valFech = "null";
+                            }
+                            sql += valFech + ",";
+                        }
+                        else
+                        {
+                            sql += "'" + valor.Replace("'", " ") + "'" + ",";
+                        }
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                //andreu
+                //MessageBox.Show("Registro NO realizado: " + ex.Message);
+                string tipolist = "erroresProcesado";
+                if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
+                lg.addError(tipolist, "\r\n" + "Error al insertar los datos en la tabla: " + ex.Message + "\r\n" + sql + "\r\n");
+                return false;
+            }
+            //andreu
+            //MessageBox.Show(sql);
             if (estaConectado())
             {
 
@@ -216,6 +229,7 @@ namespace RabbitCIEClient
                         }
                         catch (Exception ex)
                         {
+                            //andreu
                             //MessageBox.Show("Registro NO realizado: " + ex.Message);
                             string tipolist = "erroresProcesado";
                             if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
