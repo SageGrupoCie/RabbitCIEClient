@@ -207,7 +207,7 @@ namespace RabbitCIEClient
             catch (Exception ex)
             {
                 //andreu
-                //MessageBox.Show("Registro NO realizado: " + ex.Message);
+                MessageBox.Show("Registro NO realizado: " + ex.Message);
                 string tipolist = "erroresProcesado";
                 if (esPRevio != "") { tipolist = "erroresPreviosProcesado"; }
                 lg.addError(tipolist, "\r\n" + "Error al insertar los datos en la tabla: " + ex.Message + "\r\n" + sql + "\r\n");
@@ -215,6 +215,7 @@ namespace RabbitCIEClient
             }
             //andreu
             //MessageBox.Show(sql);
+            //lg.addError("erroresProcesado", "\r\n" + "Andreu Prueba: " + "\r\n" + sql + "\r\n");
             if (estaConectado())
             {
 

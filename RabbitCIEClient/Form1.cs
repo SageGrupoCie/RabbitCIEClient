@@ -635,8 +635,10 @@ namespace RabbitCIEClient
             }
             else
             {
+                /*  Desactivamos por el momento
                 verPassEmailBTN.ImageIndex = 1;
                 passEMTB.PasswordChar = '\0';
+                */
             }
         }
 
@@ -671,6 +673,30 @@ namespace RabbitCIEClient
         {
             if (clienteCHK.Checked) { sedeCHK.Checked = true; }
             else { sedeCHK.Checked = false; }
+        }
+
+        private void pictureBox2_DoubleClick(object sender, EventArgs e)
+        {
+            Logs lg = new Logs();
+            lg.addError("erroresProcesado", "\r\n" + "Andreu Prueba: " + "\r\n" + "prueba" + "\r\n");
+            string xemisorEMTB = Funciones.obtenerValoresIni("EMISOR", "EMAIL");
+            string xreceptorEMTB = Funciones.obtenerValoresIni("RECEPTOR", "EMAIL");
+            string xpassEMTB = Funciones.obtenerValoresIni("PASSWORD", "EMAIL");
+            string xasuntoEMTB = Funciones.obtenerValoresIni("ASUNTO", "EMAIL");
+            string xhostEMTB = Funciones.obtenerValoresIni("HOST", "EMAIL");
+            string xpuertoEMTB = Funciones.obtenerValoresIni("PUERTO", "EMAIL");
+            int xintpuertoEMTB = 0;
+            if (xpuertoEMTB != "")
+            {
+                xintpuertoEMTB = int.Parse(xpuertoEMTB);
+            }
+            bool xsslEMTB = false;
+            if (Funciones.obtenerValoresIni("SSL", "EMAIL") == "True")
+            {
+                xsslEMTB = true;
+            }
+            //lg.addError("erroresProcesado", "Error de prueba Andreu");
+            lg.enviarLogEmail(xemisorEMTB, xreceptorEMTB, xpassEMTB, xasuntoEMTB, xhostEMTB, xintpuertoEMTB, xsslEMTB);
         }
     }
 }

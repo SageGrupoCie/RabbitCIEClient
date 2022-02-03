@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Windows.Forms;
 
 namespace RabbitCIEClient
 {
@@ -132,7 +133,41 @@ namespace RabbitCIEClient
         {
             if (hayErrores())
             {
-                
+
+                try
+                {
+                    MailMessage mail = new MailMessage();
+                    mail.To.Add(receptor);
+                    mail.From = new MailAddress(emisor);
+                    mail.Subject = asunto;
+
+                    mail.Body = construirCuerpoEmail();
+
+                    mail.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = host; //Or Your SMTP Server Address
+                    //
+                    smtp.UseDefaultCredentials = false;
+                    //
+                    smtp.Credentials = new System.Net.NetworkCredential(emisor, pass); // ***use valid credentials***
+                    smtp.Port = puerto;
+
+                    //Or your Smtp Email ID and Password
+                    smtp.EnableSsl = ssl;
+                    smtp.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        public void enviarLogEmail33(string emisor, string receptor, string pass, string asunto, string host, int puerto, bool ssl)
+        {
+            if (hayErrores())
+            {
+
                 Chilkat.MailMan mailman = new Chilkat.MailMan();
 
                 // Datos servidor SMTP
@@ -168,7 +203,7 @@ namespace RabbitCIEClient
                 success = mailman.SendEmail(email);
                 if (success != true)
                 {
-                    //Debug.WriteLine(mailman.LastErrorText);
+                    MessageBox.Show(mailman.LastErrorText);
                     return;
                 }
 
@@ -180,5 +215,6 @@ namespace RabbitCIEClient
                 }
             }
         }
+
     }
 }

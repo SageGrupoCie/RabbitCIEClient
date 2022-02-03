@@ -876,6 +876,7 @@ namespace RabbitCIEClient
 
             if (!existeErrorEntidad)
             {
+                int contLineas = 1;
                 //lineas
                 JArray items = (JArray)jsonfil["datos"]["lineas"];
                 int countLineas = items.Count;
@@ -888,7 +889,9 @@ namespace RabbitCIEClient
                     listaLineas.Add(numFacturaIGEO);
                     listaLineas.Add(anyo);
                     listaLineas.Add(ordenFic.ToString());
-                    listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["numero"]);
+                    //listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["numero"]);
+                    listaLineas.Add(contLineas.ToString());
+                    contLineas = contLineas + 1;
                     //FIN CLAVES PRIMARIAS
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["tipo"]);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["descripcion"]);
@@ -907,7 +910,15 @@ namespace RabbitCIEClient
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["subCuenta"]);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["numeroPedido"]);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["unidadDeMedida"]);
-                    listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["descuento"]);
+                    string descuentolin = "";
+                    try
+                    {
+                        descuentolin = (string)jsonfil["datos"]["lineas"][countLinAX]["descuento"]["porcentajeDescuento"];
+                    }catch (Exception ex)
+                    {
+                        descuentolin = "";
+                    }
+                    listaLineas.Add(descuentolin);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["cuota"]);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["esTangible"]);
                     listaLineas.Add((string)jsonfil["datos"]["lineas"][countLinAX]["importeBruto"]);

@@ -33,6 +33,10 @@ namespace RabbitCIEClient
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Principal));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ParamTB = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.sedeCHK = new System.Windows.Forms.CheckBox();
+            this.facturaCHK = new System.Windows.Forms.CheckBox();
+            this.clienteCHK = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.deleteCHK = new System.Windows.Forms.CheckBox();
             this.updateCHK = new System.Windows.Forms.CheckBox();
@@ -88,18 +92,16 @@ namespace RabbitCIEClient
             this.emisorEMTB = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.sedeCHK = new System.Windows.Forms.CheckBox();
-            this.facturaCHK = new System.Windows.Forms.CheckBox();
-            this.clienteCHK = new System.Windows.Forms.CheckBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.ParamTB.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -141,6 +143,50 @@ namespace RabbitCIEClient
             this.ParamTB.TabIndex = 0;
             this.ParamTB.Text = "Parámetros RabbitMQ";
             this.ParamTB.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.sedeCHK);
+            this.groupBox3.Controls.Add(this.facturaCHK);
+            this.groupBox3.Controls.Add(this.clienteCHK);
+            this.groupBox3.Location = new System.Drawing.Point(230, 224);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(122, 100);
+            this.groupBox3.TabIndex = 59;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Tipos de entidades";
+            // 
+            // sedeCHK
+            // 
+            this.sedeCHK.AutoSize = true;
+            this.sedeCHK.Enabled = false;
+            this.sedeCHK.Location = new System.Drawing.Point(38, 48);
+            this.sedeCHK.Name = "sedeCHK";
+            this.sedeCHK.Size = new System.Drawing.Size(52, 19);
+            this.sedeCHK.TabIndex = 2;
+            this.sedeCHK.Text = "SEDE";
+            this.sedeCHK.UseVisualStyleBackColor = true;
+            // 
+            // facturaCHK
+            // 
+            this.facturaCHK.AutoSize = true;
+            this.facturaCHK.Location = new System.Drawing.Point(18, 73);
+            this.facturaCHK.Name = "facturaCHK";
+            this.facturaCHK.Size = new System.Drawing.Size(76, 19);
+            this.facturaCHK.TabIndex = 1;
+            this.facturaCHK.Text = "FACTURA";
+            this.facturaCHK.UseVisualStyleBackColor = true;
+            // 
+            // clienteCHK
+            // 
+            this.clienteCHK.AutoSize = true;
+            this.clienteCHK.Location = new System.Drawing.Point(20, 23);
+            this.clienteCHK.Name = "clienteCHK";
+            this.clienteCHK.Size = new System.Drawing.Size(70, 19);
+            this.clienteCHK.TabIndex = 0;
+            this.clienteCHK.Text = "CLIENTE";
+            this.clienteCHK.UseVisualStyleBackColor = true;
+            this.clienteCHK.CheckedChanged += new System.EventHandler(this.clienteCHK_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -497,6 +543,7 @@ namespace RabbitCIEClient
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.pictureBox2);
             this.tabPage2.Controls.Add(this.verPassEmailBTN);
             this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.groupBox1);
@@ -685,49 +732,14 @@ namespace RabbitCIEClient
             this.pictureBox1.TabStop = false;
             this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
-            // groupBox3
+            // pictureBox2
             // 
-            this.groupBox3.Controls.Add(this.sedeCHK);
-            this.groupBox3.Controls.Add(this.facturaCHK);
-            this.groupBox3.Controls.Add(this.clienteCHK);
-            this.groupBox3.Location = new System.Drawing.Point(230, 224);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(122, 100);
-            this.groupBox3.TabIndex = 59;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Tipos de entidades";
-            // 
-            // sedeCHK
-            // 
-            this.sedeCHK.AutoSize = true;
-            this.sedeCHK.Enabled = false;
-            this.sedeCHK.Location = new System.Drawing.Point(38, 48);
-            this.sedeCHK.Name = "sedeCHK";
-            this.sedeCHK.Size = new System.Drawing.Size(52, 19);
-            this.sedeCHK.TabIndex = 2;
-            this.sedeCHK.Text = "SEDE";
-            this.sedeCHK.UseVisualStyleBackColor = true;
-            // 
-            // facturaCHK
-            // 
-            this.facturaCHK.AutoSize = true;
-            this.facturaCHK.Location = new System.Drawing.Point(18, 73);
-            this.facturaCHK.Name = "facturaCHK";
-            this.facturaCHK.Size = new System.Drawing.Size(76, 19);
-            this.facturaCHK.TabIndex = 1;
-            this.facturaCHK.Text = "FACTURA";
-            this.facturaCHK.UseVisualStyleBackColor = true;
-            // 
-            // clienteCHK
-            // 
-            this.clienteCHK.AutoSize = true;
-            this.clienteCHK.Location = new System.Drawing.Point(20, 23);
-            this.clienteCHK.Name = "clienteCHK";
-            this.clienteCHK.Size = new System.Drawing.Size(70, 19);
-            this.clienteCHK.TabIndex = 0;
-            this.clienteCHK.Text = "CLIENTE";
-            this.clienteCHK.UseVisualStyleBackColor = true;
-            this.clienteCHK.CheckedChanged += new System.EventHandler(this.clienteCHK_CheckedChanged);
+            this.pictureBox2.Location = new System.Drawing.Point(452, 0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(29, 27);
+            this.pictureBox2.TabIndex = 63;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.DoubleClick += new System.EventHandler(this.pictureBox2_DoubleClick);
             // 
             // Principal
             // 
@@ -746,6 +758,8 @@ namespace RabbitCIEClient
             this.tabControl1.ResumeLayout(false);
             this.ParamTB.ResumeLayout(false);
             this.ParamTB.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -755,8 +769,7 @@ namespace RabbitCIEClient
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -824,6 +837,7 @@ namespace RabbitCIEClient
         private System.Windows.Forms.CheckBox sedeCHK;
         private System.Windows.Forms.CheckBox facturaCHK;
         private System.Windows.Forms.CheckBox clienteCHK;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 
