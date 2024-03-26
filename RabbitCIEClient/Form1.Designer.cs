@@ -273,6 +273,7 @@ namespace RabbitCIEClient
             this.colaTB.Name = "colaTB";
             this.colaTB.Size = new System.Drawing.Size(265, 23);
             this.colaTB.TabIndex = 5;
+            this.colaTB.TextChanged += new System.EventHandler(this.colaTB_TextChanged);
             this.colaTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.colaTB_KeyPress);
             // 
             // label7
@@ -367,6 +368,7 @@ namespace RabbitCIEClient
             this.VirtualHostTB.Name = "VirtualHostTB";
             this.VirtualHostTB.Size = new System.Drawing.Size(265, 23);
             this.VirtualHostTB.TabIndex = 1;
+            this.VirtualHostTB.TextChanged += new System.EventHandler(this.VirtualHostTB_TextChanged);
             this.VirtualHostTB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.VirtualHostTB_KeyPress);
             // 
             // label1
@@ -739,6 +741,7 @@ namespace RabbitCIEClient
             this.pictureBox1.Size = new System.Drawing.Size(117, 27);
             this.pictureBox1.TabIndex = 34;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // Principal
